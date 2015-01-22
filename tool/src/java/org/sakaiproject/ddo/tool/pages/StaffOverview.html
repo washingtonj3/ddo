@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" >
+
+<body>
+<wicket:extend>
+
+    <h1>Welcome to Digital Drop Off</h1>
+
+    <h3>Documents for Review</h3>
+
+    <table cellspacing="0" class="dataview tier2" style="text-align: center;">
+        <tbody>
+        <tr>
+            <th style="text-align: left">Submitted By</th>
+            <th>Submission</th>
+            <th>Submission Date</th>
+            <th>Status</th>
+            <th>Feedback</th>
+        </tr>
+        <tr wicket:id="awaitingReview">
+            <td style="text-align: left"><span wicket:id="submittedBy">Submitted By</span></td>
+            <td><a wicket:id="document"><span wicket:id="fileName">[fileName]</span></a></td>
+            <td><span wicket:id="submissiondate">Submission Date</span></td>
+            <td><span wicket:id="status">Status</span></td>
+            <td><a wicket:id="startReviewing"><span wicket:id="startReviewingLabel" /></a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div wicket:id="navigator" class="tier2" style="font-size:1.2em;width:40%;background-color:#eee;text-align: center;"></div>
+
+    <h3>Completed Reviews</h3>
+
+    <table cellspacing="0" class="dataview tier2" style="text-align: center;">
+        <tbody>
+        <tr>
+            <th style="text-align: left">Submitted By</th>
+            <th>Submission</th>
+            <th>Submission Date</th>
+            <th>Status</th>
+            <th style="text-align: left">Reviewed By</th>
+            <th>Review Date</th>
+            <th>Feedback</th>
+        </tr>
+        <tr wicket:id="reviewed">
+            <td style="text-align: left"><span wicket:id="submittedBy">Submitted By</span></td>
+            <td><a wicket:id="document"><span wicket:id="fileName">[fileName]</span></a></td>
+            <td><span wicket:id="submissiondate">Submission Date</span></td>
+            <td><span wicket:id="status">Status</span></td>
+            <td style="text-align: left"><span wicket:id="reviewedBy">Reviewed By</span></td>
+            <td><span wicket:id="reviewDate">Review Date</span></td>
+            <td><a wicket:id="feedback"><span wicket:id="feedbackLabel" /></a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div wicket:id="reviewedNavigator" class="tier2" style="font-size:1.2em;width:40%;background-color:#eee;text-align: center;"></div>
+
+</wicket:extend>
+</body>
+</html>

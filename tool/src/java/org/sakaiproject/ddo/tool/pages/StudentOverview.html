@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" >
+
+<body>
+<wicket:extend>
+
+    <h1 style="margin-bottom: 0;">Welcome to Digital Drop Off (DDO)</h1>
+    <h3 style="margin-top: 0;">A Service of the LTC Write Place</h3>
+
+    <p>Hello, <span wicket:id="userDisplayName" /></p>
+
+    <p>The mission of the Write Place is one of service: writing consultants appreciate the uniqueness of learners and work with all students in their efforts to become better writers.</p>
+    <p>If you are unable to stop in for a writing support session on campus, you may submit your paper via Isidore.  Please submit each paper only once.  A Write Place consultant will spend 30 minutes on 5 pages of your document, offering comments about content, organization, and mechanics.  A response to your paper can be expected within 48 hours.</p>
+    <p>We ask that you use this service only one time for each assignment.  If you require additional support, please stop in to the Write Place located in the Knowledge Hub, Roesch Library first floor.  If you are not a residential student and require additional writing support, please contact the Write Place Coordinator at cklimo1@udayton.edu.</p>
+
+    <p style="text-align: center;width:100%;"><a wicket:id="toDropOffFormLink" class="dropButton" style="background-color: #1cb841;color: #fff !important;text-decoration: none;padding: .5em;border-radius: 4px;">Drop Off a Document</a></p>
+
+    <h3 style="clear:both">Your Submissions</h3>
+
+    <table cellspacing="0" class="dataview tier2" style="text-align: center;">
+        <tbody>
+        <tr>
+            <th style="text-align: left;">Submission</th>
+            <th>Submission Date</th>
+            <th>Status</th>
+            <th>Feedback</th>
+        </tr>
+        <tr wicket:id="simple">
+            <td style="text-align: left"><a wicket:id="document"><span wicket:id="fileName">[fileName]</span></a></td>
+            <td><span wicket:id="submissiondate">Submission Date</span></td>
+            <td><span wicket:id="status">Status</span></td>
+            <td><a wicket:id="feedback"><span wicket:id="feedbackLabel" /></a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div wicket:id="navigator" class="tier2" style="font-size:1.2em;width:40%;background-color:#eee;text-align: center;"></div>
+
+</wicket:extend>
+</body>
+</html>

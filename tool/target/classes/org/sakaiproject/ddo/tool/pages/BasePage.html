@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" >
+ 
+<head>
+	<title><wicket:message key="page.title" /></title>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<style type="text/css">
+		body{
+			font-family: 'Open Sans', sans-serif !important;
+			color:#111111 !important;
+			line-height: 1.375em !important;
+			font-size: 80% !important;
+		}
+		h1{
+			font-family: 'Roboto Slab', serif !important;
+			font-size: 3em !important;
+			line-height: 1.05em !important;
+			font-weight: normal !important;
+		}
+		h3{
+			font-family: 'Roboto Slab', serif !important;
+			font-size: 1.75em !important;
+			line-height: 1.25em !important;
+			font-weight: normal !important;
+		}
+		table.dataview {
+
+		}
+		table.dataview td {
+			padding: 4px 2em 4px 4px;
+		}
+		table.dataview th {
+			padding: 4px 2em 4px 4px;
+			border-bottom: 3px solid #111;
+			font-size:1.2em;
+		}
+		tbody tr:nth-child(odd) {
+
+		}
+		.navmenu {
+			list-style: none !important;
+			margin: .5em !important;
+			padding: .5em !important;
+			font-size: 1.5em !important;
+		}
+		.navmenu li {
+			display: inline !important;
+			margin: 0 1em !important;
+		}
+		a, a:active, a:visited {
+			color:#0074D9 !important;
+		}
+		a.dropButton:hover {
+			background-color: #169334 !important;
+		}
+		a.dropButton:active {
+			border-right: 1px solid #13802d !important;
+			border-bottom: 1px solid #13802d !important;
+		}
+	</style>
+</head>     
+<body>
+	<div class="portletBody">
+
+		<span wicket:id="menu">
+			<ul class="navmenu">
+				<li class="">
+					<a wicket:id="studentOverviewLink">
+						<span wicket:id="studentOverviewLinkLabel">[studentOverviewLinkLabel]</span>
+					</a>
+				</li>
+				<li>
+					<a wicket:id="staffOverviewLink">
+						<span wicket:id="staffOverviewLinkLabel">[staffOverviewLinkLabel]</span>
+					</a>
+				</li>
+			</ul>
+		</span>
+
+		<span wicket:id="feedback">[feedback]</span>
+		
+		<wicket:child />
+	
+	</div>
+</body>
+</html>

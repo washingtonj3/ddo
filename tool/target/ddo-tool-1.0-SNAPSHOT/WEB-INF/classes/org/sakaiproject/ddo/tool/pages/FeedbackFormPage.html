@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" >
+
+<body>
+<wicket:extend>
+
+    <h1>Feedback Form</h1>
+
+    <table>
+        <tr>
+            <td style="padding-right:2em;">
+                Name: &nbsp;&nbsp;<span wicket:id="name"></span>
+                <br />
+                Year: &nbsp;&nbsp;<i>Coming soon</i>
+                <br />
+                Major: &nbsp;&nbsp;<i>Coming soon</i>
+                <br />
+                Expected Graduation: &nbsp;&nbsp;<i>Coming soon</i>
+                <br />
+                Primary Language is English: &nbsp;&nbsp;<span wicket:id="primaryLanguageIsEnglish" />
+                <br />
+                Primary Language: &nbsp;&nbsp;<span wicket:id="primaryLanguage" />
+                <br />
+                Submission Date: &nbsp;&nbsp;<span wicket:id="submissionDate" />
+                <br />
+                Submitted Document <br />
+                <a wicket:id="document"><span wicket:id="fileName">[fileName]</span></a>
+            </td>
+            <td style="border:2px solid #ddd;padding: .5em;margin-left:2em;background-color: #eee">
+                Assignment Title: &nbsp;&nbsp;<span wicket:id="assignmentTitle" />
+                <br />
+                Course: &nbsp;&nbsp;<span wicket:id="course" />
+                <br />
+                Instructor: &nbsp;&nbsp;<span wicket:id="instructor" />
+                <br />
+                Due Date: &nbsp;&nbsp;<span wicket:id="dueDate" />
+                <br />
+                Instructor requirements:<br />
+                <span wicket:id="instructorRequirements" class="tier2"/>
+                <br />
+                Feedback Focus:<br />
+                <span wicket:id="feedbackFocus" class="tier2"/>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <form wicket:id="feedbackForm">
+        Add Feedback / Comments:<br /> <textarea wicket:id="comments" rows="6" cols="40" />
+        <br />
+        Add Attachment: <input type="file" wicket:id="uploadField" /> (<span wicket:id="max"></span> max)
+        <br /><br />
+        <input type="submit" value="Submit" /> <a wicket:id="cancelLink">Cancel</a>
+    </form>
+
+</wicket:extend>
+</body>
+</html>
