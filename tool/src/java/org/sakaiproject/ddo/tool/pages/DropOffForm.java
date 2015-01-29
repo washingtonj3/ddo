@@ -121,6 +121,21 @@ public class DropOffForm extends BasePage {
             }
         };
         dropOffForm.add(cancel);
+
+        Link<Void> cancel2 = new Link<Void>("cancelLink2") {
+            public void onClick() {
+                setResponsePage(new StudentOverview());
+            }
+        };
+        add(cancel2);
+
+        SubmitLink submit = new SubmitLink("submitLink");
+        dropOffForm.add(submit);
+
+        String userid = sakaiProxy.getCurrentUserId();
+        dropOffForm.add(new Label("displayName", sakaiProxy.getCurrentUserDisplayName()));
+        dropOffForm.add(new Label("email", sakaiProxy.getUserEmail(userid)));
+        dropOffForm.add(new Label("username", sakaiProxy.getUserDisplayId(userid)));
     }
 
 }

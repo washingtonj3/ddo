@@ -1,6 +1,9 @@
 package org.sakaiproject.ddo.logic;
 
 import org.sakaiproject.ddo.model.SubmissionFile;
+import org.sakaiproject.user.api.User;
+
+import java.util.Set;
 
 /**
  * An interface to abstract all Sakai related API calls in a central method that can be injected into our app.
@@ -15,26 +18,72 @@ public interface SakaiProxy {
 	 * @return
 	 */
 	public String getCurrentSiteId();
-	
+
 	/**
 	 * Get current user id
 	 * @return
 	 */
 	public String getCurrentUserId();
-	
-	/**
-	 * Get current user display name
-	 * @return
-	 */
+
 	public String getCurrentUserDisplayName();
 
+	/**
+	 * Get current user
+	 * @return
+	 */
+	public User getCurrentUser();
+
+	/**
+	 * Convert internal userid to eid (3373898)
+	 * @return
+	 */
+	public String getUserEid(String userId);
+
+	/**
+	 * Convert internal userid to eid (jsmith26)
+	 * @return
+	 */
+	public String getUserDisplayId(String userId);
+
+	/**
+	 * Convert eid to internal userid
+	 * @return
+	 */
+	public String getUserIdForEid(String eid);
+
+	/**
+	 * Get displayname of a given userid (internal id)
+	 * @return
+	 */
 	public String getUserDisplayName(String userId);
-	
+
+	/**
+	 * Get firstname of a given userid (internal id)
+	 * @return
+	 */
+	public String getUserFirstName(String userId);
+
+	/**
+	 * Get lastname of a given userid (internal id)
+	 * @return
+	 */
+	public String getUserLastName(String userId);
+
+	/**
+	 * Get email address for a given userid (internal id)
+	 * @return
+	 */
+	public String getUserEmail(String userId);
+
 	/**
 	 * Is the current user a superUser? (anyone in admin realm)
 	 * @return
 	 */
 	public boolean isSuperUser();
+
+	public Set<String> getStudentWorkerIds();
+
+	public boolean isStudentWorker();
 
 	/**
 	 * Save a file to CHS
@@ -47,6 +96,10 @@ public interface SakaiProxy {
 	 * @return
 	 */
 	public boolean saveFile(String fullResourceId, String userId, String fileName, String mimeType, byte[] fileData);
+
+	public String getResourceIconUrl(String resourceId);
+
+	public String getResourceFileSize(String resourceId);
 
 	/**
 	 * Retrieve a resource from ContentHosting with byte[] and mimetype

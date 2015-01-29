@@ -3,38 +3,158 @@
 
 <body>
 <wicket:extend>
+    <div id="agreeMask" style="width:99%;height: 99%;background-color: #000;opacity: .4;position: absolute;z-index: 9998;"></div>
+    <h1 style="margin-bottom: 0;">Drop Off A Document</h1>
+    <h4 style="margin-bottom: 1em;">Please complete the form below in order for the Write Place consultants to best assist you.</h4>
 
-    <h1>Drop Off A Document</h1>
-
-    <div style="float: right;width: 400px;margin-right: 2em;padding-left: 2em;border-left:1px solid #ccc;">
-        <h3>Expectations of DDO Service</h3>
-        <p>Write Place consultants aim to help you become a stronger writer; therefore, we are not an editing service.  Rather, a Write Place consultant will review your paper as an active reader and help you understand if your writing is clear and engaging.  Consultants will help identify patterns of errors and make suggestions on how to correct them. A Write Place consultant will spend 30 minutes on 5 pages of your document.  Comments and suggested corrections will be provided by using the revision tool in MS Word. A response to your paper can be expected within 48 hours.  Any information you can offer regarding the writing assignment or your areas of concern will be beneficial to the consultant.</p>
-        <p>Please submit each paper only once.  You may upload one writing assignment at a time.</p>
-        <p>Questions?  Email the Write Place at writeplace@udayton.edu or contact the Write Place Coordinator at cklimo1@udayton.edu.</p>
+    <div id="agree" style="position:absolute;width: 600px;margin-right: 2em;padding: 1em 2em 2em 2em;border:3px solid #ccc;left:5em;top:5em;background-color: #fff;z-index: 9999;-webkit-box-shadow: 0 8px 6px -6px black;-moz-box-shadow: 0 8px 6px -6px black;box-shadow: 0 8px 6px -6px black;">
+            <h3>Expectations of DDO Service</h3>
+            <p>Write Place consultants aim to help you become a stronger writer; therefore, we are not an editing service. Rather, a Write Place consultant will review your paper as an active reader and help you understand if your writing is clear and engaging. Consultants will help identify patterns of errors and make suggestions on how to correct them. A Write Place consultant will spend 30 minutes on 5 pages of your document. Comments and suggested corrections will be provided by using the revision tool in MS Word. A response to your paper can be expected within 48 hours. Any information you can offer regarding the writing assignment or your areas of concern will be beneficial to the consultant.</p>
+            <p>Please submit each paper only once. You may upload one writing assignment at a time.</p>
+            <p>Questions? Email the Write Place at <a href="mailto:writeplace@udayton.edu">writeplace@udayton.edu</a> or contact the Write Place Coordinator at <a href="mailto:cklimo1@udayton.edu">cklimo1@udayton.edu</a>.</p>
+            <p style="margin-top: 2em;"><a id="closeLink" style="color: #fff !important;" class="button-example-1 button-example-blue" href="#">I agree</a>&nbsp;&nbsp;&nbsp;&nbsp;<a wicket:id="cancelLink2" class="button-example-1 button-example-red" style="color:#fff !important;">Cancel</a></p>
     </div>
-
+    <style type="text/css">
+        td {padding-bottom: 1em;vertical-align: top;padding-left: .5em;padding-right: .5em;}
+    </style>
     <form wicket:id="dropOffForm">
-        Assignment Title: <input type="text" wicket:id="assignmentTitle" />
-        <br />
-        Course: <input type="text" wicket:id="courseTitle" />
-        <br />
-        Instructor: <input type="text" wicket:id="instructor" />
-        <br />
-        Due Date: <input type="text" wicket:id="dueDate" />
-        <br />
-        Primary Language is English: <input type="checkbox" wicket:id="primaryLanguageIsEnglish" />
-        <br />
-        If not, what is your native language: <input type="text" wicket:id="primaryLanguage" />
-        <br />
-        List Any Instructor Specific Instructions or Requirements <br />
-        <textarea wicket:id="instructorRequirements" rows="6" cols="40" />
-        <br />
-        I am most concerned about or wish the consultant to focus on... <br />
-        <textarea wicket:id="feedbackFocus" rows="6" cols="40" />
-        <br />
-        Add Attachment: <input type="file" wicket:id="uploadField" /> (<span wicket:id="max"></span> max)
-        <br />
-        <input type="submit" value="Submit" /> <a wicket:id="cancelLink">Cancel</a>
+        <table>
+            <tr>
+                <td style="text-align: right;font-weight: bold;">
+                    Your Name
+                </td>
+                <td colspan="2">
+                    <span wicket:id="displayName" /> (<span wicket:id="username" />)
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;font-weight: bold;">
+                    Your Email
+                </td>
+                <td colspan="2">
+                    <span wicket:id="email" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;font-weight: bold;">
+                    Course Title
+                </td>
+                <td colspan="2">
+                    <input type="text" wicket:id="courseTitle" id="courseTitle" />
+                    <div class="courseTip" style="width: 0px;height: 0px;border-style: solid;border-width: 0 0 20px 20px;border-color: transparent transparent #0277fd transparent;display:none;position:absolute;margin-top:-1em;">
+
+                    </div>
+                    <div class="courseTip" style="background-color:#fff;border:3px solid #0276FD;display:none;padding:.5em;position:absolute;margin-left:20px;margin-top:-1em;-webkit-box-shadow: 0 6px 6px -6px black;-moz-box-shadow: 0 6px 6px -6px black;box-shadow: 0 6px 6px -6px black;">
+                        <strong>What course are you writing this paper for?</strong>
+                        <br />
+                        (Dept-Course#-Section#)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;font-weight: bold;">
+                    Assignment Title
+                </td>
+                <td colspan="2">
+                    <input type="text" wicket:id="assignmentTitle" id="assignmentTitle" />
+                    <div class="titleTip" style="width: 0px;height: 0px;border-style: solid;border-width: 0 0 20px 20px;border-color: transparent transparent #0277fd transparent;display:none;position:absolute;margin-top:-1em;">
+
+                    </div>
+                    <div class="titleTip" style="background-color:#fff;border:3px solid #0276FD;display:none;padding:.5em;position:absolute;margin-left:20px;margin-top:-1em;-webkit-box-shadow: 0 6px 6px -6px black;-moz-box-shadow: 0 6px 6px -6px black;box-shadow: 0 6px 6px -6px black;">
+                        <strong>What is the title of the assignment?</strong>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;font-weight: bold;">
+                    Instructor Name
+                </td>
+                <td colspan="2">
+                    <input type="text" wicket:id="instructor" id="instructor" />
+                    <div class="instructorTip" style="width: 0px;height: 0px;border-style: solid;border-width: 0 0 20px 20px;border-color: transparent transparent #0277fd transparent;display:none;position:absolute;margin-top:-1em;">
+
+                    </div>
+                    <div class="instructorTip" style="background-color:#fff;border:3px solid #0276FD;display:none;padding:.5em;position:absolute;margin-left:20px;margin-top:-1em;-webkit-box-shadow: 0 6px 6px -6px black;-moz-box-shadow: 0 6px 6px -6px black;box-shadow: 0 6px 6px -6px black;">
+                        <strong>Who is the Instructor?</strong>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;font-weight: bold;">
+                    Due Date
+                </td>
+                <td colspan="2">
+                    <input type="text" wicket:id="dueDate" id="dueDate" />
+                    <div class="dueTip" style="width: 0px;height: 0px;border-style: solid;border-width: 0 0 20px 20px;border-color: transparent transparent #0277fd transparent;display:none;position:absolute;margin-top:-1em;">
+
+                    </div>
+                    <div class="dueTip" style="background-color:#fff;border:3px solid #0276FD;display:none;padding:.5em;position:absolute;margin-left:20px;margin-top:-1em;-webkit-box-shadow: 0 6px 6px -6px black;-moz-box-shadow: 0 6px 6px -6px black;box-shadow: 0 6px 6px -6px black;">
+                        <strong>When is this paper due?</strong>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;font-weight: bold;">
+                    Primary Language is English
+                </td>
+                <td colspan="2">
+                    <input type="checkbox" wicket:id="primaryLanguageIsEnglish" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;font-weight: bold;">
+                    If not, what is your native language?
+                </td>
+                <td colspan="2">
+                    <input type="text" wicket:id="primaryLanguage" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;font-weight: bold;">
+                    Specific Instructions or Requirements
+                    <br />
+                    (Optional)
+                </td>
+                <td>
+                    <textarea wicket:id="instructorRequirements" rows="6" cols="40" id="instructorRequirements" />
+                </td>
+                <td>
+                    <div class="reqTip" style="width: 0px;height: 0px;border-style: solid;border-width: 0 0 20px 20px;border-color: transparent transparent #0277fd transparent;display:none;position:absolute;">
+
+                    </div>
+                    <div class="reqTip" style="background-color:#fff;border:3px solid #0276FD;display:none;padding:.5em;position:absolute;margin-left:20px;-webkit-box-shadow: 0 6px 6px -6px black;-moz-box-shadow: 0 6px 6px -6px black;box-shadow: 0 6px 6px -6px black;">
+                        <strong>Please provide any specific instructions or requirements from your instructor for this assignment that should be taken in to account.</strong>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;font-weight: bold;">
+                    Your Concerns and/or Areas of Focus
+                    <br />
+                    (Optional)
+                </td>
+                <td>
+                    <textarea wicket:id="feedbackFocus" rows="6" cols="40" id="feedbackFocus" />
+                </td>
+                <td>
+                    <div class="focusTip" style="width: 0px;height: 0px;border-style: solid;border-width: 0 0 20px 20px;border-color: transparent transparent #0277fd transparent;display:none;position:absolute;">
+
+                    </div>
+                    <div class="focusTip" style="background-color:#fff;border:3px solid #0276FD;display:none;padding:.5em;position:absolute;margin-left:20px;-webkit-box-shadow: 0 6px 6px -6px black;-moz-box-shadow: 0 6px 6px -6px black;box-shadow: 0 6px 6px -6px black;">
+                        <strong>Please list any concerns you have with the current draft of your document and/or list any specific areas that you want the writing consultant to focus on.</strong>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="font-weight: bold;border: 1px solid #ddd;vertical-align: middle;padding:1em;">
+                    Add Attachment&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="file" wicket:id="uploadField" /> (<span wicket:id="max"></span> max)
+                </td>
+            </tr>
+        </table>
+        <p>
+            <a wicket:id="submitLink" class="button-example-1 button-example-green" style="color:#fff !important;">Submit</a>&nbsp;&nbsp;&nbsp;&nbsp;<a wicket:id="cancelLink" class="button-example-1 button-example-red" style="color:#fff !important;">Cancel</a>
+        </p>
     </form>
 
     <style type="text/css">

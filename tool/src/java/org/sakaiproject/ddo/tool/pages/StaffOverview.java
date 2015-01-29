@@ -3,6 +3,7 @@ package org.sakaiproject.ddo.tool.pages;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.repeater.DefaultItemReuseStrategy;
@@ -21,6 +22,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.wicket.model.Model;
 import org.apache.wicket.request.handler.resource.ResourceStreamRequestHandler;
 import org.apache.wicket.util.resource.AbstractResourceStreamWriter;
 import org.sakaiproject.ddo.logic.SakaiProxy;
@@ -52,6 +54,7 @@ public class StaffOverview extends BasePage {
                 final Submission submission = (Submission) item.getModelObject();
                 String submissionStatus = submission.getStatus();
                 item.add(new Label("submittedBy", sakaiProxy.getUserDisplayName(submission.getSubmittedBy())));
+                item.add(new Label("username", sakaiProxy.getUserDisplayId(submission.getSubmittedBy())));
                 item.add(new Label("submissiondate", df.format(submission.getSubmissionDate())));
                 item.add(new Label("status", submissionStatus));
                 Link<Void> startReviewing;
@@ -66,12 +69,13 @@ public class StaffOverview extends BasePage {
                     };
                     startReviewingLabel = new Label("startReviewingLabel", "Start Reviewing");
                 } else {
+                    final long submissionId = submission.getSubmissionId();
                     startReviewing = new Link<Void>("startReviewing") {
                         @Override
                         public void onClick() {
+                            setResponsePage(new FeedbackFormPage(submissionId));
                         }
                     };
-                    disableLink(startReviewing);
                     startReviewingLabel = new Label("startReviewingLabel", Submission.STATUS_UNDER);
                 }
                 startReviewing.add(startReviewingLabel);
@@ -96,18 +100,21 @@ public class StaffOverview extends BasePage {
 
                 item.add(streamDownloadLink);
                 streamDownloadLink.add(new Label("fileName", sakaiProxy.getResource(submission.getDocumentRef()).getFileName()));
+                item.add(new ContextImage("submissionIcon", new Model<String>(sakaiProxy.getResourceIconUrl(submission.getDocumentRef()))));
+                item.add(new Label("fileSize", sakaiProxy.getResourceFileSize(submission.getDocumentRef())));
             }
         };
         dataView.setItemReuseStrategy(new DefaultItemReuseStrategy());
-        dataView.setItemsPerPage(15);
+        dataView.setItemsPerPage(10);
         add(dataView);
+        add(new Label("numberOfWaiting",submissionProvider.size()));
 
         //add a pager to our table, only visible if we have more than 5 items
         add(new PagingNavigator("navigator", dataView) {
 
             @Override
             public boolean isVisible() {
-                if(submissionProvider.size() > 15) {
+                if(submissionProvider.size() > 10) {
                     return true;
                 }
                 return false;
@@ -136,6 +143,7 @@ public class StaffOverview extends BasePage {
                 final Submission submission = (Submission) item.getModelObject();
                 final String submissionStatus = submission.getStatus();
                 item.add(new Label("submittedBy", sakaiProxy.getUserDisplayName(submission.getSubmittedBy())));
+                item.add(new Label("username", sakaiProxy.getUserDisplayId(submission.getSubmittedBy())));
                 item.add(new Label("submissiondate", df.format(submission.getSubmissionDate())));
                 item.add(new Label("status", submissionStatus));
                 Link<Void> feedback;
@@ -184,18 +192,22 @@ public class StaffOverview extends BasePage {
 
                 item.add(streamDownloadLink);
                 streamDownloadLink.add(new Label("fileName", sakaiProxy.getResource(submission.getDocumentRef()).getFileName()));
+                item.add(new ContextImage("submissionIcon", new Model<String>(sakaiProxy.getResourceIconUrl(submission.getDocumentRef()))));
+                item.add(new Label("fileSize", sakaiProxy.getResourceFileSize(submission.getDocumentRef())));
             }
         };
         dataViewReviewed.setItemReuseStrategy(new DefaultItemReuseStrategy());
-        dataViewReviewed.setItemsPerPage(15);
+        dataViewReviewed.setItemsPerPage(7);
         add(dataViewReviewed);
+
+        add(new Label("numberOfReviewed",reviewedProvider.size()));
 
         //add a pager to our table, only visible if we have more than 5 items
         add(new PagingNavigator("reviewedNavigator", dataViewReviewed) {
 
             @Override
             public boolean isVisible() {
-                if(reviewedProvider.size() > 15) {
+                if(reviewedProvider.size() > 7) {
                     return true;
                 }
                 return false;

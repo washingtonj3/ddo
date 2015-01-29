@@ -4,22 +4,22 @@
 <body>
 <wicket:extend>
 
-    <h1>Welcome to Digital Drop Off</h1>
+    <h1>Welcome to Digital Drop-Off</h1>
 
-    <h3>Documents for Review</h3>
+    <h3>Documents for Review (<span wicket:id="numberOfWaiting" />)</h3>
 
     <table cellspacing="0" class="dataview tier2" style="text-align: center;">
         <tbody>
         <tr>
             <th style="text-align: left">Submitted By</th>
-            <th>Submission</th>
+            <th style="text-align: left">Submission</th>
             <th>Submission Date</th>
             <th>Status</th>
             <th>Feedback</th>
         </tr>
         <tr wicket:id="awaitingReview">
-            <td style="text-align: left"><span wicket:id="submittedBy">Submitted By</span></td>
-            <td><a wicket:id="document"><span wicket:id="fileName">[fileName]</span></a></td>
+            <td style="text-align: left"><span wicket:id="submittedBy" /> (<span wicket:id="username"/>)</td>
+            <td style="text-align: left"><img wicket:id="submissionIcon" class="fileIcon" /><a wicket:id="document"><span wicket:id="fileName" /></a> (<span wicket:id="fileSize"/>)</td>
             <td><span wicket:id="submissiondate">Submission Date</span></td>
             <td><span wicket:id="status">Status</span></td>
             <td><a wicket:id="startReviewing"><span wicket:id="startReviewingLabel" /></a></td>
@@ -27,15 +27,15 @@
         </tbody>
     </table>
 
-    <div wicket:id="navigator" class="tier2" style="font-size:1.2em;width:40%;background-color:#eee;text-align: center;"></div>
+    <div wicket:id="navigator" class="tier2" style="font-size:1.2em;background-color:#eee;text-align: center;"></div>
 
-    <h3>Completed Reviews</h3>
+    <h3>Completed Reviews (<span wicket:id="numberOfReviewed" />)</h3>
 
     <table cellspacing="0" class="dataview tier2" style="text-align: center;">
         <tbody>
         <tr>
             <th style="text-align: left">Submitted By</th>
-            <th>Submission</th>
+            <th style="text-align: left">Submission</th>
             <th>Submission Date</th>
             <th>Status</th>
             <th style="text-align: left">Reviewed By</th>
@@ -43,8 +43,8 @@
             <th>Feedback</th>
         </tr>
         <tr wicket:id="reviewed">
-            <td style="text-align: left"><span wicket:id="submittedBy">Submitted By</span></td>
-            <td><a wicket:id="document"><span wicket:id="fileName">[fileName]</span></a></td>
+            <td style="text-align: left"><span wicket:id="submittedBy" /> (<span wicket:id="username"/>)</td>
+            <td style="text-align: left"><img wicket:id="submissionIcon" class="fileIcon" /><a wicket:id="document"><span wicket:id="fileName" /></a> (<span wicket:id="fileSize"/>)</td>
             <td><span wicket:id="submissiondate">Submission Date</span></td>
             <td><span wicket:id="status">Status</span></td>
             <td style="text-align: left"><span wicket:id="reviewedBy">Reviewed By</span></td>
@@ -54,7 +54,7 @@
         </tbody>
     </table>
 
-    <div wicket:id="reviewedNavigator" class="tier2" style="font-size:1.2em;width:40%;background-color:#eee;text-align: center;"></div>
+    <div wicket:id="reviewedNavigator" class="tier2" style="font-size:1.2em;background-color:#eee;text-align: center;"></div>
 
 </wicket:extend>
 </body>

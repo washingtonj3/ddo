@@ -57,7 +57,7 @@ public class BasePage extends WebPage implements IHeaderContributor {
 		WebMarkupContainer menu = new WebMarkupContainer("menu") {
 			@Override
 			public boolean isVisible() {
-				return sakaiProxy.isSuperUser();
+				return sakaiProxy.isStudentWorker();
 			}
 		};
 

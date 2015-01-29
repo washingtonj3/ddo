@@ -5,6 +5,7 @@ import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
+import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -37,13 +38,15 @@ public class FeedbackFormPage extends BasePage {
         disableLink(staffOverviewLink);
         this.s = projectLogic.getSubmission(submissionId);
 
-        s.setStatus(Submission.STATUS_UNDER);
-        projectLogic.updateSubmissionStatus(s);
+        //s.setStatus(Submission.STATUS_UNDER);
+        //projectLogic.updateSubmissionStatus(s);
 
         add(new Label("name", sakaiProxy.getUserDisplayName(s.getSubmittedBy())));
-        add(new Label("primaryLanguageIsEnglish",s.getPrimaryLanguageIsEnglish()));
+        add(new Label("primaryLanguageIsEnglish",s.getPrimaryLanguageIsEnglish() ? "Yes" : "No"));
         add(new Label("primaryLanguage",s.getPrimaryLanguage()));
         add(new Label("submissionDate",df.format(s.getSubmissionDate())));
+        add(new Label("email", sakaiProxy.getUserEmail(s.getSubmittedBy())));
+        add(new Label("username", sakaiProxy.getUserDisplayId(s.getSubmittedBy())));
 
         Link<Void> streamDownloadLink = new Link<Void>("document") {
 
@@ -65,6 +68,8 @@ public class FeedbackFormPage extends BasePage {
 
         add(streamDownloadLink);
         streamDownloadLink.add(new Label("fileName", sakaiProxy.getResource(s.getDocumentRef()).getFileName()));
+        add(new ContextImage("submissionIcon", new Model<String>(sakaiProxy.getResourceIconUrl(s.getDocumentRef()))));
+        add(new Label("fileSize", sakaiProxy.getResourceFileSize(s.getDocumentRef())));
 
         add(new Label("assignmentTitle", s.getAssignmentTitle()));
         add(new Label("course", s.getCourseTitle()));
@@ -141,12 +146,17 @@ public class FeedbackFormPage extends BasePage {
 
         Link<Void> cancel = new Link<Void>("cancelLink") {
             public void onClick() {
-                s.setStatus(Submission.STATUS_WAITING);
-                projectLogic.updateSubmissionStatus(s);
+                //s.setStatus(Submission.STATUS_WAITING);
+                //projectLogic.updateSubmissionStatus(s);
                 setResponsePage(new StaffOverview());
             }
         };
         feedbackForm.add(cancel);
+
+        SubmitLink submit = new SubmitLink("submit");
+        feedbackForm.add(submit);
+
+
     }
 }
 

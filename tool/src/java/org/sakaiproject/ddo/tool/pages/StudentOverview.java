@@ -3,6 +3,7 @@ package org.sakaiproject.ddo.tool.pages;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.repeater.DefaultItemReuseStrategy;
@@ -21,7 +22,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.wicket.model.Model;
 import org.apache.wicket.request.handler.resource.ResourceStreamRequestHandler;
+import org.apache.wicket.request.resource.ContextRelativeResource;
 import org.apache.wicket.util.resource.AbstractResourceStreamWriter;
 import org.sakaiproject.ddo.logic.SakaiProxy;
 import org.sakaiproject.ddo.model.Feedback;
@@ -39,8 +42,6 @@ public class StudentOverview extends BasePage {
 
     public StudentOverview() {
         disableLink(studentOverviewLink);
-
-        add(new Label("userDisplayName", sakaiProxy.getCurrentUserDisplayName()));
 
         //link to drop off form
         //the i18n label for this is directly in the HTML
@@ -107,6 +108,8 @@ public class StudentOverview extends BasePage {
 
                 item.add(streamDownloadLink);
                 streamDownloadLink.add(new Label("fileName", sakaiProxy.getResource(submission.getDocumentRef()).getFileName()));
+                item.add(new ContextImage("submissionIcon", new Model<String>(sakaiProxy.getResourceIconUrl(submission.getDocumentRef()))));
+                item.add(new Label("fileSize", sakaiProxy.getResourceFileSize(submission.getDocumentRef())));
                 item.add(new Label("submissiondate", df.format(submission.getSubmissionDate())));
                 item.add(new Label("status", submission.getStatus()));
             }
@@ -134,6 +137,8 @@ public class StudentOverview extends BasePage {
                 clearFeedback(feedbackPanel);
             }
         });
+
+        add(new Label("numberOfSubmissions", provider.size()));
     }
 
     /**

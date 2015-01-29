@@ -2,7 +2,9 @@ package org.sakaiproject.ddo.tool.pages;
 
 import org.apache.wicket.markup.html.basic.Label;
 
+import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.request.handler.resource.ResourceStreamRequestHandler;
 import org.apache.wicket.util.resource.AbstractResourceStreamWriter;
 import org.sakaiproject.ddo.model.Feedback;
@@ -43,6 +45,8 @@ public class FeedbackPage extends BasePage {
 
         add(submissionDownloadLink);
         submissionDownloadLink.add(new Label("sFileName", sakaiProxy.getResource(submission.getDocumentRef()).getFileName()));
+        add(new ContextImage("sSubmissionIcon", new Model<String>(sakaiProxy.getResourceIconUrl(submission.getDocumentRef()))));
+        add(new Label("sFileSize", sakaiProxy.getResourceFileSize(submission.getDocumentRef())));
 
         if(feedback.getComments() != null && !feedback.getComments().isEmpty()) {
             add(new Label("comments", feedback.getComments()));
@@ -71,6 +75,9 @@ public class FeedbackPage extends BasePage {
 
             add(feedbackDownloadLink);
             feedbackDownloadLink.add(new Label("fFileName", sakaiProxy.getResource(feedback.getReviewedDocumentRef()).getFileName()));
+            add(new ContextImage("submissionIcon", new Model<String>(sakaiProxy.getResourceIconUrl(feedback.getReviewedDocumentRef()))));
+            String fileSize = "(" + sakaiProxy.getResourceFileSize(feedback.getReviewedDocumentRef()) + ")";
+            add(new Label("fileSize", fileSize));
         } else {
             Link<Void> feedbackDownloadLink = new Link<Void>("feedbackDoc") {
                 @Override
@@ -78,6 +85,10 @@ public class FeedbackPage extends BasePage {
             };
             add(feedbackDownloadLink);
             feedbackDownloadLink.add(new Label("fFileName",""));
+            ContextImage icon = new ContextImage("submissionIcon", "");
+            icon.setVisible(false);
+            add(icon);
+            add(new Label("fileSize", ""));
         }
 
         if("staff".equals(fromPage)) {

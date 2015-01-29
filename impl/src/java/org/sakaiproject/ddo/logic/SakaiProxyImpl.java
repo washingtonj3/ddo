@@ -5,12 +5,16 @@ import lombok.Setter;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.sakaiproject.authz.api.AuthzGroupService;
+import org.sakaiproject.authz.api.Member;
 import org.sakaiproject.authz.api.SecurityAdvisor;
 import org.sakaiproject.authz.api.SecurityService;
 import org.sakaiproject.component.api.ServerConfigurationService;
 import org.sakaiproject.content.api.ContentHostingService;
 import org.sakaiproject.content.api.ContentResource;
 import org.sakaiproject.content.api.ContentResourceEdit;
+import org.sakaiproject.content.api.ContentTypeImageService;
+import org.sakaiproject.ddo.model.Submission;
 import org.sakaiproject.ddo.model.SubmissionFile;
 import org.sakaiproject.entity.api.Entity;
 import org.sakaiproject.entity.api.ResourceProperties;
@@ -21,10 +25,13 @@ import org.sakaiproject.exception.IdUsedException;
 import org.sakaiproject.site.api.SiteService;
 import org.sakaiproject.tool.api.SessionManager;
 import org.sakaiproject.tool.api.ToolManager;
+import org.sakaiproject.user.api.User;
 import org.sakaiproject.user.api.UserDirectoryService;
 import org.sakaiproject.user.api.UserNotDefinedException;
 
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -50,7 +57,53 @@ public class SakaiProxyImpl implements SakaiProxy {
 	public String getCurrentUserId() {
 		return sessionManager.getCurrentSessionUserId();
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public User getCurrentUser() {
+		return userDirectoryService.getCurrentUser();
+	}
+
+	/**
+	* {@inheritDoc}
+	*/
+	public String getUserEid(String userId){
+		String eid = null;
+		try {
+			eid = userDirectoryService.getUser(userId).getEid();
+		} catch (UserNotDefinedException e) {
+			log.warn("Cannot get eid for id: " + userId + " : " + e.getClass() + " : " + e.getMessage());
+		}
+		return eid;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public String getUserDisplayId(String userId) {
+		String displayId = null;
+		try {
+			displayId = userDirectoryService.getUser(userId).getDisplayId();
+		} catch (UserNotDefinedException e) {
+			log.warn("Cannot get displayId for id: " + userId + " : " + e.getClass() + " : " + e.getMessage());
+		}
+		return displayId;
+	}
+
+	/**
+    * {@inheritDoc}
+    */
+	public String getUserIdForEid(String eid) {
+		String userUuid = null;
+		try {
+			userUuid = userDirectoryService.getUserByEid(eid).getId();
+		} catch (UserNotDefinedException e) {
+			log.warn("Cannot get id for eid: " + eid + " : " + e.getClass() + " : " + e.getMessage());
+		}
+		return userUuid;
+	}
+
 	/**
  	* {@inheritDoc}
  	*/
@@ -70,14 +123,76 @@ public class SakaiProxyImpl implements SakaiProxy {
 		}
 		return userDisplayName;
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public String getUserFirstName(String userId) {
+		String email = null;
+		try {
+			email = userDirectoryService.getUser(userId).getFirstName();
+		} catch (UserNotDefinedException e) {
+			log.warn("Cannot get first name for id: " + userId + " : " + e.getClass() + " : " + e.getMessage());
+		}
+		return email;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public String getUserLastName(String userId) {
+		String email = null;
+		try {
+			email = userDirectoryService.getUser(userId).getLastName();
+		} catch (UserNotDefinedException e) {
+			log.warn("Cannot get last name for id: " + userId + " : " + e.getClass() + " : " + e.getMessage());
+		}
+		return email;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public String getUserEmail(String userId) {
+		String email = null;
+		try {
+			email = userDirectoryService.getUser(userId).getEmail();
+		} catch (UserNotDefinedException e) {
+			log.warn("Cannot get email for id: " + userId + " : " + e.getClass() + " : " + e.getMessage());
+		}
+		return email;
+	}
+
 	/**
  	* {@inheritDoc}
  	*/
 	public boolean isSuperUser() {
 		return securityService.isSuperUser();
 	}
-	
+
+	public Set<String> getStudentWorkerIds() {
+		try {
+			Set<Member> membersSet = authzGroupService.getAuthzGroup("/ddo").getMembers();
+			Set<String> studentWorkerIds = new HashSet<String>();
+			for(Member m : membersSet) {
+				studentWorkerIds.add(m.getUserId());
+			}
+			return studentWorkerIds;
+		} catch (Exception e) {
+			log.warn("Cannot get student workers");
+			return null;
+		}
+	}
+
+	public boolean isStudentWorker() {
+		String currentUserId = getCurrentUserId();
+		for(String id : getStudentWorkerIds()) {
+			if (currentUserId.equals(id))
+				return true;
+		}
+		return false;
+	}
+
 	/**
  	* {@inheritDoc}
  	*/
@@ -141,6 +256,31 @@ public class SakaiProxyImpl implements SakaiProxy {
 		}
 		return result;
 
+	}
+
+	public String getResourceIconUrl(String resourceId) {
+		try {
+			ContentResource resource = contentHostingService.getResource(resourceId);
+			String imageUrl = "/library/image/" + contentTypeImageService.getContentTypeImage(resource.getProperties().getProperty(ResourceProperties.PROP_CONTENT_TYPE));
+			return imageUrl;
+		}
+		catch(Exception e) {
+			log.error("Unable to get content type image. " + e);
+			return "/library/image/sakai/generic.gif";
+		}
+
+	}
+
+	public String getResourceFileSize(String resourceId) {
+		try {
+			ContentResource resource = contentHostingService.getResource(resourceId);
+			String fileSize = resource.getProperties().getPropertyFormatted(ResourceProperties.PROP_CONTENT_LENGTH);
+			return fileSize;
+		}
+		catch(Exception e) {
+			log.error("Unable to get resource file size. " + e);
+			return "Unknown";
+		}
 	}
 
 	/**
@@ -282,4 +422,10 @@ public class SakaiProxyImpl implements SakaiProxy {
 	
 	@Getter @Setter
 	private SiteService siteService;
+
+	@Getter @Setter
+	private AuthzGroupService authzGroupService;
+
+	@Getter @Setter
+	private ContentTypeImageService contentTypeImageService;
 }
