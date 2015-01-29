@@ -259,7 +259,12 @@ public class SakaiProxyImpl implements SakaiProxy {
 	}
 
 	public String getResourceIconUrl(String resourceId) {
+		if(StringUtils.isBlank(resourceId)) {
+			return "Unknown";
+		}
+
 		try {
+			enableSecurityAdvisor();
 			ContentResource resource = contentHostingService.getResource(resourceId);
 			String imageUrl = "/library/image/" + contentTypeImageService.getContentTypeImage(resource.getProperties().getProperty(ResourceProperties.PROP_CONTENT_TYPE));
 			return imageUrl;
@@ -268,11 +273,19 @@ public class SakaiProxyImpl implements SakaiProxy {
 			log.error("Unable to get content type image. " + e);
 			return "/library/image/sakai/generic.gif";
 		}
+		finally	{
+			disableSecurityAdvisor();
+		}
 
 	}
 
 	public String getResourceFileSize(String resourceId) {
+		if(StringUtils.isBlank(resourceId)) {
+			return "Unknown";
+		}
+
 		try {
+			enableSecurityAdvisor();
 			ContentResource resource = contentHostingService.getResource(resourceId);
 			String fileSize = resource.getProperties().getPropertyFormatted(ResourceProperties.PROP_CONTENT_LENGTH);
 			return fileSize;
@@ -280,6 +293,9 @@ public class SakaiProxyImpl implements SakaiProxy {
 		catch(Exception e) {
 			log.error("Unable to get resource file size. " + e);
 			return "Unknown";
+		}
+		finally	{
+			disableSecurityAdvisor();
 		}
 	}
 
