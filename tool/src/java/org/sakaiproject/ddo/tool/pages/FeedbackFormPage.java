@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat;
 public class FeedbackFormPage extends BasePage {
 
     DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+    DateFormat dueFormat = new SimpleDateFormat(("MM/dd/yyyy"));
 
     protected Submission s = new Submission();
 
@@ -74,7 +75,7 @@ public class FeedbackFormPage extends BasePage {
         add(new Label("assignmentTitle", s.getAssignmentTitle()));
         add(new Label("course", s.getCourseTitle()));
         add(new Label("instructor", s.getInstructor()));
-        add(new Label("dueDate", s.getDueDate()!=null ? df.format(s.getDueDate()) : "No due date added"));
+        add(new Label("dueDate", s.getDueDate()!=null ? dueFormat.format(s.getDueDate()) : "No due date added"));
         add(new MultiLineLabel("feedbackFocus", s.getFeedbackFocus()));
         add(new MultiLineLabel("instructorRequirements", s.getInstructorRequirements()));
 
