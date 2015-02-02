@@ -114,6 +114,11 @@ public class DropOffForm extends BasePage {
         dueDate.add(datePicker);
         dropOffForm.add(dueDate);
 
+        assignmentTitle.setRequired(true);
+        instructor.setRequired(true);
+        courseTitle.setRequired(true);
+        dueDate.setRequired(true);
+
         dropOffForm.add(uploadField = new FileUploadField("uploadField"));
 
         dropOffForm.add(new Label("max", new AbstractReadOnlyModel<String>() {
