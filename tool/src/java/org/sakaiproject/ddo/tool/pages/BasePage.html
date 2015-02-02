@@ -243,6 +243,21 @@
 				$("#agreeMask").fadeOut(200);
 			});
 			$("#feedbackAssign").css("min-height",$("#feedbackSubmission").height());
+
+            $(function() {
+                if(localStorage) {
+                    if (localStorage.getItem('agreed')) {
+                        $("#agreeMask").hide();
+                        $("#agree").hide();
+                    }
+                }
+            });
+
+            $("#closeLink").click(function() {
+                localStorage.setItem("agreed", true);
+                return true;
+            });
+
 		});
 	</script>
 </head>     
