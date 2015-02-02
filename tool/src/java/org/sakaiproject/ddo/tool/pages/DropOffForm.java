@@ -96,7 +96,7 @@ public class DropOffForm extends BasePage {
             }
         };
 
-        dropOffForm.setMaxSize(Bytes.megabytes(2));
+        dropOffForm.setMaxSize(Bytes.megabytes(15));
         add(dropOffForm);
 
         dropOffForm.add(primaryLanguageIsEnglish = new CheckBox("primaryLanguageIsEnglish", Model.of(Boolean.TRUE)));

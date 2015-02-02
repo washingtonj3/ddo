@@ -136,7 +136,7 @@ public class FeedbackFormPage extends BasePage {
             }
         };
 
-        feedbackForm.setMaxSize(Bytes.megabytes(2));
+        feedbackForm.setMaxSize(Bytes.megabytes(15));
         add(feedbackForm);
         feedbackForm.add(comments = new TextArea<String>("comments", new Model<String>()));
         feedbackForm.add(uploadField = new FileUploadField("uploadField"));
