@@ -31,9 +31,7 @@ public class DropOffForm extends BasePage {
     private final TextArea<String> feedbackFocus;
 
     private final FileUploadField uploadField;
-
-    private final Date date = new Date();
-
+    
     public DropOffForm() {
         disableLink(studentOverviewLink);
 
