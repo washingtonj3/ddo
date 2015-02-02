@@ -19,6 +19,7 @@ import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -234,7 +235,17 @@ public class StaffOverview extends BasePage {
         private List<Submission> getData() {
             if(list == null) {
                 list = projectLogic.getAllWaitingSubmissions();
-                Collections.reverse(list);
+                Collections.sort(list, new Comparator<Submission>() {
+                    @Override
+                    public int compare(Submission s1, Submission s2) {
+                        long t1 = s1.getSubmissionDate().getTime();
+                        long t2 = s2.getSubmissionDate().getTime();
+                        if (t1 < t2) return -1;
+                        else if (t1 > t2) return 1;
+                        else return 0;
+                    }
+                });
+                // Don't reverse the list since we want the submission that has been waiting the longest on top.
             }
             return list;
         }
@@ -274,6 +285,16 @@ public class StaffOverview extends BasePage {
         private List<Submission> getData() {
             if(list == null) {
                 list = projectLogic.getAllReviewedSubmissions();
+                Collections.sort(list, new Comparator<Submission>() {
+                    @Override
+                    public int compare(Submission s1, Submission s2) {
+                        long t1 = s1.getSubmissionDate().getTime();
+                        long t2 = s2.getSubmissionDate().getTime();
+                        if (t1 < t2) return -1;
+                        else if (t1 > t2) return 1;
+                        else return 0;
+                    }
+                });
                 Collections.reverse(list);
             }
             return list;

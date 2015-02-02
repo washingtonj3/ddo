@@ -19,6 +19,7 @@ import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -152,6 +153,16 @@ public class StudentOverview extends BasePage {
         private List<Submission> getData() {
             if(list == null) {
                 list = projectLogic.getSubmissionsForUser(sakaiProxy.getCurrentUserId());
+                Collections.sort(list, new Comparator<Submission>() {
+                    @Override
+                    public int compare(Submission s1, Submission s2) {
+                        long t1 = s1.getSubmissionDate().getTime();
+                        long t2 = s2.getSubmissionDate().getTime();
+                        if(t1 < t2) return -1;
+                        else if (t1 > t2) return 1;
+                        else return 0;
+                    }
+                });
                 Collections.reverse(list);
             }
             return list;
