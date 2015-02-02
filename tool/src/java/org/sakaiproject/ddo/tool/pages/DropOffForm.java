@@ -1,5 +1,7 @@
 package org.sakaiproject.ddo.tool.pages;
 
+import org.apache.wicket.extensions.yui.calendar.DatePicker;
+import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
@@ -8,6 +10,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.Model;
 
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.lang.Bytes;
 import org.sakaiproject.ddo.model.Submission;
 
@@ -22,13 +25,14 @@ public class DropOffForm extends BasePage {
     private final TextField<String> primaryLanguage;
     private final TextField<String> assignmentTitle;
     private final TextArea<String> instructorRequirements;
-    private final TextField<Date> dueDate;
+    private final DateTextField dueDate;
     private final TextField<String> courseTitle;
     private final TextField<String> instructor;
     private final TextArea<String> feedbackFocus;
 
     private final FileUploadField uploadField;
 
+    private final Date date = new Date();
 
     public DropOffForm() {
         disableLink(studentOverviewLink);
@@ -99,10 +103,16 @@ public class DropOffForm extends BasePage {
         dropOffForm.add(primaryLanguage = new TextField<String>("primaryLanguage", new Model<String>()));
         dropOffForm.add(assignmentTitle = new TextField<String>("assignmentTitle", new Model<String>()));
         dropOffForm.add(instructorRequirements = new TextArea<String>("instructorRequirements", new Model<String>()));
-        dropOffForm.add(dueDate = new TextField<Date>("dueDate", new Model<Date>()));
         dropOffForm.add(courseTitle = new TextField<String>("courseTitle", new Model<String>()));
         dropOffForm.add(instructor = new TextField<String>("instructor", new Model<String>()));
         dropOffForm.add(feedbackFocus = new TextArea<String>("feedbackFocus", new Model<String>()));
+
+        dueDate = new DateTextField("dueDate", new PropertyModel<Date>(this, "date"));
+        DatePicker datePicker = new DatePicker();
+        datePicker.setShowOnFieldClick(true);
+        datePicker.setAutoHide(true);
+        dueDate.add(datePicker);
+        dropOffForm.add(dueDate);
 
         dropOffForm.add(uploadField = new FileUploadField("uploadField"));
 

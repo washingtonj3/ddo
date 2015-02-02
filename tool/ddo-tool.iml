@@ -38,6 +38,9 @@
     <orderEntry type="library" name="Maven: org.apache.wicket:wicket-core:6.16.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.wicket:wicket-util:6.16.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.wicket:wicket-request:6.16.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.wicket:wicket-extensions:6.16.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.wicket:wicket-datetime:6.16.0" level="project" />
+    <orderEntry type="library" name="Maven: joda-time:joda-time:2.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.wicket:wicket-spring:6.16.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.wicket:wicket-ioc:6.16.0" level="project" />
     <orderEntry type="library" name="Maven: cglib:cglib:2.2.2" level="project" />
