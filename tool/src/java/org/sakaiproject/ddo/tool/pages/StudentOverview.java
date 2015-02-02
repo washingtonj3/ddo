@@ -40,7 +40,6 @@ public class StudentOverview extends BasePage {
     Link<Void> toDropOffFormLink;
     SubmissionDataProvider provider;
 
-
     public StudentOverview() {
         disableLink(studentOverviewLink);
 

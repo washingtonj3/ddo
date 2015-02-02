@@ -78,6 +78,7 @@ public class FeedbackPage extends BasePage {
             add(new ContextImage("submissionIcon", new Model<String>(sakaiProxy.getResourceIconUrl(feedback.getReviewedDocumentRef()))));
             String fileSize = "(" + sakaiProxy.getResourceFileSize(feedback.getReviewedDocumentRef()) + ")";
             add(new Label("fileSize", fileSize));
+            add(new Label("noDoc", "No reviewed document was uploaded.").setVisible(false));
         } else {
             Link<Void> feedbackDownloadLink = new Link<Void>("feedbackDoc") {
                 @Override
@@ -89,6 +90,7 @@ public class FeedbackPage extends BasePage {
             icon.setVisible(false);
             add(icon);
             add(new Label("fileSize", ""));
+            add(new Label("noDoc", "No reviewed document was uploaded.").setVisible(true));
         }
 
         if("staff".equals(fromPage)) {

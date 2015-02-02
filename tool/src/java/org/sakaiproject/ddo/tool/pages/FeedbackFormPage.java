@@ -95,7 +95,7 @@ public class FeedbackFormPage extends BasePage {
                 if (file == null) {
                     f.setReviewedDocumentRef("");
                 } else if (file.getSize() == 0) {
-                    error("Problem: file was empty");
+                    error("The file you have attempted to upload is empty. Please try a different file.");
                     return;
                 } else {
 
@@ -109,7 +109,7 @@ public class FeedbackFormPage extends BasePage {
                     String documentRef = sakaiProxy.getDocumentResourcePath(fileName);
 
                     if (!sakaiProxy.saveFile(documentRef, currentUserId, fileName, mimeType, documentBytes)) {
-                        error("Couldn't add file to CHS.");
+                        error("Unable to save document to Isidore. Please try again.");
                         return;
                     } else {
                         f.setReviewedDocumentRef(documentRef);
@@ -117,15 +117,20 @@ public class FeedbackFormPage extends BasePage {
 
                 }
 
+                if (f.getComments() == null && file == null){
+                    error("You must either provide comments or upload a document");
+                    return;
+                }
+
                 f.setSubmissionId(s.getSubmissionId());
                 f.setReviewedBy(currentUserId);
                 s.setStatus(Submission.STATUS_REVIEWED);
 
                 if(projectLogic.addFeedback(f) && projectLogic.updateSubmissionStatus(s)){
-                    info("Item added");
+                    getSession().info("Feedback saved.");
                     setResponsePage(new StaffOverview());
                 } else {
-                    error("Error adding item");
+                    error("Error saving feedback.");
                 }
             }
         };

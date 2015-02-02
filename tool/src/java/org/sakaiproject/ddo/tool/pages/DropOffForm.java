@@ -87,10 +87,10 @@ public class DropOffForm extends BasePage {
                     s.setStatus(Submission.STATUS_WAITING);
 
                     if (projectLogic.addSubmission(s)) {
+                        getSession().info("Submission saved successfully.");
                         setResponsePage(new StudentOverview());
-                        feedbackPanel.info("Item added");
                     } else {
-                        error("Error adding item");
+                        error("Unable to save submission.");
                     }
                 }
             }
@@ -120,6 +120,7 @@ public class DropOffForm extends BasePage {
         dueDate.setRequired(true);
 
         dropOffForm.add(uploadField = new FileUploadField("uploadField"));
+        uploadField.setRequired(true);
 
         dropOffForm.add(new Label("max", new AbstractReadOnlyModel<String>() {
             private static final long serialVersionUID = 1L;
