@@ -10,9 +10,7 @@ import org.apache.wicket.markup.repeater.DefaultItemReuseStrategy;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.*;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -23,7 +21,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.wicket.model.Model;
 import org.apache.wicket.request.handler.resource.ResourceStreamRequestHandler;
 import org.apache.wicket.util.resource.AbstractResourceStreamWriter;
 import org.sakaiproject.ddo.logic.SakaiProxy;
@@ -50,7 +47,7 @@ public class StaffOverview extends BasePage {
             @Override
             public void populateItem(final Item item) {
 
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+                DateFormat df = new SimpleDateFormat("MMM d, yyyy h:mm a");
 
                 final Submission submission = (Submission) item.getModelObject();
                 String submissionStatus = submission.getStatus();
@@ -68,7 +65,7 @@ public class StaffOverview extends BasePage {
                             setResponsePage(new FeedbackFormPage(submissionId));
                         }
                     };
-                    startReviewingLabel = new Label("startReviewingLabel", "Start Reviewing");
+                    startReviewingLabel = new Label("startReviewingLabel", new ResourceModel("link.start_reviewing"));
                 } else {
                     final long submissionId = submission.getSubmissionId();
                     startReviewing = new Link<Void>("startReviewing") {
@@ -139,7 +136,7 @@ public class StaffOverview extends BasePage {
             @Override
             public void populateItem(final Item item) {
 
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+                DateFormat df = new SimpleDateFormat("MMM d, yyyy h:mm a");
 
                 final Submission submission = (Submission) item.getModelObject();
                 final String submissionStatus = submission.getStatus();

@@ -7,8 +7,9 @@ import java.util.Set;
 
 /**
  * An interface to abstract all Sakai related API calls in a central method that can be injected into our app.
- * 
- * @author Steve Swinsburg (steve.swinsburg@anu.edu.au)
+ * Based on Sakai Proxy by Steve Swinsburg (steve.swinsburg@anu.edu.au)
+ *
+ * @author David P. Bauer (dbauer1@udayton.edu)
  *
  */
 public interface SakaiProxy {
@@ -17,73 +18,85 @@ public interface SakaiProxy {
 	 * Get current siteid
 	 * @return
 	 */
-	public String getCurrentSiteId();
+	String getCurrentSiteId();
 
 	/**
 	 * Get current user id
 	 * @return
 	 */
-	public String getCurrentUserId();
+	String getCurrentUserId();
 
-	public String getCurrentUserDisplayName();
+	/**
+	 * Get current user's display name
+	 * @return
+	 */
+	String getCurrentUserDisplayName();
 
 	/**
 	 * Get current user
 	 * @return
 	 */
-	public User getCurrentUser();
+	User getCurrentUser();
 
 	/**
 	 * Convert internal userid to eid (3373898)
 	 * @return
 	 */
-	public String getUserEid(String userId);
+	String getUserEid(String userId);
 
 	/**
-	 * Convert internal userid to eid (jsmith26)
+	 * Convert internal userid to display id (jsmith26)
 	 * @return
 	 */
-	public String getUserDisplayId(String userId);
+	String getUserDisplayId(String userId);
 
 	/**
 	 * Convert eid to internal userid
 	 * @return
 	 */
-	public String getUserIdForEid(String eid);
+	String getUserIdForEid(String eid);
 
 	/**
 	 * Get displayname of a given userid (internal id)
 	 * @return
 	 */
-	public String getUserDisplayName(String userId);
+	String getUserDisplayName(String userId);
 
 	/**
 	 * Get firstname of a given userid (internal id)
 	 * @return
 	 */
-	public String getUserFirstName(String userId);
+	String getUserFirstName(String userId);
 
 	/**
 	 * Get lastname of a given userid (internal id)
 	 * @return
 	 */
-	public String getUserLastName(String userId);
+	String getUserLastName(String userId);
 
 	/**
 	 * Get email address for a given userid (internal id)
 	 * @return
 	 */
-	public String getUserEmail(String userId);
+	String getUserEmail(String userId);
 
 	/**
 	 * Is the current user a superUser? (anyone in admin realm)
 	 * @return
 	 */
-	public boolean isSuperUser();
+	boolean isSuperUser();
 
-	public Set<String> getStudentWorkerIds();
+	/**
+	 * Get a set of the student worker ids
+	 * @return
+	 */
+	Set<String> getStudentWorkerIds();
 
-	public boolean isStudentWorker();
+	/**
+	 * Returns true if the current user is a student worker
+	 * @return
+	 */
+	boolean isStudentWorker();
 
 	/**
 	 * Save a file to CHS
@@ -95,18 +108,30 @@ public interface SakaiProxy {
 	 * @param fileData
 	 * @return
 	 */
-	public boolean saveFile(String fullResourceId, String userId, String fileName, String mimeType, byte[] fileData);
+	boolean saveFile(String fullResourceId, String userId, String fileName, String mimeType, byte[] fileData);
 
-	public String getResourceIconUrl(String resourceId);
+	/**
+	 * Get the icon associated with a resource's file type
+	 *
+	 * @param resourceId
+	 * @return
+	 */
+	String getResourceIconUrl(String resourceId);
 
-	public String getResourceFileSize(String resourceId);
+	/**
+	 * Get a resource's file size
+	 *
+	 * @param resourceId
+	 * @return
+	 */
+	String getResourceFileSize(String resourceId);
 
 	/**
 	 * Retrieve a resource from ContentHosting with byte[] and mimetype
 	 *
 	 * @param resourceId	the full resourceId of the file
 	 */
-	public SubmissionFile getResource(String resourceId);
+	SubmissionFile getResource(String resourceId);
 
 	/**
 	 * Removes the specified resource.
@@ -115,7 +140,7 @@ public interface SakaiProxy {
 	 * @return <code>true</code> if the resource is successfully removed,
 	 * <code>false</code> if the remove operation fails.
 	 */
-	public boolean removeResource(String resourceId);
+	boolean removeResource(String resourceId);
 
 	/**
 	 * Post an event to Sakai
@@ -125,7 +150,7 @@ public interface SakaiProxy {
 	 * @param modify		true if something changed, false if just access
 	 * 
 	 */
-	public void postEvent(String event,String reference,boolean modify);
+	void postEvent(String event,String reference,boolean modify);
 		
 	/**
 	 * Get a configuration parameter as a boolean
@@ -133,7 +158,7 @@ public interface SakaiProxy {
 	 * @param	dflt the default value if the param is not set
 	 * @return
 	 */
-	public boolean getConfigParam(String param, boolean dflt);
+	boolean getConfigParam(String param, boolean dflt);
 	
 	/**
 	 * Get a configuration parameter as a String
@@ -141,7 +166,13 @@ public interface SakaiProxy {
 	 * @param	dflt the default value if the param is not set
 	 * @return
 	 */
-	public String getConfigParam(String param, String dflt);
+	String getConfigParam(String param, String dflt);
 
-	public String getDocumentResourcePath(String fileName);
+	/**
+	 * Creates a new docuement resource path that is used as a resource id
+	 *
+	 * @param fileName
+	 * @return
+	 */
+	String getDocumentResourcePath(String fileName);
 }

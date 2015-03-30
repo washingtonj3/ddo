@@ -11,13 +11,14 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.Model;
 
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.util.lang.Bytes;
 import org.sakaiproject.ddo.model.Submission;
 
 import java.util.Date;
 
 /**
- * Created by dbauer1 on 12/10/14.
+ * Created by David P. Bauer on 12/10/14.
  */
 public class DropOffForm extends BasePage {
 
@@ -60,10 +61,10 @@ public class DropOffForm extends BasePage {
                 FileUpload file = uploadField.getFileUpload();
 
                 if (file == null) {
-                    error("You must attach a document to be reviewed.");
+                    error(getString("error.null_file"));
                     return;
                 } else if (file.getSize() == 0) {
-                    error("The attached file is empty. Please try submitting a different document.");
+                    error(getString("error.empty_file"));
                     return;
                 } else {
 
@@ -77,7 +78,7 @@ public class DropOffForm extends BasePage {
                     String documentRef = sakaiProxy.getDocumentResourcePath(fileName);
 
                     if (!sakaiProxy.saveFile(documentRef, currentUserId, fileName, mimeType, documentBytes)) {
-                        error("Unable to save the document to Isidore. Please try again.");
+                        error(getString("error.save"));
                         return;
                     } else {
                         s.setDocumentRef(documentRef);
@@ -87,10 +88,10 @@ public class DropOffForm extends BasePage {
                     s.setStatus(Submission.STATUS_WAITING);
 
                     if (projectLogic.addSubmission(s)) {
-                        getSession().info("Submission saved successfully.");
+                        getSession().info(getString("success.save_submission"));
                         setResponsePage(new StudentOverview());
                     } else {
-                        error("Unable to save submission.");
+                        error(getString("error.save_submission"));
                     }
                 }
             }

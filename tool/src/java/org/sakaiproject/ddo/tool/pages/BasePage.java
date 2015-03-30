@@ -26,13 +26,14 @@ import org.sakaiproject.ddo.logic.SakaiProxy;
 
 
 /**
- * This is our base page for our Sakai app. It sets up the containing markup and top navigation.
+ * This is the base page for Digital Drop-Off. It sets up the containing markup and top navigation.
  * All top level pages should extend from this page so as to keep the same navigation. The content for those pages will
  * be rendered in the main area below the top nav.
  * 
  * <p>It also allows us to setup the API injection and any other common methods, which are then made available in the other pages.
  * 
  * @author Steve Swinsburg (steve.swinsburg@gmail.com)
+ * @author David P. Bauer (dbauer1@udayton.edu)
  *
  */
 public class BasePage extends WebPage implements IHeaderContributor {

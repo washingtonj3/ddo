@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.sakaiproject.ddo.model.Feedback;
 
 /**
- * Created by dbauer1 on 12/15/14.
+ * Created by David P. Bauer on 12/15/14.
  */
 public class FeedbackMapper implements RowMapper{
     /* (non-Javadoc)

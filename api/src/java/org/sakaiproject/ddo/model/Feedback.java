@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Created by dbauer1 on 12/9/14.
+ * Created by David P. Bauer on 12/9/14.
  */
 @Data
 @NoArgsConstructor

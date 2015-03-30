@@ -5,6 +5,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.handler.resource.ResourceStreamRequestHandler;
 import org.apache.wicket.util.resource.AbstractResourceStreamWriter;
 import org.sakaiproject.ddo.model.Feedback;
@@ -51,7 +52,7 @@ public class FeedbackPage extends BasePage {
         if(feedback.getComments() != null && !feedback.getComments().isEmpty()) {
             add(new Label("comments", feedback.getComments()));
         } else {
-            add(new Label("comments", "No comments were given."));
+            add(new Label("comments", getString("error.no_comments")));
         }
 
         if(feedback.getReviewedDocumentRef() != null && !feedback.getReviewedDocumentRef().isEmpty()) {
@@ -78,7 +79,7 @@ public class FeedbackPage extends BasePage {
             add(new ContextImage("submissionIcon", new Model<String>(sakaiProxy.getResourceIconUrl(feedback.getReviewedDocumentRef()))));
             String fileSize = "(" + sakaiProxy.getResourceFileSize(feedback.getReviewedDocumentRef()) + ")";
             add(new Label("fileSize", fileSize));
-            add(new Label("noDoc", "No reviewed document was uploaded.").setVisible(false));
+            add(new Label("noDoc", getString("error.no_document")).setVisible(false));
         } else {
             Link<Void> feedbackDownloadLink = new Link<Void>("feedbackDoc") {
                 @Override
@@ -90,7 +91,7 @@ public class FeedbackPage extends BasePage {
             icon.setVisible(false);
             add(icon);
             add(new Label("fileSize", ""));
-            add(new Label("noDoc", "No reviewed document was uploaded.").setVisible(true));
+            add(new Label("noDoc", getString("error.no_document")).setVisible(true));
         }
 
         if("staff".equals(fromPage)) {

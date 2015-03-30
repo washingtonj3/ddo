@@ -1,6 +1,5 @@
 package org.sakaiproject.ddo.tool;
 
-import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.IRequestHandler;
 import org.apache.wicket.request.cycle.IRequestCycleListener;
@@ -8,15 +7,15 @@ import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.Url;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 
-import org.sakaiproject.ddo.tool.pages.FirstPage;
 import org.sakaiproject.ddo.tool.pages.StudentOverview;
 
 /**
- * Main application class for our app
+ * Main application class for Digital Drop Off
  * 
  * @author Steve Swinsburg (steve.swinsburg@gmail.com)
  * @author David F. Torres
  * @author Michael Mertins (mertins@zedat.fu-berlin.de)
+ * @author David P. Bauer (dbauer1@udayton.edu)
  *
  * Cf. https://confluence.sakaiproject.org/pages/viewpage.action?pageId=83034325
  */
@@ -130,7 +129,7 @@ public class MyApplication extends WebApplication {
 
 	
 	/**
-	 * The main page for our app
+	 * Student Overview is the main page of DDO
 	 * 
 	 * @see org.apache.wicket.Application#getHomePage()
 	 */

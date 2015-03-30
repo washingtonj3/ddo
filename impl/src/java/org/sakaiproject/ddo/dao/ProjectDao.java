@@ -4,45 +4,89 @@ import java.util.List;
 
 import org.sakaiproject.ddo.model.Feedback;
 import org.sakaiproject.ddo.model.Submission;
-import org.sakaiproject.ddo.model.Thing;
 
 /**
- * DAO interface for our project
- * 
- * @author Steve Swinsburg (steve.swinsburg@anu.edu.au)
+ * DAO interface for our project based on work by Steve Swinsburg (steve.swinsburg@anu.edu.au)
+ *
+ * @author David P. Bauer (dbauer1@udayton.edu)
  *
  */
 public interface ProjectDao {
 
 	/**
-	 * Gets a single Thing from the db
-	 * 
-	 * @return an item or null if no result
+	 * Get a single submission
+	 *
+	 * @param id
+	 * @return
 	 */
-	public Thing getThing(long id);
-	
-	/**
-	 * Get all Things
-	 * @return a list of items, an empty list if no items
-	 */
-	public List<Thing> getThings();
-		
-	/**
-	 * Add a new Thing record to the database. Only the name property is actually used.
-	 * @param t	Thing
-	 * @return	true if success, false if not
-	 */
-	public boolean addThing(Thing t);
+	Submission getSubmission(long id);
 
-	public Submission getSubmission(long id);
-	public List<Submission> getAllSubmissions();
-	public boolean addSubmission(Submission submission);
-	public List<Submission> getSubmissionsForUser(String userId);
-	public Feedback getFeedback(long id);
-	public List<Feedback> getFeedbackForSubmission(long submissionId);
-	public boolean addFeedback(Feedback feedback);
-	public List<Submission> getAllWaitingSubmissions();
-	public List<Submission> getAllReviewedSubmissions();
-	public boolean updateSubmissionStatus(Submission s);
+	/**
+	 * Get all submissions in the database
+	 *
+	 * @return
+	 */
+	List<Submission> getAllSubmissions();
+
+	/**
+	 * Add a single submission
+	 *
+	 * @param submission
+	 * @return
+	 */
+	boolean addSubmission(Submission submission);
+
+	/**
+	 * Get all submissions for a given user
+	 *
+	 * @param userId
+	 * @return
+	 */
+	List<Submission> getSubmissionsForUser(String userId);
+
+	/**
+	 * Get single feedback
+	 *
+	 * @param id
+	 * @return
+	 */
+	Feedback getFeedback(long id);
+
+	/**
+	 * Get all feedback items for a particular submission
+	 * @param submissionId
+	 * @return
+	 */
+	List<Feedback> getFeedbackForSubmission(long submissionId);
+
+	/**
+	 * Add a feedback item
+	 *
+	 * @param feedback
+	 * @return
+	 */
+	boolean addFeedback(Feedback feedback);
+
+	/**
+	 * Get all submissions that have status waiting or in progress
+	 *
+	 * @return
+	 */
+	List<Submission> getAllWaitingSubmissions();
+
+	/**
+	 * Get all submissions that have already been reviewed
+	 *
+	 * @return
+	 */
+	List<Submission> getAllReviewedSubmissions();
+
+	/**
+	 * Update the status for a submission
+	 *
+	 * @param s
+	 * @return
+	 */
+	boolean updateSubmissionStatus(Submission s);
 
 }

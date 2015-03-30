@@ -4,43 +4,23 @@ import java.util.List;
 
 import org.sakaiproject.ddo.model.Feedback;
 import org.sakaiproject.ddo.model.Submission;
-import org.sakaiproject.ddo.model.Thing;
 
 /**
- * An example logic interface
+ * Digital Drop Off Project Logic
  * 
- * @author Steve Swinsburg (steve.swinsburg@anu.edu.au)
+ * @author David P. Bauer (dbauer1@udayton.edu)
  *
  */
 public interface ProjectLogic {
 
-	/**
-	 * Get a Thing
-	 * @return
-	 */
-	public Thing getThing(long id);
-	
-	/**
-	 * Get all Things
-	 * @return
-	 */
-	public List<Thing> getThings();
-	
-	/**
-	 * Add a new Thing
-	 * @param t	Thing
-	 * @return boolean if success, false if not
-	 */
-	public boolean addThing(Thing t);
-
-	public Submission getSubmission(long id);
-	public List<Submission> getAllSubmissions();
-	public boolean addSubmission(Submission submission);
-	public List<Submission> getSubmissionsForUser(String userId);
-	public Feedback getFeedback(long id);
-	public List<Feedback> getFeedbackForSubmission(long submissionId);
-	public boolean addFeedback(Feedback feedback);
-	public List<Submission> getAllWaitingSubmissions();
-	public List<Submission> getAllReviewedSubmissions();
-	public boolean updateSubmissionStatus(Submission s);
+	Submission getSubmission(long id);
+	List<Submission> getAllSubmissions();
+	boolean addSubmission(Submission submission);
+	List<Submission> getSubmissionsForUser(String userId);
+	Feedback getFeedback(long id);
+	List<Feedback> getFeedbackForSubmission(long submissionId);
+	boolean addFeedback(Feedback feedback);
+	List<Submission> getAllWaitingSubmissions();
+	List<Submission> getAllReviewedSubmissions();
+	boolean updateSubmissionStatus(Submission s);
 }

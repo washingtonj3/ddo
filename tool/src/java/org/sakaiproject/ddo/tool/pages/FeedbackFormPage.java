@@ -11,6 +11,7 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 
+import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.handler.resource.ResourceStreamRequestHandler;
 import org.apache.wicket.util.lang.Bytes;
 import org.apache.wicket.util.resource.AbstractResourceStreamWriter;
@@ -23,12 +24,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 /**
- * Created by dbauer1 on 12/17/14.
+ * Created by David P. Bauer on 12/17/14.
  */
 public class FeedbackFormPage extends BasePage {
 
-    DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
-    DateFormat dueFormat = new SimpleDateFormat(("MM/dd/yyyy"));
+    DateFormat df = new SimpleDateFormat("MMM d, yyyy h:mm a");
+    DateFormat dueFormat = new SimpleDateFormat(("MMM d, yyyy"));
 
     protected Submission s = new Submission();
 
@@ -75,7 +76,7 @@ public class FeedbackFormPage extends BasePage {
         add(new Label("assignmentTitle", s.getAssignmentTitle()));
         add(new Label("course", s.getCourseTitle()));
         add(new Label("instructor", s.getInstructor()));
-        add(new Label("dueDate", s.getDueDate()!=null ? dueFormat.format(s.getDueDate()) : "No due date added"));
+        add(new Label("dueDate", s.getDueDate()!=null ? dueFormat.format(s.getDueDate()) : getString("error.no_due_date")));
         add(new MultiLineLabel("feedbackFocus", s.getFeedbackFocus()));
         add(new MultiLineLabel("instructorRequirements", s.getInstructorRequirements()));
 
@@ -96,7 +97,7 @@ public class FeedbackFormPage extends BasePage {
                 if (file == null) {
                     f.setReviewedDocumentRef("");
                 } else if (file.getSize() == 0) {
-                    error("The file you have attempted to upload is empty. Please try a different file.");
+                    error(getString("error.empty_file"));
                     return;
                 } else {
 
@@ -110,7 +111,7 @@ public class FeedbackFormPage extends BasePage {
                     String documentRef = sakaiProxy.getDocumentResourcePath(fileName);
 
                     if (!sakaiProxy.saveFile(documentRef, currentUserId, fileName, mimeType, documentBytes)) {
-                        error("Unable to save document to Isidore. Please try again.");
+                        error(getString("error.save"));
                         return;
                     } else {
                         f.setReviewedDocumentRef(documentRef);
@@ -119,7 +120,7 @@ public class FeedbackFormPage extends BasePage {
                 }
 
                 if (f.getComments() == null && file == null){
-                    error("You must either provide comments or upload a document");
+                    error(getString("error.no_feedback"));
                     return;
                 }
 
@@ -128,10 +129,10 @@ public class FeedbackFormPage extends BasePage {
                 s.setStatus(Submission.STATUS_REVIEWED);
 
                 if(projectLogic.addFeedback(f) && projectLogic.updateSubmissionStatus(s)){
-                    getSession().info("Feedback saved.");
+                    getSession().info(getString("success.save_feedback"));
                     setResponsePage(new StaffOverview());
                 } else {
-                    error("Error saving feedback.");
+                    error(getString("error.save_feedback"));
                 }
             }
         };

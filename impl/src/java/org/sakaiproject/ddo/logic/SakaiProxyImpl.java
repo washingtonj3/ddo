@@ -35,9 +35,9 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Implementation of our SakaiProxy API
+ * Implementation of SakaiProxy
  * 
- * @author Steve Swinsburg (steve.swinsburg@anu.edu.au)
+ * @author David P. Bauer (dbauer1@udayton.edu)
  *
  */
 public class SakaiProxyImpl implements SakaiProxy {
@@ -170,6 +170,9 @@ public class SakaiProxyImpl implements SakaiProxy {
 		return securityService.isSuperUser();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Set<String> getStudentWorkerIds() {
 		try {
 			Set<Member> membersSet = authzGroupService.getAuthzGroup("/ddo").getMembers();
@@ -184,6 +187,9 @@ public class SakaiProxyImpl implements SakaiProxy {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean isStudentWorker() {
 		String currentUserId = getCurrentUserId();
 		for(String id : getStudentWorkerIds()) {
@@ -258,6 +264,9 @@ public class SakaiProxyImpl implements SakaiProxy {
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getResourceIconUrl(String resourceId) {
 		if(StringUtils.isBlank(resourceId)) {
 			return "Unknown";
@@ -279,6 +288,9 @@ public class SakaiProxyImpl implements SakaiProxy {
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getResourceFileSize(String resourceId) {
 		if(StringUtils.isBlank(resourceId)) {
 			return "Unknown";
@@ -379,6 +391,9 @@ public class SakaiProxyImpl implements SakaiProxy {
 		securityService.popAdvisor();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getDocumentResourcePath(String fileName) {
 		String slash = Entity.SEPARATOR;
 

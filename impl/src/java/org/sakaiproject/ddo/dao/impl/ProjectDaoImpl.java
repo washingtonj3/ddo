@@ -17,13 +17,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import org.sakaiproject.ddo.dao.ProjectDao;
-import org.sakaiproject.ddo.model.Thing;
 
 
 /**
- * Implementation of ProjectDao
- * 
- * @author Steve Swinsburg (steve.swinsburg@anu.edu.au)
+ * Implementation of ProjectDao based on work by Steve Swinsburg (steve.swinsburg@anu.edu.au)
+ *
+ * @author David P. Bauer (dbauer1@udayton.edu)
  *
  */
 public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
@@ -31,68 +30,10 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 	private static final Logger log = Logger.getLogger(ProjectDaoImpl.class);
 	
 	private PropertiesConfiguration statements;
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("unchecked")
-	public Thing getThing(long id) {
-		
-		if(log.isDebugEnabled()) {
-			log.debug("getThing(" + id + ")");
-		}
-		
-		try {
-			return (Thing) getJdbcTemplate().queryForObject(getStatement("select.thing"),
-				new Object[]{Long.valueOf(id)},
-				new ThingMapper()
-			);
-		} catch (DataAccessException ex) {
-           log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
-           return null;
-		}
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Thing> getThings() {
-		if(log.isDebugEnabled()) {
-			log.debug("getThings()");
-		}
-		
-		try {
-			return getJdbcTemplate().query(getStatement("select.things"),
-				new ThingMapper()
-			);
-		} catch (DataAccessException ex) {
-           log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
-           return null;
-		}
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("unchecked")
-	public boolean addThing(Thing t) {
-		
-		if(log.isDebugEnabled()) {
-			log.debug("addThing( " + t.toString() + ")");
-		}
-		
-		try {
-			getJdbcTemplate().update(getStatement("insert.thing"),
-				new Object[]{t.getName()}
-			);
-			return true;
-		} catch (DataAccessException ex) {
-           log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
-           return false;
-		}
-	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	public Submission getSubmission(long id) {
 		if(log.isDebugEnabled()) {
@@ -110,6 +51,9 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Submission> getAllSubmissions() {
 		if(log.isDebugEnabled()) {
@@ -126,6 +70,9 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Submission> getAllWaitingSubmissions() {
 		if(log.isDebugEnabled()) {
@@ -142,6 +89,9 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Submission> getAllReviewedSubmissions() {
 		if(log.isDebugEnabled()) {
@@ -158,6 +108,9 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Submission> getSubmissionsForUser(String userId) {
 		if(log.isDebugEnabled()) {
@@ -175,6 +128,9 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean addSubmission(Submission submission) {
 		if(log.isDebugEnabled()) {
 			log.debug("addSubmission( " + submission.toString() + ")");
@@ -203,6 +159,9 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean updateSubmissionStatus(Submission s) {
 		if(log.isDebugEnabled()) {
 			log.debug("updateSubmissionStatus( " + s.toString() + ")");
@@ -219,6 +178,9 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	public Feedback getFeedback(long id) {
 		if(log.isDebugEnabled()) {
@@ -236,6 +198,9 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Feedback> getFeedbackForSubmission(long submissionId) {
 		if(log.isDebugEnabled()) {
@@ -253,6 +218,9 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean addFeedback(Feedback feedback) {
 		if(log.isDebugEnabled()) {
 			log.debug("addFeedback( " + feedback.toString() + ")");
@@ -298,7 +266,6 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 	 */
 	private void initTables() {
 		try {
-			getJdbcTemplate().execute(getStatement("create.table"));
 			getJdbcTemplate().execute(getStatement("create.submissiontable"));
 			getJdbcTemplate().execute(getStatement("create.feedbacktable"));
 		} catch (DataAccessException ex) {

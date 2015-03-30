@@ -10,9 +10,7 @@ import org.apache.wicket.markup.repeater.DefaultItemReuseStrategy;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.*;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -23,7 +21,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.wicket.model.Model;
 import org.apache.wicket.request.handler.resource.ResourceStreamRequestHandler;
 import org.apache.wicket.request.resource.ContextRelativeResource;
 import org.apache.wicket.util.resource.AbstractResourceStreamWriter;
@@ -33,7 +30,7 @@ import org.sakaiproject.ddo.model.Submission;
 import org.sakaiproject.ddo.model.SubmissionFile;
 
 /**
- * Created by dbauer1 on 12/10/14.
+ * Created by David P. Bauer on 12/10/14.
  */
 public class StudentOverview extends BasePage {
 
@@ -62,7 +59,7 @@ public class StudentOverview extends BasePage {
             @Override
             public void populateItem(final Item item) {
 
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+                DateFormat df = new SimpleDateFormat("MMM d, yyyy h:mm a");
 
                 final Submission submission = (Submission) item.getModelObject();
 
@@ -77,7 +74,7 @@ public class StudentOverview extends BasePage {
                             setResponsePage(new FeedbackPage(feedbackId,"student"));
                         }
                     };
-                    feedbackLabel = new Label("feedbackLabel","View Feedback");
+                    feedbackLabel = new Label("feedbackLabel",new ResourceModel("link.view_feedback"));
                 } else {
                     feedback = new Link<Void>("feedback"){
                         @Override

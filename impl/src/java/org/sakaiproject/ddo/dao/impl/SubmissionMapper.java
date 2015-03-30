@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.sakaiproject.ddo.model.Submission;
 
 /**
- * Created by dbauer1 on 12/10/14.
+ * Created by David P. Bauer on 12/10/14.
  */
 public class SubmissionMapper implements RowMapper{
     /* (non-Javadoc)
