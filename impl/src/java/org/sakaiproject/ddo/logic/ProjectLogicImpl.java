@@ -5,11 +5,11 @@ import java.util.List;
 import lombok.Setter;
 
 import net.sf.ehcache.Cache;
-import net.sf.ehcache.Element;
 
 import org.apache.log4j.Logger;
 
 import org.sakaiproject.ddo.dao.ProjectDao;
+import org.sakaiproject.ddo.logic.SakaiProxy;
 import org.sakaiproject.ddo.model.Feedback;
 import org.sakaiproject.ddo.model.Submission;
 
@@ -72,7 +72,21 @@ public class ProjectLogicImpl implements ProjectLogic {
 	 * {@inheritDoc}
 	 */
 	public boolean addSubmission(Submission submission) {
-		return dao.addSubmission(submission);
+		return addSubmission(submission, true);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean addSubmission(Submission submission, boolean sendNotification) {
+		if (dao.addSubmission(submission)) {
+			if(sendNotification){
+				sakaiProxy.sendSubmissionNotification(submission);
+			}
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -101,7 +115,21 @@ public class ProjectLogicImpl implements ProjectLogic {
 	 * {@inheritDoc}
 	 */
 	public boolean addFeedback(Feedback feedback) {
-		return dao.addFeedback(feedback);
+		return addFeedback(feedback, true);
+	}
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean addFeedback(Feedback feedback, boolean sendNotification) {
+		if (dao.addFeedback(feedback)) {
+			if(sendNotification){
+				Submission submission = getSubmission(feedback.getSubmissionId());
+				sakaiProxy.sendFeedbackNotification(submission);
+			}
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Setter
@@ -109,5 +137,8 @@ public class ProjectLogicImpl implements ProjectLogic {
 	
 	@Setter
 	private Cache cache;
+
+	@Setter
+	private SakaiProxy sakaiProxy;
 
 }

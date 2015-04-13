@@ -1,5 +1,6 @@
 package org.sakaiproject.ddo.logic;
 
+import org.sakaiproject.ddo.model.Submission;
 import org.sakaiproject.ddo.model.SubmissionFile;
 import org.sakaiproject.user.api.User;
 
@@ -175,4 +176,21 @@ public interface SakaiProxy {
 	 * @return
 	 */
 	String getDocumentResourcePath(String fileName);
+
+	/**
+	 * Sends an email to DDO staff that notifies them a new submission has been added
+	 * Sakai property to specify staff email address: ddo.staff.email
+	 *
+	 * @param s the submission
+	 */
+	void sendSubmissionNotification(Submission s);
+
+	/**
+	 * Sends a notification email to the original submitter that tells them
+	 * that their submission has been reviewed and returned.
+	 * Sakai property to specify staff email address: ddo.staff.email
+	 *
+	 * @param s the submission that was reviewed
+	 */
+	void sendFeedbackNotification(Submission s);
 }

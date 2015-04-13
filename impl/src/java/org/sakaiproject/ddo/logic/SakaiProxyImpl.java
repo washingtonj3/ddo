@@ -16,6 +16,7 @@ import org.sakaiproject.content.api.ContentResourceEdit;
 import org.sakaiproject.content.api.ContentTypeImageService;
 import org.sakaiproject.ddo.model.Submission;
 import org.sakaiproject.ddo.model.SubmissionFile;
+import org.sakaiproject.email.api.EmailService;
 import org.sakaiproject.entity.api.Entity;
 import org.sakaiproject.entity.api.ResourceProperties;
 import org.sakaiproject.entity.api.ResourcePropertiesEdit;
@@ -29,6 +30,8 @@ import org.sakaiproject.user.api.User;
 import org.sakaiproject.user.api.UserDirectoryService;
 import org.sakaiproject.user.api.UserNotDefinedException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -424,6 +427,78 @@ public class SakaiProxyImpl implements SakaiProxy {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	public void sendSubmissionNotification(Submission s) {
+		String submitterId = s.getSubmittedBy();
+
+		DateFormat df = new SimpleDateFormat("MMM d, yyyy h:mm a");
+
+		String toStr = serverConfigurationService.getString("ddo.staff.email");
+		String fromStr = serverConfigurationService.getString("ddo.notification.email");
+		String subject = "[DDO] New Isidore Digital Drop-Off Submission Waiting";
+
+		StringBuilder body = new StringBuilder();
+		body.append("A new file has been submitted through the Isidore Digital Drop-Off tool.");
+		body.append("<br />");
+		body.append("Please visit the Isidore Digital Drop-Off tool to review the submitted file.");
+		body.append("<br />");
+		body.append("<br />");
+		body.append("<strong><u>Submission Details</u></strong>");
+		body.append("<br />");
+		body.append("<strong>Student:</strong> ");
+		body.append(getUserDisplayName(submitterId));
+		body.append("<br />");
+		body.append("<strong>File:</strong> ");
+		body.append(getResource(s.getDocumentRef()).getFileName());
+		body.append("<br />");
+		body.append("<strong>Date:</strong> ");
+		body.append(df.format(s.getSubmissionDate()));
+		body.append("br />");
+		body.append("<strong>Course:</strong> ");
+		body.append(s.getCourseTitle());
+		body.append("br />");
+		body.append("<strong>Assignment Title:</strong> ");
+		body.append(s.getAssignmentTitle());
+		body.append("br />");
+		body.append("<strong>Instructor Name:</strong> ");
+		body.append(s.getInstructor());
+
+		emailService.send(fromStr, toStr, subject, body.toString(), null, null, null);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void sendFeedbackNotification(Submission s) {
+		String submitterId = s.getSubmittedBy();
+
+		DateFormat df = new SimpleDateFormat("MMM d, yyyy h:mm a");
+
+		String toStr = getUserEmail(submitterId);
+		String fromStr = serverConfigurationService.getString("ddo.staff.email");
+		String subject = "[DDO] Your Write Place Digital Drop-Off submission has been reviewed";
+
+		StringBuilder body = new StringBuilder();
+		body.append("Hello ");
+		body.append(getUserFirstName(s.getSubmittedBy()));
+		body.append(".<br />");
+		body.append("<br />");
+		body.append("Thank you for using the Digital Drop-Off service available in Isidore.");
+		body.append("<br />");
+		body.append("<br />");
+		body.append("Your recent submission has been reviewed by a writing consultant.");
+		body.append("<br />");
+		body.append("<br />");
+		body.append("Please log in to Isidore , click on the Digital Drop-Off tool located in the left-hand menubar, and click on the ‘View Feedback’ link next to your file to view your feedback.");
+		body.append("<br />");
+		body.append("<br />");
+		body.append("Please send any questions to writeplace@udayton.edu.");
+
+		emailService.send(fromStr, toStr, subject, body.toString(), null, null, null);
+	}
+
+	/**
 	 * init - perform any actions required here for when this bean starts up
 	 */
 	public void init() {
@@ -459,4 +534,7 @@ public class SakaiProxyImpl implements SakaiProxy {
 
 	@Getter @Setter
 	private ContentTypeImageService contentTypeImageService;
+
+	@Getter @Setter
+	private EmailService emailService;
 }
