@@ -81,7 +81,7 @@ public class ProjectLogicImpl implements ProjectLogic {
 	public boolean addSubmission(Submission submission, boolean sendNotification) {
 		if (dao.addSubmission(submission)) {
 			if(sendNotification){
-				sakaiProxy.sendSubmissionNotification(submission);
+				sakaiProxy.sendSubmissionNotification(getSubmission(submission.getSubmissionId()));
 			}
 			return true;
 		} else {

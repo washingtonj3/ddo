@@ -473,8 +473,6 @@ public class SakaiProxyImpl implements SakaiProxy {
 	public void sendFeedbackNotification(Submission s) {
 		String submitterId = s.getSubmittedBy();
 
-		DateFormat df = new SimpleDateFormat("MMM d, yyyy h:mm a");
-
 		String toStr = getUserEmail(submitterId);
 		String fromStr = serverConfigurationService.getString("ddo.staff.email");
 		String subject = "[DDO] Your Write Place Digital Drop-Off submission has been reviewed";
