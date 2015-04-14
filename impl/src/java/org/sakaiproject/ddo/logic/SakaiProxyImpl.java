@@ -431,9 +431,9 @@ public class SakaiProxyImpl implements SakaiProxy {
 
 		DateFormat df = new SimpleDateFormat("MMM d, yyyy h:mm a");
 
-		String toStr = serverConfigurationService.getString("ddo.staff.email.address");
-		String headerToStr = serverConfigurationService.getString("ddo.staff.email.display");
-		String fromStr = serverConfigurationService.getString("ddo.notification.email.display");
+		String toStr = serverConfigurationService.getString("ddo.staff.email");
+		String headerToStr = serverConfigurationService.getString("ddo.staff.email");
+		String fromStr = serverConfigurationService.getString("ddo.notification.email");
 		String subject = "[DDO] New Isidore Digital Drop-Off Submission Waiting";
 
 		List<String> additionalHeaders = new ArrayList<String>();
@@ -455,13 +455,13 @@ public class SakaiProxyImpl implements SakaiProxy {
 		body.append("<br />");
 		body.append("<strong>Date:</strong> ");
 		body.append(df.format(new Date()));
-		body.append("br />");
+		body.append("<br />");
 		body.append("<strong>Course:</strong> ");
 		body.append(s.getCourseTitle());
-		body.append("br />");
+		body.append("<br />");
 		body.append("<strong>Assignment Title:</strong> ");
 		body.append(s.getAssignmentTitle());
-		body.append("br />");
+		body.append("<br />");
 		body.append("<strong>Instructor Name:</strong> ");
 		body.append(s.getInstructor());
 
@@ -474,9 +474,9 @@ public class SakaiProxyImpl implements SakaiProxy {
 	public void sendFeedbackNotification(Submission s) {
 		String submitterId = s.getSubmittedBy();
 
-		String toStr = getUserEmail(submitterId);
-		String headerToStr = "\"" + getUserDisplayName(submitterId) + "\" <" + toStr + ">";
-		String fromStr = serverConfigurationService.getString("ddo.notification.email.display");
+		String toStr = getUserDisplayName(submitterId) + " <" + getUserEmail(submitterId) + ">";
+		String headerToStr = getUserDisplayName(submitterId) + " <" + getUserEmail(submitterId) + ">";
+		String fromStr = serverConfigurationService.getString("ddo.notification.email");
 		String subject = "[DDO] Your Write Place Digital Drop-Off submission has been reviewed";
 
 		List<String> additionalHeaders = new ArrayList<String>();
