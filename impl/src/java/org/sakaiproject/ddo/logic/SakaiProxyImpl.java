@@ -32,10 +32,7 @@ import org.sakaiproject.user.api.UserNotDefinedException;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Implementation of SakaiProxy
@@ -453,7 +450,7 @@ public class SakaiProxyImpl implements SakaiProxy {
 		body.append(getResource(s.getDocumentRef()).getFileName());
 		body.append("<br />");
 		body.append("<strong>Date:</strong> ");
-		body.append(df.format(s.getSubmissionDate()));
+		body.append(df.format(new Date()));
 		body.append("br />");
 		body.append("<strong>Course:</strong> ");
 		body.append(s.getCourseTitle());
