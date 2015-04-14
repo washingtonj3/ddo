@@ -431,9 +431,13 @@ public class SakaiProxyImpl implements SakaiProxy {
 
 		DateFormat df = new SimpleDateFormat("MMM d, yyyy h:mm a");
 
-		String toStr = serverConfigurationService.getString("ddo.staff.email");
-		String fromStr = serverConfigurationService.getString("ddo.notification.email");
+		String toStr = serverConfigurationService.getString("ddo.staff.email.address");
+		String headerToStr = serverConfigurationService.getString("ddo.staff.email.display");
+		String fromStr = serverConfigurationService.getString("ddo.notification.email.display");
 		String subject = "[DDO] New Isidore Digital Drop-Off Submission Waiting";
+
+		List<String> additionalHeaders = new ArrayList<String>();
+		additionalHeaders.add("Content-type: text/html; charset=UTF-8");
 
 		StringBuilder body = new StringBuilder();
 		body.append("A new file has been submitted through the Isidore Digital Drop-Off tool.");
@@ -461,7 +465,7 @@ public class SakaiProxyImpl implements SakaiProxy {
 		body.append("<strong>Instructor Name:</strong> ");
 		body.append(s.getInstructor());
 
-		emailService.send(fromStr, toStr, subject, body.toString(), null, null, null);
+		emailService.send(fromStr, toStr, subject, body.toString(), headerToStr, null, additionalHeaders);
 	}
 
 	/**
@@ -471,8 +475,12 @@ public class SakaiProxyImpl implements SakaiProxy {
 		String submitterId = s.getSubmittedBy();
 
 		String toStr = getUserEmail(submitterId);
-		String fromStr = serverConfigurationService.getString("ddo.staff.email");
+		String headerToStr = "\"" + getUserDisplayName(submitterId) + "\" <" + toStr + ">";
+		String fromStr = serverConfigurationService.getString("ddo.notification.email.display");
 		String subject = "[DDO] Your Write Place Digital Drop-Off submission has been reviewed";
+
+		List<String> additionalHeaders = new ArrayList<String>();
+		additionalHeaders.add("Content-type: text/html; charset=UTF-8");
 
 		StringBuilder body = new StringBuilder();
 		body.append("Hello ");
@@ -490,7 +498,7 @@ public class SakaiProxyImpl implements SakaiProxy {
 		body.append("<br />");
 		body.append("Please send any questions to writeplace@udayton.edu.");
 
-		emailService.send(fromStr, toStr, subject, body.toString(), null, null, null);
+		emailService.send(fromStr, toStr, subject, body.toString(), headerToStr, null, additionalHeaders);
 	}
 
 	/**
