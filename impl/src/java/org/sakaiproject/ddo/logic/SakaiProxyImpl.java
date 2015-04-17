@@ -442,10 +442,12 @@ public class SakaiProxyImpl implements SakaiProxy {
 		StringBuilder body = new StringBuilder();
 		body.append("A new file has been submitted through the Isidore Digital Drop-Off tool.");
 		body.append("<br />");
+		body.append("<br />");
 		body.append("Please visit the Isidore Digital Drop-Off tool to review the submitted file.");
 		body.append("<br />");
 		body.append("<br />");
 		body.append("<strong><u>Submission Details</u></strong>");
+		body.append("<br />");
 		body.append("<br />");
 		body.append("<strong>Student:</strong> ");
 		body.append(getUserDisplayName(submitterId));
@@ -494,7 +496,7 @@ public class SakaiProxyImpl implements SakaiProxy {
 		body.append("Your recent submission has been reviewed by a writing consultant.");
 		body.append("<br />");
 		body.append("<br />");
-		body.append("Please log in to Isidore , click on the Digital Drop-Off tool located in the left-hand menubar, and click on the ‘View Feedback’ link next to your file to view your feedback.");
+		body.append("Please log in to Isidore, click on the Digital Drop-Off tool located in the left-hand menubar, and click on the ‘View Feedback’ link next to your file to view your feedback.");
 		body.append("<br />");
 		body.append("<br />");
 		body.append("Please send any questions to writeplace@udayton.edu.");
