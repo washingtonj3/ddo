@@ -1,5 +1,6 @@
 package org.sakaiproject.ddo.tool.pages;
 
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -16,10 +17,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.apache.wicket.request.handler.resource.ResourceStreamRequestHandler;
 import org.apache.wicket.request.resource.ContextRelativeResource;
@@ -136,6 +134,70 @@ public class StudentOverview extends BasePage {
         });
 
         add(new Label("numberOfSubmissions", provider.size()));
+
+        WebMarkupContainer submissionQueueInfo = new WebMarkupContainer("submissionQueueInfo");
+
+        int numberOfWaitingSubmissions = projectLogic.getNumberOfWaitingSubmissions();
+
+        submissionQueueInfo.add(new Label("numberWaitingReview", String.valueOf(numberOfWaitingSubmissions)));
+        submissionQueueInfo.add(new Label("expectedWaitTime", getExpectedWaitTime(numberOfWaitingSubmissions)));
+        submissionQueueInfo.add(new Label("expectedReturnDay", getExpectedReturnDay(numberOfWaitingSubmissions)));
+
+        add(submissionQueueInfo);
+    }
+
+    private String getExpectedWaitTime(int numberOfWaitingSubmissions) {
+        if(numberOfWaitingSubmissions < 9) {
+            return "48 hours";
+        } else if (numberOfWaitingSubmissions < 18) {
+            return "72 hours";
+        } else {
+            return "96 hours";
+        }
+    }
+
+    private String getExpectedReturnDay(int numberOfWaitingSubmissions) {
+        Calendar today = Calendar.getInstance();
+        int currentDayOfWeek = today.get(Calendar.DAY_OF_WEEK);
+        int expectedReturnDay;
+
+        if(numberOfWaitingSubmissions < 9) {
+            expectedReturnDay = currentDayOfWeek + 2;
+        } else if (numberOfWaitingSubmissions < 18) {
+            expectedReturnDay = currentDayOfWeek + 3;
+        } else {
+            expectedReturnDay = currentDayOfWeek + 4;
+        }
+        if(expectedReturnDay > 7)
+            expectedReturnDay = expectedReturnDay - 7;
+
+        String dayOfWeek = "";
+
+        switch(expectedReturnDay){
+            case 1:
+                dayOfWeek="Sunday";
+                break;
+            case 2:
+                dayOfWeek="Monday";
+                break;
+            case 3:
+                dayOfWeek="Tuesday";
+                break;
+            case 4:
+                dayOfWeek="Wednesday";
+                break;
+            case 5:
+                dayOfWeek="Thursday";
+                break;
+            case 6:
+                dayOfWeek="Friday";
+                break;
+            case 7:
+                dayOfWeek="Saturday";
+                break;
+        }
+
+        return dayOfWeek;
     }
 
     /**

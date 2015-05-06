@@ -89,4 +89,11 @@ public interface ProjectDao {
 	 */
 	boolean updateSubmissionStatus(Submission s);
 
+	/**
+	 * Get the number of submissions that are currently waiting to be reviewed
+	 *
+	 * @return number of submissions waiting to be reviewed or 0 if there was an exception caught
+	 */
+	int getNumberOfWaitingSubmissions();
+
 }

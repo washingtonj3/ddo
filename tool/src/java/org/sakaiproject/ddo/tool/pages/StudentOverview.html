@@ -7,9 +7,21 @@
     <h1 style="margin-bottom: 0;">Welcome to Digital Drop-Off (DDO)</h1>
     <h3 style="margin-top: 0;">A Service of the LTC Write Place</h3>
 
-    <p>The mission of the Write Place is one of service: writing consultants appreciate the uniqueness of learners and work with all students in their efforts to become better writers.</p>
-    <p>If you are unable to stop in for a writing support session on campus, you may submit your paper via Isidore. Please submit each paper only once. A Write Place consultant will spend 30 minutes on 5 pages of your document, offering comments about content, organization, and mechanics. A response to your paper can be expected within 48 hours.</p>
-    <p>We ask that you use this service only one time for each assignment. If you require additional support, please stop in to the Write Place located in the Knowledge Hub, Roesch Library first floor. If you are not a residential student and require additional writing support, please contact the Write Place Coordinator at <a href="mailto:cklimo1@udayton.edu">cklimo1@udayton.edu</a>.</p>
+    <div style="display: inline-block;width: 700px;">
+        <p>The mission of the Write Place is one of service: writing consultants appreciate the uniqueness of learners and work with all students in their efforts to become better writers.</p>
+        <p>If you are unable to stop in for a writing support session on campus, you may submit your paper via Isidore. Please submit each paper only once. A Write Place consultant will spend 30 minutes on 5 pages of your document, offering comments about content, organization, and mechanics.</p>
+        <p>We ask that you use this service only one time for each assignment. If you require additional support, please stop in to the Write Place located in the Knowledge Hub, Roesch Library first floor. If you are not a residential student and require additional writing support, please contact the Write Place Coordinator at <a href="mailto:cklimo1@udayton.edu">cklimo1@udayton.edu</a>.</p>
+    </div>
+
+    <div wicket:id="submissionQueueInfo" class="infoBox" style="width:300px;display: inline-block;border:1px solid #ccc;padding:.5em;margin-left:1em;">
+        <h3>Current DDO Activity <img src="/library/image/ud_custom/ddo_activity.png" alt="Current DDO Activity" style="vertical-align: middle;;"></h3>
+        <p>
+            There are currently <strong><span wicket:id="numberWaitingReview" /></strong> papers waiting to be reviewed.
+            <br />
+            <br />
+            You can expect a response for a new submission within <strong><span wicket:id="expectedWaitTime" /></strong> (end of the day <strong><span wicket:id="expectedReturnDay" /></strong>)
+        </p>
+    </div>
 
     <p style="margin-top:2em;margin-left:20em;"><a wicket:id="toDropOffFormLink" class="button-example-1 button-example-dark-green" style="color: #fff !important;font-weight:bold;">Drop Off a Document</a></p>
 

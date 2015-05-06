@@ -132,6 +132,13 @@ public class ProjectLogicImpl implements ProjectLogic {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public int getNumberOfWaitingSubmissions() {
+		return dao.getNumberOfWaitingSubmissions();
+	}
+
 	@Setter
 	private ProjectDao dao;
 	

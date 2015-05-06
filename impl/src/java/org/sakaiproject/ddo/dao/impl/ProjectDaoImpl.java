@@ -243,6 +243,22 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	public int getNumberOfWaitingSubmissions() {
+		if(log.isDebugEnabled()) {
+			log.debug("getNumberOfWaitingSubmissions()");
+		}
+
+		try {
+			return getJdbcTemplate().queryForInt(getStatement("count.waitingsubmissions"));
+		} catch (DataAccessException ex) {
+			log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
+			return 0;
+		}
+	}
+
+	/**
 	 * init
 	 */
 	public void init() {
