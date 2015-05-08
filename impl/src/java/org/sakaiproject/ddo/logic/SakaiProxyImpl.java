@@ -14,6 +14,8 @@ import org.sakaiproject.content.api.ContentHostingService;
 import org.sakaiproject.content.api.ContentResource;
 import org.sakaiproject.content.api.ContentResourceEdit;
 import org.sakaiproject.content.api.ContentTypeImageService;
+import org.sakaiproject.coursemanagement.api.CourseManagementService;
+import org.sakaiproject.coursemanagement.api.EnrollmentSet;
 import org.sakaiproject.ddo.model.Submission;
 import org.sakaiproject.ddo.model.SubmissionFile;
 import org.sakaiproject.email.api.EmailService;
@@ -504,6 +506,23 @@ public class SakaiProxyImpl implements SakaiProxy {
 		emailService.send(fromStr, toStr, subject, body.toString(), headerToStr, replyToStr, additionalHeaders);
 	}
 
+	public Set<User> getCurrentInstructorsForCurrentUser() {
+		User user = getCurrentUser();
+		Set<User> instructors = new HashSet<User>();
+		Set<EnrollmentSet> enrolledSets = courseManagementService.findCurrentlyEnrolledEnrollmentSets(user.getEid());
+		for (EnrollmentSet es : enrolledSets) {
+			for (String i : es.getOfficialInstructors()) {
+				try {
+					instructors.add(userDirectoryService.getUser(i));
+				} catch (Exception e) {
+					log.error("Couldn't get instructor : " + e.getMessage());
+				}
+			}
+		}
+		return instructors;
+	}
+
+
 	/**
 	 * init - perform any actions required here for when this bean starts up
 	 */
@@ -543,4 +562,7 @@ public class SakaiProxyImpl implements SakaiProxy {
 
 	@Getter @Setter
 	private EmailService emailService;
+
+	@Getter @Setter
+	private CourseManagementService courseManagementService;
 }

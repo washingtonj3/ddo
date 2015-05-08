@@ -20,6 +20,7 @@
 		<property name="authzGroupService" ref="org.sakaiproject.authz.api.AuthzGroupService" />
 		<property name="contentTypeImageService" ref="org.sakaiproject.content.api.ContentTypeImageService" />
 		<property name="emailService" ref="org.sakaiproject.email.api.EmailService" />
+		<property name="courseManagementService" ref="org.sakaiproject.coursemanagement.api.CourseManagementService" />
 		
 	</bean>
 	

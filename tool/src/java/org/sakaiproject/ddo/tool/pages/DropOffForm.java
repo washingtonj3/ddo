@@ -14,6 +14,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.util.lang.Bytes;
 import org.sakaiproject.ddo.model.Submission;
+import org.sakaiproject.user.api.User;
 
 import java.util.Date;
 
@@ -153,6 +154,15 @@ public class DropOffForm extends BasePage {
         dropOffForm.add(new Label("displayName", sakaiProxy.getCurrentUserDisplayName()));
         dropOffForm.add(new Label("email", sakaiProxy.getUserEmail(userid)));
         dropOffForm.add(new Label("username", sakaiProxy.getUserDisplayId(userid)));
+
+        StringBuilder sb = new StringBuilder();
+        for(User u : sakaiProxy.getCurrentInstructorsForCurrentUser()) {
+            sb.append(u.getDisplayName());
+            sb.append(" - ");
+            sb.append(u.getEmail());
+            sb.append("<br />");
+        }
+        add(new Label("currentInstructors", sb).setEscapeModelStrings(false));
     }
 
 }

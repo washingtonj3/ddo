@@ -4,6 +4,7 @@ import org.sakaiproject.ddo.model.Submission;
 import org.sakaiproject.ddo.model.SubmissionFile;
 import org.sakaiproject.user.api.User;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -193,4 +194,6 @@ public interface SakaiProxy {
 	 * @param s the submission that was reviewed
 	 */
 	void sendFeedbackNotification(Submission s);
+
+	Set<User> getCurrentInstructorsForCurrentUser();
 }
