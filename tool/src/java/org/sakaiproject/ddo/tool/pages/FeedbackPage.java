@@ -50,7 +50,7 @@ public class FeedbackPage extends BasePage {
         add(new Label("sFileSize", sakaiProxy.getResourceFileSize(submission.getDocumentRef())));
 
         if(feedback.getComments() != null && !feedback.getComments().isEmpty()) {
-            add(new Label("comments", feedback.getComments()));
+            add(new Label("comments", feedback.getComments()).setEscapeModelStrings(false));
         } else {
             add(new Label("comments", getString("error.no_comments")));
         }
