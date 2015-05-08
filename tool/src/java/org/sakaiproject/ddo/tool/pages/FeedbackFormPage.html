@@ -137,7 +137,20 @@
                 <td style="font-weight: bold;vertical-align: top;">
                     Add Feedback / Comments
                     <br />
-                    <textarea wicket:id="comments" rows="6" cols="40" />
+                    <textarea wicket:id="comments" rows="6" cols="40" id="feedbackEditor" name="feedbackEditor" />
+                    <script>
+                        CKEDITOR.replace( 'feedbackEditor' );
+                        CKEDITOR.on('instanceReady', function() {
+                            //resize iframe
+                            if (window.name != "") {
+                                var frame = parent.document.getElementById(window.name);
+                                if (frame) {
+                                    var clientH = document.body.clientHeight + 200;
+                                    $(frame).height(clientH);
+                                }
+                            }
+                        });
+                    </script>
                 </td>
             </tr>
             <tr>
