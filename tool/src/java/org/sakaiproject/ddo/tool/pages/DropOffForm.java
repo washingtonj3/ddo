@@ -16,7 +16,11 @@ import org.apache.wicket.util.lang.Bytes;
 import org.sakaiproject.ddo.model.Submission;
 import org.sakaiproject.user.api.User;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by David P. Bauer on 12/10/14.
@@ -29,7 +33,7 @@ public class DropOffForm extends BasePage {
     private final TextArea<String> instructorRequirements;
     private final DateTextField dueDate;
     private final TextField<String> courseTitle;
-    private final TextField<String> instructor;
+    private final DropDownChoice<User> instructors;
     private final TextArea<String> feedbackFocus;
 
     private final FileUploadField uploadField;
@@ -56,7 +60,7 @@ public class DropOffForm extends BasePage {
                 s.setInstructorRequirements(instructorRequirements.getModelObject());
                 s.setDueDate(dueDate.getModelObject());
                 s.setCourseTitle(courseTitle.getModelObject());
-                s.setInstructor(instructor.getModelObject());
+                s.setInstructor(instructors.getModelObject().getId());
                 s.setFeedbackFocus(feedbackFocus.getModelObject());
 
                 FileUpload file = uploadField.getFileUpload();
@@ -98,6 +102,8 @@ public class DropOffForm extends BasePage {
             }
         };
 
+        String userid = sakaiProxy.getCurrentUserId();
+
         dropOffForm.setMaxSize(Bytes.megabytes(15));
         add(dropOffForm);
 
@@ -106,7 +112,20 @@ public class DropOffForm extends BasePage {
         dropOffForm.add(assignmentTitle = new TextField<String>("assignmentTitle", new Model<String>()));
         dropOffForm.add(instructorRequirements = new TextArea<String>("instructorRequirements", new Model<String>()));
         dropOffForm.add(courseTitle = new TextField<String>("courseTitle", new Model<String>()));
-        dropOffForm.add(instructor = new TextField<String>("instructor", new Model<String>()));
+
+
+        StringBuilder sb = new StringBuilder();
+
+        Set<User> instructorSet = sakaiProxy.getCurrentInstructorsForCurrentUser();
+        List<User> instructorList = new ArrayList<User>(instructorSet);
+
+        User selectedUser = sakaiProxy.getCurrentUser();
+        instructorList.add(selectedUser);
+        DropDownChoice<User> iDD = new DropDownChoice<User>("instructors", instructorList,
+                new ChoiceRenderer<User>("displayName"));
+
+        dropOffForm.add(instructors = iDD);
+
         dropOffForm.add(feedbackFocus = new TextArea<String>("feedbackFocus", new Model<String>()));
 
         dueDate = new DateTextField("dueDate", new PropertyModel<Date>(this, "date"));
@@ -117,7 +136,7 @@ public class DropOffForm extends BasePage {
         dropOffForm.add(dueDate);
 
         assignmentTitle.setRequired(true);
-        instructor.setRequired(true);
+        instructors.setRequired(true);
         courseTitle.setRequired(true);
         dueDate.setRequired(true);
 
@@ -150,19 +169,9 @@ public class DropOffForm extends BasePage {
         SubmitLink submit = new SubmitLink("submitLink");
         dropOffForm.add(submit);
 
-        String userid = sakaiProxy.getCurrentUserId();
         dropOffForm.add(new Label("displayName", sakaiProxy.getCurrentUserDisplayName()));
         dropOffForm.add(new Label("email", sakaiProxy.getUserEmail(userid)));
         dropOffForm.add(new Label("username", sakaiProxy.getUserDisplayId(userid)));
-
-        StringBuilder sb = new StringBuilder();
-        for(User u : sakaiProxy.getCurrentInstructorsForCurrentUser()) {
-            sb.append(u.getDisplayName());
-            sb.append(" - ");
-            sb.append(u.getEmail());
-            sb.append("<br />");
-        }
-        add(new Label("currentInstructors", sb).setEscapeModelStrings(false));
     }
 
 }

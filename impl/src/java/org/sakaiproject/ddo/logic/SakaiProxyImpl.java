@@ -509,11 +509,11 @@ public class SakaiProxyImpl implements SakaiProxy {
 	public Set<User> getCurrentInstructorsForCurrentUser() {
 		User user = getCurrentUser();
 		Set<User> instructors = new HashSet<User>();
-		Set<EnrollmentSet> enrolledSets = courseManagementService.findCurrentlyEnrolledEnrollmentSets(user.getEid());
+		Set<EnrollmentSet> enrolledSets = courseManagementService.findCurrentlyEnrolledEnrollmentSetsUDayton(user.getEid());
 		for (EnrollmentSet es : enrolledSets) {
 			for (String i : es.getOfficialInstructors()) {
 				try {
-					instructors.add(userDirectoryService.getUser(i));
+					instructors.add(userDirectoryService.getUserByEid(i));
 				} catch (Exception e) {
 					log.error("Couldn't get instructor : " + e.getMessage());
 				}
