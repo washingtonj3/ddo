@@ -13,6 +13,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.util.lang.Bytes;
+import org.sakaiproject.coursemanagement.api.Section;
 import org.sakaiproject.ddo.model.Submission;
 import org.sakaiproject.user.api.User;
 
@@ -32,7 +33,7 @@ public class DropOffForm extends BasePage {
     private final TextField<String> assignmentTitle;
     private final TextArea<String> instructorRequirements;
     private final DateTextField dueDate;
-    private final TextField<String> courseTitle;
+    private final DropDownChoice<Section> courseTitle;
     private final DropDownChoice<User> instructors;
     private final TextArea<String> feedbackFocus;
 
@@ -59,7 +60,7 @@ public class DropOffForm extends BasePage {
                 s.setAssignmentTitle(assignmentTitle.getModelObject());
                 s.setInstructorRequirements(instructorRequirements.getModelObject());
                 s.setDueDate(dueDate.getModelObject());
-                s.setCourseTitle(courseTitle.getModelObject());
+                s.setCourseTitle(courseTitle.getModelObject().getTitle());
                 s.setInstructor(instructors.getModelObject().getId());
                 s.setFeedbackFocus(feedbackFocus.getModelObject());
 
@@ -111,10 +112,17 @@ public class DropOffForm extends BasePage {
         dropOffForm.add(primaryLanguage = new TextField<String>("primaryLanguage", new Model<String>()));
         dropOffForm.add(assignmentTitle = new TextField<String>("assignmentTitle", new Model<String>()));
         dropOffForm.add(instructorRequirements = new TextArea<String>("instructorRequirements", new Model<String>()));
-        dropOffForm.add(courseTitle = new TextField<String>("courseTitle", new Model<String>()));
 
+        Set<Section> sectionsSet = sakaiProxy.getCurrentSectionsForCurrentUser();
+        List<Section> sectionsList = new ArrayList<Section>();
 
-        StringBuilder sb = new StringBuilder();
+        if(!sectionsSet.isEmpty()) {
+            sectionsList = new ArrayList<Section>(sectionsSet);
+        }
+        DropDownChoice<Section> sDD = new DropDownChoice<Section>("courseTitle", sectionsList,
+                new ChoiceRenderer<Section>("title"));
+
+        dropOffForm.add(courseTitle = sDD);
 
         Set<User> instructorSet = sakaiProxy.getCurrentInstructorsForCurrentUser();
         List<User> instructorList = new ArrayList<User>(instructorSet);

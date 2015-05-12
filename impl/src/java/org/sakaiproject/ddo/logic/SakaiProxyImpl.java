@@ -16,6 +16,7 @@ import org.sakaiproject.content.api.ContentResourceEdit;
 import org.sakaiproject.content.api.ContentTypeImageService;
 import org.sakaiproject.coursemanagement.api.CourseManagementService;
 import org.sakaiproject.coursemanagement.api.EnrollmentSet;
+import org.sakaiproject.coursemanagement.api.Section;
 import org.sakaiproject.ddo.model.Submission;
 import org.sakaiproject.ddo.model.SubmissionFile;
 import org.sakaiproject.email.api.EmailService;
@@ -507,9 +508,9 @@ public class SakaiProxyImpl implements SakaiProxy {
 	}
 
 	public Set<User> getCurrentInstructorsForCurrentUser() {
-		User user = getCurrentUser();
+		User currentUser = getCurrentUser();
 		Set<User> instructors = new HashSet<User>();
-		Set<EnrollmentSet> enrolledSets = courseManagementService.findCurrentlyEnrolledEnrollmentSetsUDayton(user.getEid());
+		Set<EnrollmentSet> enrolledSets = courseManagementService.findCurrentlyEnrolledEnrollmentSetsUDayton(currentUser.getEid());
 		for (EnrollmentSet es : enrolledSets) {
 			for (String i : es.getOfficialInstructors()) {
 				try {
@@ -520,6 +521,11 @@ public class SakaiProxyImpl implements SakaiProxy {
 			}
 		}
 		return instructors;
+	}
+
+	public Set<Section> getCurrentSectionsForCurrentUser() {
+		User currentUser = getCurrentUser();
+		return courseManagementService.findEnrolledSections(currentUser.getEid());
 	}
 
 

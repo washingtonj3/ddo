@@ -1,5 +1,6 @@
 package org.sakaiproject.ddo.logic;
 
+import org.sakaiproject.coursemanagement.api.Section;
 import org.sakaiproject.ddo.model.Submission;
 import org.sakaiproject.ddo.model.SubmissionFile;
 import org.sakaiproject.user.api.User;
@@ -196,4 +197,6 @@ public interface SakaiProxy {
 	void sendFeedbackNotification(Submission s);
 
 	Set<User> getCurrentInstructorsForCurrentUser();
+
+	Set<Section> getCurrentSectionsForCurrentUser();
 }
