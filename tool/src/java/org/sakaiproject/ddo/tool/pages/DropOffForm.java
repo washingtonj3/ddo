@@ -125,10 +125,12 @@ public class DropOffForm extends BasePage {
         dropOffForm.add(courseTitle = sDD);
 
         Set<User> instructorSet = sakaiProxy.getCurrentInstructorsForCurrentUser();
-        List<User> instructorList = new ArrayList<User>(instructorSet);
+        List<User> instructorList = new ArrayList<User>();
 
-        User selectedUser = sakaiProxy.getCurrentUser();
-        instructorList.add(selectedUser);
+        if(!instructorSet.isEmpty()) {
+            instructorList = new ArrayList<User>(instructorSet);
+        }
+
         DropDownChoice<User> iDD = new DropDownChoice<User>("instructors", instructorList,
                 new ChoiceRenderer<User>("displayName"));
 

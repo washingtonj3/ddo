@@ -525,7 +525,7 @@ public class SakaiProxyImpl implements SakaiProxy {
 
 	public Set<Section> getCurrentSectionsForCurrentUser() {
 		User currentUser = getCurrentUser();
-		return courseManagementService.findEnrolledSections(currentUser.getEid());
+		return courseManagementService.findEnrolledSectionsUDayton(currentUser.getEid());
 	}
 
 
