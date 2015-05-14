@@ -34,7 +34,7 @@ public class DropOffForm extends BasePage {
     private final TextArea<String> instructorRequirements;
     private final DateTextField dueDate;
     private final DropDownChoice<Section> courseTitle;
-    private final DropDownChoice<User> instructors;
+    private final DropDownChoice<String> instructors;
     private final TextArea<String> feedbackFocus;
 
     private final FileUploadField uploadField;
@@ -61,7 +61,7 @@ public class DropOffForm extends BasePage {
                 s.setInstructorRequirements(instructorRequirements.getModelObject());
                 s.setDueDate(dueDate.getModelObject());
                 s.setCourseTitle(courseTitle.getModelObject().getTitle());
-                s.setInstructor(instructors.getModelObject().getId());
+                s.setInstructor(instructors.getModelObject());
                 s.setFeedbackFocus(feedbackFocus.getModelObject());
 
                 FileUpload file = uploadField.getFileUpload();
@@ -103,7 +103,7 @@ public class DropOffForm extends BasePage {
             }
         };
 
-        String userid = sakaiProxy.getCurrentUserId();
+        final String userid = sakaiProxy.getCurrentUserId();
 
         dropOffForm.setMaxSize(Bytes.megabytes(15));
         add(dropOffForm);
@@ -134,15 +134,25 @@ public class DropOffForm extends BasePage {
 
         dropOffForm.add(courseTitle = sDD);
 
-        Set<User> instructorSet = sakaiProxy.getCurrentInstructorsForCurrentUser();
-        List<User> instructorList = new ArrayList<User>();
+        Set<String> instructorSet = sakaiProxy.getCurrentInstructorsForCurrentUser();
+        List<String> instructorList = new ArrayList<String>();
 
         if(!instructorSet.isEmpty()) {
-            instructorList = new ArrayList<User>(instructorSet);
+            instructorList = new ArrayList<String>(instructorSet);
         }
 
-        DropDownChoice<User> iDD = new DropDownChoice<User>("instructors", instructorList,
-                new ChoiceRenderer<User>("displayName"));
+        DropDownChoice<String> iDD = new DropDownChoice<String>("instructors", instructorList,
+                new IChoiceRenderer<String>() {
+                    @Override
+                    public Object getDisplayValue(String userId) {
+                        return sakaiProxy.getUserDisplayName(userId);
+                    }
+
+                    @Override
+                    public String getIdValue(String userId, int i) {
+                        return userId;
+                    }
+                });
 
         dropOffForm.add(instructors = iDD);
 

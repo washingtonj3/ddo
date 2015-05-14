@@ -196,7 +196,7 @@ public interface SakaiProxy {
 	 */
 	void sendFeedbackNotification(Submission s);
 
-	Set<User> getCurrentInstructorsForCurrentUser();
+	Set<String> getCurrentInstructorsForCurrentUser();
 
 	Set<Section> getCurrentSectionsForCurrentUser();
 

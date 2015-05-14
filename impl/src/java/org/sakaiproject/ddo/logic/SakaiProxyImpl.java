@@ -507,14 +507,14 @@ public class SakaiProxyImpl implements SakaiProxy {
 		emailService.send(fromStr, toStr, subject, body.toString(), headerToStr, replyToStr, additionalHeaders);
 	}
 
-	public Set<User> getCurrentInstructorsForCurrentUser() {
+	public Set<String> getCurrentInstructorsForCurrentUser() {
 		User currentUser = getCurrentUser();
-		Set<User> instructors = new HashSet<User>();
+		Set<String> instructors = new HashSet<String>();
 		Set<EnrollmentSet> enrolledSets = courseManagementService.findCurrentlyEnrolledEnrollmentSetsUDayton(currentUser.getEid());
 		for (EnrollmentSet es : enrolledSets) {
 			for (String i : es.getOfficialInstructors()) {
 				try {
-					instructors.add(userDirectoryService.getUserByEid(i));
+					instructors.add(userDirectoryService.getUserByEid(i).getId());
 				} catch (Exception e) {
 					log.error("Couldn't get instructor : " + e.getMessage());
 				}
