@@ -123,7 +123,7 @@ public class DropOffForm extends BasePage {
                 new IChoiceRenderer<String>() {
                     @Override
                     public Object getDisplayValue(String section) {
-                       return sakaiProxy.getCourseOfferingTitle(section);
+                       return sakaiProxy.getCourseOfferingTitleForSection(section);
                     }
 
                     @Override

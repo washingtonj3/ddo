@@ -200,5 +200,5 @@ public interface SakaiProxy {
 
 	Set<String> getCurrentSectionsForCurrentUser();
 
-	String getCourseOfferingTitle(String courseOfferingEid);
+	String getCourseOfferingTitleForSection(String sectionEid);
 }

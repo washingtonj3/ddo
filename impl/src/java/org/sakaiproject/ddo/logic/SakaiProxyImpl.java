@@ -533,7 +533,8 @@ public class SakaiProxyImpl implements SakaiProxy {
 		return sections;
 	}
 
-	public String getCourseOfferingTitle(String courseOfferingEid) {
+	public String getCourseOfferingTitleForSection(String sectionEid) {
+        String courseOfferingEid = courseManagementService.getSection(sectionEid).getCourseOfferingEid();
 		return courseManagementService.getCourseOffering(courseOfferingEid).getTitle();
 	}
 
