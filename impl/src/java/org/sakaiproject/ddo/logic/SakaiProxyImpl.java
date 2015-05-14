@@ -528,6 +528,10 @@ public class SakaiProxyImpl implements SakaiProxy {
 		return courseManagementService.findEnrolledSectionsUDayton(currentUser.getEid());
 	}
 
+	public String getCouseOfferingTitle(String courseOfferingEid) {
+		return courseManagementService.getCourseOffering(courseOfferingEid).getTitle();
+	}
+
 
 	/**
 	 * init - perform any actions required here for when this bean starts up

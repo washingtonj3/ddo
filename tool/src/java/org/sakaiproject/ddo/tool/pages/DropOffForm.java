@@ -120,7 +120,17 @@ public class DropOffForm extends BasePage {
             sectionsList = new ArrayList<Section>(sectionsSet);
         }
         DropDownChoice<Section> sDD = new DropDownChoice<Section>("courseTitle", sectionsList,
-                new ChoiceRenderer<Section>("title"));
+                new IChoiceRenderer<Section>() {
+                    @Override
+                    public Object getDisplayValue(Section section) {
+                       return sakaiProxy.getCouseOfferingTitle(section.getCourseOfferingEid());
+                    }
+
+                    @Override
+                    public String getIdValue(Section section, int i) {
+                        return section.getEid();
+                    }
+                });
 
         dropOffForm.add(courseTitle = sDD);
 
