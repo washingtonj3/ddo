@@ -33,7 +33,7 @@ public class DropOffForm extends BasePage {
     private final TextField<String> assignmentTitle;
     private final TextArea<String> instructorRequirements;
     private final DateTextField dueDate;
-    private final DropDownChoice<Section> courseTitle;
+    private final DropDownChoice<String> courseTitle;
     private final DropDownChoice<String> instructors;
     private final TextArea<String> feedbackFocus;
 
@@ -60,7 +60,7 @@ public class DropOffForm extends BasePage {
                 s.setAssignmentTitle(assignmentTitle.getModelObject());
                 s.setInstructorRequirements(instructorRequirements.getModelObject());
                 s.setDueDate(dueDate.getModelObject());
-                s.setCourseTitle(courseTitle.getModelObject().getTitle());
+                s.setCourseTitle(courseTitle.getModelObject());
                 s.setInstructor(instructors.getModelObject());
                 s.setFeedbackFocus(feedbackFocus.getModelObject());
 
@@ -113,22 +113,22 @@ public class DropOffForm extends BasePage {
         dropOffForm.add(assignmentTitle = new TextField<String>("assignmentTitle", new Model<String>()));
         dropOffForm.add(instructorRequirements = new TextArea<String>("instructorRequirements", new Model<String>()));
 
-        Set<Section> sectionsSet = sakaiProxy.getCurrentSectionsForCurrentUser();
-        List<Section> sectionsList = new ArrayList<Section>();
+        Set<String> sectionsSet = sakaiProxy.getCurrentSectionsForCurrentUser();
+        List<String> sectionsList = new ArrayList<String>();
 
         if(!sectionsSet.isEmpty()) {
-            sectionsList = new ArrayList<Section>(sectionsSet);
+            sectionsList = new ArrayList<String>(sectionsSet);
         }
-        DropDownChoice<Section> sDD = new DropDownChoice<Section>("courseTitle", sectionsList,
-                new IChoiceRenderer<Section>() {
+        DropDownChoice<String> sDD = new DropDownChoice<String>("courseTitle", sectionsList,
+                new IChoiceRenderer<String>() {
                     @Override
-                    public Object getDisplayValue(Section section) {
-                       return sakaiProxy.getCouseOfferingTitle(section.getCourseOfferingEid());
+                    public Object getDisplayValue(String section) {
+                       return sakaiProxy.getCourseOfferingTitle(section);
                     }
 
                     @Override
-                    public String getIdValue(Section section, int i) {
-                        return section.getEid();
+                    public String getIdValue(String section, int i) {
+                        return section;
                     }
                 });
 

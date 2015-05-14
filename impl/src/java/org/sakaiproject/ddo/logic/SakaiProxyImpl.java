@@ -523,12 +523,17 @@ public class SakaiProxyImpl implements SakaiProxy {
 		return instructors;
 	}
 
-	public Set<Section> getCurrentSectionsForCurrentUser() {
+	public Set<String> getCurrentSectionsForCurrentUser() {
 		User currentUser = getCurrentUser();
-		return courseManagementService.findEnrolledSectionsUDayton(currentUser.getEid());
+		Set<Section> enrolledSections = courseManagementService.findEnrolledSectionsUDayton(currentUser.getEid());
+		Set<String> sections = new HashSet<String>();
+		for (Section s : enrolledSections) {
+			sections.add(s.getEid());
+		}
+		return sections;
 	}
 
-	public String getCouseOfferingTitle(String courseOfferingEid) {
+	public String getCourseOfferingTitle(String courseOfferingEid) {
 		return courseManagementService.getCourseOffering(courseOfferingEid).getTitle();
 	}
 
