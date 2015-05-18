@@ -37,6 +37,13 @@ public class DropOffForm extends BasePage {
     private final DropDownChoice<String> instructors;
     private final TextArea<String> feedbackFocus;
 
+    private final TextField<String> courseOther;
+    private final TextField<String> instructorNameOther;
+    private final TextField<String> instructorEmailOther;
+    private final CheckBox notifyInstructor;
+
+    private final CheckBox receipt;
+
     private final FileUploadField uploadField;
 
     private final Date date = new Date();
@@ -53,6 +60,9 @@ public class DropOffForm extends BasePage {
             protected void onSubmit() {
                 String currentUserId = sakaiProxy.getCurrentUserId();
 
+                String notifyName = "";
+                String notifyEmail = "";
+
                 Submission s = new Submission();
 
                 s.setPrimaryLanguageIsEnglish(primaryLanguageIsEnglish.getModelObject());
@@ -60,8 +70,22 @@ public class DropOffForm extends BasePage {
                 s.setAssignmentTitle(assignmentTitle.getModelObject());
                 s.setInstructorRequirements(instructorRequirements.getModelObject());
                 s.setDueDate(dueDate.getModelObject());
-                s.setCourseTitle(courseTitle.getModelObject());
-                s.setInstructor(instructors.getModelObject());
+
+                if(courseTitle.getModelObject().equals("Other")) {
+                    s.setCourseTitle(courseOther.getModelObject());
+                } else {
+                    s.setCourseTitle(courseTitle.getModelObject());
+                }
+
+                if(instructors.getModelObject().equals("Other")) {
+                    String instructor = instructorNameOther.getModelObject() + " (" + instructorEmailOther.getModelObject() + ")";
+                    s.setInstructor(instructor);
+                    notifyEmail = instructorEmailOther.getModelObject();
+                } else {
+                    s.setInstructor(instructors.getModelObject());
+                    notifyEmail = sakaiProxy.getUserEmail(instructors.getModelObject());
+                }
+
                 s.setFeedbackFocus(feedbackFocus.getModelObject());
 
                 FileUpload file = uploadField.getFileUpload();
@@ -94,6 +118,10 @@ public class DropOffForm extends BasePage {
                     s.setStatus(Submission.STATUS_WAITING);
 
                     if (projectLogic.addSubmission(s)) {
+                        if(notifyInstructor.getModelObject())
+                            sakaiProxy.sendNotificationToInstructor(notifyEmail, currentUserId);
+                        if(receipt.getModelObject())
+                            sakaiProxy.sendReceipt(currentUserId);
                         getSession().info(getString("success.save_submission"));
                         setResponsePage(new StudentOverview());
                     } else {
@@ -119,11 +147,17 @@ public class DropOffForm extends BasePage {
         if(!sectionsSet.isEmpty()) {
             sectionsList = new ArrayList<String>(sectionsSet);
         }
-        DropDownChoice<String> sDD = new DropDownChoice<String>("courseTitle", sectionsList,
+        sectionsList.add("Other");
+
+        DropDownChoice<String> sDD = new DropDownChoice<String>("courseTitle", new Model<String>(), sectionsList,
                 new IChoiceRenderer<String>() {
                     @Override
                     public Object getDisplayValue(String section) {
-                       return sakaiProxy.getCourseOfferingTitleForSection(section);
+                        if(section.equals("Other")) {
+                            return "Other";
+                        } else {
+                            return sakaiProxy.getCourseOfferingTitleForSection(section);
+                        }
                     }
 
                     @Override
@@ -140,12 +174,17 @@ public class DropOffForm extends BasePage {
         if(!instructorSet.isEmpty()) {
             instructorList = new ArrayList<String>(instructorSet);
         }
+        instructorList.add("Other");
 
-        DropDownChoice<String> iDD = new DropDownChoice<String>("instructors", instructorList,
+        DropDownChoice<String> iDD = new DropDownChoice<String>("instructors", new Model<String>(), instructorList,
                 new IChoiceRenderer<String>() {
                     @Override
                     public Object getDisplayValue(String userId) {
-                        return sakaiProxy.getUserDisplayName(userId);
+                        if(userId.equals("Other")) {
+                            return "Other";
+                        } else {
+                            return sakaiProxy.getUserDisplayName(userId);
+                        }
                     }
 
                     @Override
@@ -155,6 +194,12 @@ public class DropOffForm extends BasePage {
                 });
 
         dropOffForm.add(instructors = iDD);
+
+        dropOffForm.add(courseOther = new TextField<String>("courseOther", new Model<String>()));
+        dropOffForm.add(instructorNameOther = new TextField<String>("instructorNameOther", new Model<String>()));
+        dropOffForm.add(instructorEmailOther = new TextField<String>("instructorEmailOther", new Model<String>()));
+        dropOffForm.add(notifyInstructor = new CheckBox("notifyInstructor", Model.of(Boolean.FALSE)));
+        dropOffForm.add(receipt = new CheckBox("receipt", Model.of(Boolean.TRUE)));
 
         dropOffForm.add(feedbackFocus = new TextArea<String>("feedbackFocus", new Model<String>()));
 

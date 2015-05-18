@@ -201,4 +201,8 @@ public interface SakaiProxy {
 	Set<String> getCurrentSectionsForCurrentUser();
 
 	String getCourseOfferingTitleForSection(String sectionEid);
+
+	void sendNotificationToInstructor(String instructorEmail, String currentUserId);
+
+	void sendReceipt(String currentUserId);
 }

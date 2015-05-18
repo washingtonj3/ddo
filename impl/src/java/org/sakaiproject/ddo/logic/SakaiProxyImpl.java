@@ -538,6 +538,45 @@ public class SakaiProxyImpl implements SakaiProxy {
 		return courseManagementService.getCourseOffering(courseOfferingEid).getTitle();
 	}
 
+	public void sendNotificationToInstructor(String instructorEmail, String currentUserId) {
+		String currentUserDisplayName = getUserDisplayName(currentUserId);
+
+		String toStr = instructorEmail;
+		String headerToStr = instructorEmail;
+		String fromStr = serverConfigurationService.getString("ddo.staff.email.address");
+		String subject = "[DDO] Your Student Used the Write Place";
+
+		List<String> additionalHeaders = new ArrayList<String>();
+		additionalHeaders.add("Content-type: text/html; charset=UTF-8");
+
+		StringBuilder body = new StringBuilder();
+		body.append("Your student, ");
+		body.append(currentUserDisplayName);
+		body.append(", submitted a paper to Digital Drop Off");
+		body.append("<br />");
+		body.append("<br />");
+
+		emailService.send(fromStr, toStr, subject, body.toString(), headerToStr, null, additionalHeaders);
+	}
+
+	public void sendReceipt(String currentUserId) {
+		String currentUserEmail = getUserEmail(currentUserId);
+
+		String toStr = currentUserEmail;
+		String headerToStr = currentUserEmail;
+		String fromStr = serverConfigurationService.getString("ddo.staff.email.address");
+		String subject = "[DDO] Your Submission Receipt";
+
+		List<String> additionalHeaders = new ArrayList<String>();
+		additionalHeaders.add("Content-type: text/html; charset=UTF-8");
+
+		StringBuilder body = new StringBuilder();
+		body.append("Thank you for using DDO. Your submission will be reviewed shortly.");
+		body.append("<br />");
+		body.append("<br />");
+
+		emailService.send(fromStr, toStr, subject, body.toString(), headerToStr, null, additionalHeaders);
+	}
 
 	/**
 	 * init - perform any actions required here for when this bean starts up

@@ -75,7 +75,15 @@ public class FeedbackFormPage extends BasePage {
 
         add(new Label("assignmentTitle", s.getAssignmentTitle()));
         add(new Label("course", s.getCourseTitle()));
-        add(new Label("instructor", s.getInstructor()));
+
+        String instructorDisplayName = sakaiProxy.getUserDisplayName(s.getInstructor());
+        String instructorEmail = sakaiProxy.getUserEmail(s.getInstructor());
+        if("".equals(instructorDisplayName)) {
+            add(new Label("instructor", s.getInstructor()));
+        } else {
+            add(new Label("instructor", instructorDisplayName + " (" + instructorEmail + ")"));
+        }
+
         add(new Label("dueDate", s.getDueDate()!=null ? dueFormat.format(s.getDueDate()) : getString("error.no_due_date")));
         add(new MultiLineLabel("feedbackFocus", s.getFeedbackFocus()));
         add(new MultiLineLabel("instructorRequirements", s.getInstructorRequirements()));
