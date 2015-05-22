@@ -584,13 +584,13 @@ public class SakaiProxyImpl implements SakaiProxy {
 		body.append("Thank you for using Digital Drop-Off. Your submission will be reviewed by a Write Place consultant in the order in which it was received.");
 		body.append("<br />");
 		body.append("<br />");
-        body.append("Course: ");
+        body.append("<strong>Course:</strong> ");
         body.append(submission.getCourseTitle());
-        body.append("Assignment: ");
+        body.append("<br /><strong>Assignment:</strong> ");
         body.append(submission.getAssignmentTitle());
-        body.append("Document: ");
+        body.append("<br /><strong>Document:</strong> ");
         body.append(getResource(submission.getDocumentRef()).getFileName());
-        body.append("Submission Date: ");
+        body.append("<br /><strong>Submission Date:</strong> ");
         body.append(df.format(new Date()));
         body.append("<br /><br />");
 
