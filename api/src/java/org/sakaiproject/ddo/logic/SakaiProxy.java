@@ -202,7 +202,7 @@ public interface SakaiProxy {
 
 	String getCourseOfferingTitleForSection(String sectionEid);
 
-	void sendNotificationToInstructor(String instructorEmail, String currentUserId);
+	void sendNotificationToInstructor(String instructorEmail, String currentUserId, Submission submission);
 
-	void sendReceipt(String currentUserId);
+	void sendReceipt(String currentUserId, Submission submission);
 }

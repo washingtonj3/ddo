@@ -119,9 +119,9 @@ public class DropOffForm extends BasePage {
 
                     if (projectLogic.addSubmission(s)) {
                         if(notifyInstructor.getModelObject())
-                            sakaiProxy.sendNotificationToInstructor(notifyEmail, currentUserId);
+                            sakaiProxy.sendNotificationToInstructor(notifyEmail, currentUserId, s);
                         if(receipt.getModelObject())
-                            sakaiProxy.sendReceipt(currentUserId);
+                            sakaiProxy.sendReceipt(currentUserId, s);
                         getSession().info(getString("success.save_submission"));
                         setResponsePage(new StudentOverview());
                     } else {

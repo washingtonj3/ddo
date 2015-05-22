@@ -538,8 +538,10 @@ public class SakaiProxyImpl implements SakaiProxy {
 		return courseManagementService.getCourseOffering(courseOfferingEid).getTitle();
 	}
 
-	public void sendNotificationToInstructor(String instructorEmail, String currentUserId) {
+	public void sendNotificationToInstructor(String instructorEmail, String currentUserId, Submission submission) {
 		String currentUserDisplayName = getUserDisplayName(currentUserId);
+
+		DateFormat df = new SimpleDateFormat("MMM d, yyyy h:mm a");
 
 		String toStr = instructorEmail;
 		String headerToStr = instructorEmail;
@@ -552,15 +554,23 @@ public class SakaiProxyImpl implements SakaiProxy {
 		StringBuilder body = new StringBuilder();
 		body.append("Your student, ");
 		body.append(currentUserDisplayName);
-		body.append(", submitted a paper to Digital Drop Off");
+		body.append(", submitted a paper to Digital Drop-Off on ");
+		body.append(df.format(submission.getSubmissionDate()));
+		body.append(". This submission is associated with \"");
+		body.append(submission.getAssignmentTitle());
+        body.append("\" from your ");
+        body.append(submission.getCourseTitle());
+        body.append(" course.");
 		body.append("<br />");
 		body.append("<br />");
 
 		emailService.send(fromStr, toStr, subject, body.toString(), headerToStr, null, additionalHeaders);
 	}
 
-	public void sendReceipt(String currentUserId) {
+	public void sendReceipt(String currentUserId, Submission submission) {
 		String currentUserEmail = getUserEmail(currentUserId);
+
+        DateFormat df = new SimpleDateFormat("MMM d, yyyy h:mm a");
 
 		String toStr = currentUserEmail;
 		String headerToStr = currentUserEmail;
@@ -571,9 +581,18 @@ public class SakaiProxyImpl implements SakaiProxy {
 		additionalHeaders.add("Content-type: text/html; charset=UTF-8");
 
 		StringBuilder body = new StringBuilder();
-		body.append("Thank you for using DDO. Your submission will be reviewed shortly.");
+		body.append("Thank you for using Digital Drop-Off. Your submission will be reviewed by a Write Place consultant in the order in which it was received.");
 		body.append("<br />");
 		body.append("<br />");
+        body.append("Course: ");
+        body.append(submission.getCourseTitle());
+        body.append("Assignment: ");
+        body.append(submission.getAssignmentTitle());
+        body.append("Document: ");
+        body.append(getResource(submission.getDocumentRef()).getFileName());
+        body.append("Submission Date: ");
+        body.append(df.format(submission.getSubmissionDate()));
+        body.append("<br /><br />");
 
 		emailService.send(fromStr, toStr, subject, body.toString(), headerToStr, null, additionalHeaders);
 	}
