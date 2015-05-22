@@ -555,7 +555,7 @@ public class SakaiProxyImpl implements SakaiProxy {
 		body.append("Your student, ");
 		body.append(currentUserDisplayName);
 		body.append(", submitted a paper to Digital Drop-Off on ");
-		body.append(df.format(submission.getSubmissionDate()));
+		body.append(df.format(new Date()));
 		body.append(". This submission is associated with \"");
 		body.append(submission.getAssignmentTitle());
         body.append("\" from your ");
@@ -591,7 +591,7 @@ public class SakaiProxyImpl implements SakaiProxy {
         body.append("Document: ");
         body.append(getResource(submission.getDocumentRef()).getFileName());
         body.append("Submission Date: ");
-        body.append(df.format(submission.getSubmissionDate()));
+        body.append(df.format(new Date()));
         body.append("<br /><br />");
 
 		emailService.send(fromStr, toStr, subject, body.toString(), headerToStr, null, additionalHeaders);

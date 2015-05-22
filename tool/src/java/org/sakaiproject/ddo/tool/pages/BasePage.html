@@ -303,6 +303,24 @@
                     $("#notifyInstructor").attr("disabled", true);
                 }
             });
+			$("#instructorEmailOther").change(function() {
+				var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+				var email = this.value;
+				if(re.test(email)) {
+					$("#notifyInstructor").removeAttr("disabled");
+				} else {
+					$("#notifyInstructor").attr("disabled", true);
+				}
+			});
+			$("#instructorEmailOther").blur(function() {
+				var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+				var email = this.value;
+				if(re.test(email)) {
+					$("#notifyInstructor").removeAttr("disabled");
+				} else {
+					$("#notifyInstructor").attr("disabled", true);
+				}
+			});
 
 		});
 	</script>
