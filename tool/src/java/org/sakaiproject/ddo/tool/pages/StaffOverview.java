@@ -26,6 +26,7 @@ import org.apache.wicket.util.resource.AbstractResourceStreamWriter;
 import org.sakaiproject.ddo.logic.SakaiProxy;
 import org.sakaiproject.ddo.model.Feedback;
 import org.sakaiproject.ddo.model.Submission;
+import org.sakaiproject.ddo.model.SubmissionFile;
 
 /**
  * Created by dbauer1 on 12/10/14.
@@ -97,7 +98,8 @@ public class StaffOverview extends BasePage {
                 };
 
                 item.add(streamDownloadLink);
-                streamDownloadLink.add(new Label("fileName", sakaiProxy.getResource(submission.getDocumentRef()).getFileName()));
+                SubmissionFile sf = sakaiProxy.getResource(submission.getDocumentRef());
+                streamDownloadLink.add(new Label("fileName", sf==null?"Cannot find file":sf.getFileName()));
                 item.add(new ContextImage("submissionIcon", new Model<String>(sakaiProxy.getResourceIconUrl(submission.getDocumentRef()))));
                 item.add(new Label("fileSize", sakaiProxy.getResourceFileSize(submission.getDocumentRef())));
             }
@@ -146,6 +148,8 @@ public class StaffOverview extends BasePage {
                 item.add(new Label("status", submissionStatus));
                 Link<Void> feedback;
                 Label feedbackLabel;
+                Link<Void> editFeedback;
+                Label editFeedbackLabel;
                 final List<Feedback> feedbackList = projectLogic.getFeedbackForSubmission(submission.getSubmissionId());
                 if (feedbackList.size() == 1) {
                     Feedback f = feedbackList.get(0);
@@ -158,7 +162,14 @@ public class StaffOverview extends BasePage {
                                 setResponsePage(new FeedbackPage(feedbackId,"staff"));
                             }
                     };
-                    feedbackLabel = new Label("feedbackLabel","View Feedback");
+                    editFeedback = new Link<Void>("editFeedback") {
+                        @Override
+                        public void onClick() {
+                            setResponsePage(new EditFeedback(feedbackId));
+                        }
+                    };
+                    feedbackLabel = new Label("feedbackLabel","View");
+                    editFeedbackLabel = new Label ("editFeedbackLabel", "Edit");
                 } else {
                     item.add(new Label("reviewedBy",""));
                     item.add(new Label("reviewDate",""));
@@ -166,10 +177,17 @@ public class StaffOverview extends BasePage {
                         @Override
                         public void onClick() {}
                     };
+                    editFeedback = new Link<Void>("editFeedback"){
+                        @Override
+                        public void onClick() {}
+                    };
                     feedbackLabel = new Label("feedbackLabel","");
+                    editFeedbackLabel = new Label ("editFeedbackLabel", "");
                 }
                 feedback.add(feedbackLabel);
                 item.add(feedback);
+                editFeedback.add(editFeedbackLabel);
+                item.add(editFeedback);
                 Link<Void> streamDownloadLink = new Link<Void>("document") {
 
                     @Override

@@ -321,7 +321,13 @@
 					$("#notifyInstructor").attr("disabled", true);
 				}
 			});
-
+			$("#replaceFile").click(function() {
+				$("#newAttachment").toggle();
+				$("#replaceReview").prop("checked", !$("#replaceReview").prop("checked"));
+			});
+			$("#replaceReview").click(function() {
+				$("#newAttachment").toggle();
+			});
 		});
 	</script>
 </head>     

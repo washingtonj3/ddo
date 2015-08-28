@@ -1,6 +1,7 @@
 package org.sakaiproject.ddo.dao.impl;
 
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -234,6 +235,27 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 							feedback.getReviewedDocumentRef()
 					}
 
+			);
+			return true;
+		} catch (DataAccessException ex) {
+			log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
+			return false;
+		}
+	}
+
+	public boolean updateFeedback(Feedback feedback) {
+		if(log.isDebugEnabled()) {
+			log.debug("updateFeedback( " + feedback.toString() + ")");
+		}
+
+		try {
+			getJdbcTemplate().update(getStatement("update.feedback"),
+					new Object[]{feedback.getReviewedBy(),
+							new Timestamp(feedback.getReviewDate().getTime()),
+							feedback.getReviewedDocumentRef(),
+							feedback.getComments(),
+							feedback.getFeedbackId()
+					}
 			);
 			return true;
 		} catch (DataAccessException ex) {

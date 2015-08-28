@@ -135,6 +135,13 @@ public class ProjectLogicImpl implements ProjectLogic {
 	/**
 	 * {@inheritDoc}
 	 */
+	public boolean updateFeedback(Feedback feedback) {
+		return dao.updateFeedback(feedback);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getNumberOfWaitingSubmissions() {
 		return dao.getNumberOfWaitingSubmissions();
 	}

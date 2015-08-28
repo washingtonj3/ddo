@@ -40,6 +40,7 @@ public interface ProjectLogic {
 	List<Submission> getAllWaitingSubmissions();
 	List<Submission> getAllReviewedSubmissions();
 	boolean updateSubmissionStatus(Submission s);
+	boolean updateFeedback(Feedback feedback);
 
 	/**
 	 * Gets the number of submission that are currently waiting to be reviewed

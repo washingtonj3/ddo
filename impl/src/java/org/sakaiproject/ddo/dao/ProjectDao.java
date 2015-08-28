@@ -96,4 +96,5 @@ public interface ProjectDao {
 	 */
 	int getNumberOfWaitingSubmissions();
 
+	boolean updateFeedback(Feedback feedback);
 }

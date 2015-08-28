@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" >
+
+<body>
+<wicket:extend>
+
+    <h1>Feedback Form</h1>
+    <div id="feedbackSubmission" style="display: inline-block;vertical-align: top;padding:.5em 1.5em .5em .5em;">
+        <table class="feedbackTable">
+            <tr>
+                <td style="font-weight: bold;text-align:right;">
+                    Name
+                </td>
+                <td>
+                    <span wicket:id="name" /> (<span wicket:id="username" />)
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;text-align:right;">
+                    Email
+                </td>
+                <td>
+                    <span wicket:id="email" />
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;text-align:right;">
+                    Year
+                </td>
+                <td>
+                    <i>Coming soon</i>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;text-align:right;">
+                    Major
+                </td>
+                <td>
+                    <i>Coming soon</i>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;text-align:right;">
+                    Expected Graduation
+                </td>
+                <td>
+                    <i>Coming soon</i>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;text-align:right;">
+                    Primary Language is English
+                </td>
+                <td>
+                    <span wicket:id="primaryLanguageIsEnglish" />
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;text-align:right;">
+                    Primary Language
+                </td>
+                <td>
+                    <span wicket:id="primaryLanguage" />
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;text-align:right;">
+                    Submission Date
+                </td>
+                <td>
+                    <span wicket:id="submissionDate" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="feedbackAssign" style="display:inline-block;border-left:2px solid #ccc;padding:.5em .5em .5em 1.5em;">
+        <table class="feedbackTable">
+            <tr>
+                <td style="font-weight: bold;text-align:right;">
+                    Course Title
+                </td>
+                <td>
+                    <span wicket:id="course" />
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;text-align:right;">
+                    Instructor Name
+                </td>
+                <td>
+                    <span wicket:id="instructor" />
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;text-align:right;">
+                    Assignment Title
+                </td>
+                <td>
+                    <span wicket:id="assignmentTitle" />
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;text-align:right;">
+                    Due Date
+                </td>
+                <td>
+                    <span wicket:id="dueDate" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <strong>Specific Instructions or Requirements</strong>
+                    <div class="tier2">
+                        <span wicket:id="instructorRequirements" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <strong>Concerns and/or Areas of Focus </strong>
+                    <div class="tier2">
+                        <span wicket:id="feedbackFocus" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div style="display:block;">
+        <h3>Submitted Document</h3>
+        <p class="tier2">
+            <img wicket:id="submissionIcon" class="fileIcon" /><a wicket:id="document"><span wicket:id="fileName" /></a> (<span wicket:id="fileSize"/>)
+        </p>
+    </div>
+    <form wicket:id="feedbackForm">
+        <table style="padding-top:2em;">
+            <tr>
+                <td style="font-weight: bold;vertical-align: top;">
+                    Add Feedback / Comments
+                    <br />
+                    <textarea wicket:id="comments" rows="6" cols="40" id="feedbackEditor" name="feedbackEditor" />
+                    <script>
+                        CKEDITOR.replace( 'feedbackEditor' );
+                        CKEDITOR.on('instanceReady', function() {
+                            //resize iframe
+                            if (window.name != "") {
+                                var frame = parent.document.getElementById(window.name);
+                                if (frame) {
+                                    var clientH = document.body.clientHeight + 200;
+                                    $(frame).height(clientH);
+                                }
+                            }
+                        });
+                    </script>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3>Reviewed Document</h3>
+                    <p class="tier2">
+                        <span wicket:id="noDoc" /><img wicket:id="feedbackIcon" class="fileIcon" /><a wicket:id="feedbackDoc"><span wicket:id="fFileName" /></a> <span wicket:id="reviewFileSize"/>
+                    </p>
+                    <p><input type="checkbox" wicket:id="replaceReview" id="replaceReview" style="vertical-align: top;" /> <label id="replaceFile">Replace this with a new reviewed document?</label></p>
+                </td>
+            </tr>
+            <tr id="newAttachment" style="display:none;">
+                <td style="font-weight: bold;border: 1px solid #ddd;vertical-align: middle;padding:1em;">
+                    Add Attachment&nbsp;&nbsp;&nbsp;&nbsp;<input type="file" wicket:id="uploadField" /> (<span wicket:id="max"></span> max)
+                </td>
+            </tr>
+        </table>
+        <p>
+            <a wicket:id="submit" class="button-example-1 button-example-green" style="color:#fff !important;">Submit</a>&nbsp;&nbsp;&nbsp;&nbsp;<a wicket:id="cancelLink" class="button-example-1 button-example-red" style="color:#fff !important;">Cancel</a>
+        </p>
+    </form>
+
+</wicket:extend>
+</body>
+</html>
