@@ -106,11 +106,13 @@ public class EditFeedback extends BasePage {
 
                 FileUpload file = uploadField.getFileUpload();
 
+                String oldFileReference = "";
+
                 // Check if the reviewer would like to replace or add a new reviewed file
                 if (replaceReview.getModelObject().booleanValue()) {
                     // Remove previously submitted file if there was one.
                     if (f.getReviewedDocumentRef() != null && !f.getReviewedDocumentRef().isEmpty()) {
-                        sakaiProxy.removeResource(f.getReviewedDocumentRef());
+                        oldFileReference = f.getReviewedDocumentRef();
                     }
                     if (file == null) {
                         f.setReviewedDocumentRef("");
@@ -146,6 +148,10 @@ public class EditFeedback extends BasePage {
                 f.setReviewedBy(currentUserId);
 
                 if(projectLogic.updateFeedback(f) && projectLogic.updateSubmissionStatus(s)){
+                    // Only delete old file on a successful save
+                    if(!oldFileReference.isEmpty()) {
+                        sakaiProxy.removeResource(oldFileReference);
+                    }
                     getSession().info(getString("success.save_feedback"));
                     setResponsePage(new StaffOverview());
                 } else {
