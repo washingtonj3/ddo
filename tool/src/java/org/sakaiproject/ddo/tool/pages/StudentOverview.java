@@ -64,7 +64,7 @@ public class StudentOverview extends BasePage {
                 Link<Void> feedback;
                 Label feedbackLabel;
                 final List<Feedback> feedbackList = projectLogic.getFeedbackForSubmission(submission.getSubmissionId());
-                if (feedbackList.size() == 1) {
+                if (feedbackList != null && !feedbackList.isEmpty()) {
                     final long feedbackId = feedbackList.get(0).getFeedbackId();
                     feedback = new Link<Void>("feedback") {
                         @Override

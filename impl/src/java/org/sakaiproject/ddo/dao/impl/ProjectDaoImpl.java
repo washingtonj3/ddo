@@ -228,6 +228,10 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 		}
 
 		try {
+			// first check to see if there was already a review saved
+			if(!getFeedbackForSubmission(feedback.getSubmissionId()).isEmpty()) {
+				return false;
+			}
 			getJdbcTemplate().update(getStatement("insert.feedback"),
 					new Object[]{feedback.getSubmissionId(),
 							feedback.getReviewedBy(),

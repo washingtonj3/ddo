@@ -72,6 +72,7 @@ public class StaffOverview extends BasePage {
                     startReviewing = new Link<Void>("startReviewing") {
                         @Override
                         public void onClick() {
+                            getSession().warn(getString("warn.under_review"));
                             setResponsePage(new FeedbackFormPage(submissionId));
                         }
                     };
@@ -151,7 +152,7 @@ public class StaffOverview extends BasePage {
                 Link<Void> editFeedback;
                 Label editFeedbackLabel;
                 final List<Feedback> feedbackList = projectLogic.getFeedbackForSubmission(submission.getSubmissionId());
-                if (feedbackList.size() == 1) {
+                if (feedbackList != null && !feedbackList.isEmpty()) {
                     Feedback f = feedbackList.get(0);
                     final long feedbackId = f.getFeedbackId();
                     item.add(new Label("reviewedBy", sakaiProxy.getUserDisplayName(f.getReviewedBy())));

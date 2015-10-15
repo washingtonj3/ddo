@@ -40,8 +40,8 @@ public class FeedbackFormPage extends BasePage {
         disableLink(staffOverviewLink);
         this.s = projectLogic.getSubmission(submissionId);
 
-        //s.setStatus(Submission.STATUS_UNDER);
-        //projectLogic.updateSubmissionStatus(s);
+        s.setStatus(Submission.STATUS_UNDER);
+        projectLogic.updateSubmissionStatus(s);
 
         add(new Label("name", sakaiProxy.getUserDisplayName(s.getSubmittedBy())));
         add(new Label("primaryLanguageIsEnglish",s.getPrimaryLanguageIsEnglish() ? "Yes" : "No"));
@@ -161,8 +161,6 @@ public class FeedbackFormPage extends BasePage {
 
         Link<Void> cancel = new Link<Void>("cancelLink") {
             public void onClick() {
-                //s.setStatus(Submission.STATUS_WAITING);
-                //projectLogic.updateSubmissionStatus(s);
                 setResponsePage(new StaffOverview());
             }
         };
