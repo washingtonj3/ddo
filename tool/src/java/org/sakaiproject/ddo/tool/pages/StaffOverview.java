@@ -39,6 +39,14 @@ public class StaffOverview extends BasePage {
     public StaffOverview() {
         disableLink(staffOverviewLink);
 
+        // Add a link to refresh the tables on the page
+        Link<Void> refreshPage = new Link<Void>("refreshPage") {
+            public void onClick() {
+                setResponsePage(new StaffOverview());
+            }
+        };
+        add(refreshPage);
+
         //get list of items from db, wrapped in a dataprovider
         submissionProvider = new SubmissionDataProvider();
 
