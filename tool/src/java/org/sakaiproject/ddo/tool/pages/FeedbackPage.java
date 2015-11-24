@@ -10,6 +10,7 @@ import org.apache.wicket.request.handler.resource.ResourceStreamRequestHandler;
 import org.apache.wicket.util.resource.AbstractResourceStreamWriter;
 import org.sakaiproject.ddo.model.Feedback;
 import org.sakaiproject.ddo.model.Submission;
+import org.sakaiproject.ddo.model.SubmissionFile;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -45,7 +46,8 @@ public class FeedbackPage extends BasePage {
         };
 
         add(submissionDownloadLink);
-        submissionDownloadLink.add(new Label("sFileName", sakaiProxy.getResource(submission.getDocumentRef()).getFileName()));
+        SubmissionFile sf = sakaiProxy.getResource(submission.getDocumentRef());
+        submissionDownloadLink.add(new Label("sFileName", sf==null?"Cannot find file.":sf.getFileName()));
         add(new ContextImage("sSubmissionIcon", new Model<String>(sakaiProxy.getResourceIconUrl(submission.getDocumentRef()))));
         add(new Label("sFileSize", sakaiProxy.getResourceFileSize(submission.getDocumentRef())));
 
@@ -75,7 +77,8 @@ public class FeedbackPage extends BasePage {
             };
 
             add(feedbackDownloadLink);
-            feedbackDownloadLink.add(new Label("fFileName", sakaiProxy.getResource(feedback.getReviewedDocumentRef()).getFileName()));
+            SubmissionFile ff = sakaiProxy.getResource(feedback.getReviewedDocumentRef());
+            feedbackDownloadLink.add(new Label("fFileName", ff==null?"Cannot find file.":ff.getFileName()));
             add(new ContextImage("submissionIcon", new Model<String>(sakaiProxy.getResourceIconUrl(feedback.getReviewedDocumentRef()))));
             String fileSize = "(" + sakaiProxy.getResourceFileSize(feedback.getReviewedDocumentRef()) + ")";
             add(new Label("fileSize", fileSize));

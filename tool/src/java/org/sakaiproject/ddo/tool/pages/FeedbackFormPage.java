@@ -17,6 +17,7 @@ import org.apache.wicket.util.lang.Bytes;
 import org.apache.wicket.util.resource.AbstractResourceStreamWriter;
 import org.sakaiproject.ddo.model.Feedback;
 import org.sakaiproject.ddo.model.Submission;
+import org.sakaiproject.ddo.model.SubmissionFile;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -69,7 +70,8 @@ public class FeedbackFormPage extends BasePage {
         };
 
         add(streamDownloadLink);
-        streamDownloadLink.add(new Label("fileName", sakaiProxy.getResource(s.getDocumentRef()).getFileName()));
+        SubmissionFile sf = sakaiProxy.getResource(s.getDocumentRef());
+        streamDownloadLink.add(new Label("fileName", sf==null?"Cannot find file.":sf.getFileName()));
         add(new ContextImage("submissionIcon", new Model<String>(sakaiProxy.getResourceIconUrl(s.getDocumentRef()))));
         add(new Label("fileSize", sakaiProxy.getResourceFileSize(s.getDocumentRef())));
 

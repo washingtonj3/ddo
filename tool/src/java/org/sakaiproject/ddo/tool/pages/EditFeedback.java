@@ -75,7 +75,8 @@ public class EditFeedback extends BasePage {
         };
 
         add(streamDownloadLink);
-        streamDownloadLink.add(new Label("fileName", sakaiProxy.getResource(s.getDocumentRef()).getFileName()));
+        SubmissionFile sf = sakaiProxy.getResource(s.getDocumentRef());
+        streamDownloadLink.add(new Label("fileName", sf==null?"Cannot find file.":sf.getFileName()));
         add(new ContextImage("submissionIcon", new Model<String>(sakaiProxy.getResourceIconUrl(s.getDocumentRef()))));
         add(new Label("fileSize", sakaiProxy.getResourceFileSize(s.getDocumentRef())));
 
@@ -190,8 +191,8 @@ public class EditFeedback extends BasePage {
             };
 
             feedbackForm.add(feedbackDownloadLink);
-            SubmissionFile sf = sakaiProxy.getResource(f.getReviewedDocumentRef());
-            feedbackDownloadLink.add(new Label("fFileName", sf==null?"Cannot find file":sf.getFileName()));
+            SubmissionFile ff = sakaiProxy.getResource(f.getReviewedDocumentRef());
+            feedbackDownloadLink.add(new Label("fFileName", ff==null?"Cannot find file":ff.getFileName()));
             feedbackForm.add(new ContextImage("feedbackIcon", new Model<String>(sakaiProxy.getResourceIconUrl(f.getReviewedDocumentRef()))));
             String fileSize = "(" + sakaiProxy.getResourceFileSize(f.getReviewedDocumentRef()) + ")";
             feedbackForm.add(new Label("reviewFileSize", fileSize));
