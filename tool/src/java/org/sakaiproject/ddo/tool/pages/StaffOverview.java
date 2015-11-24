@@ -216,7 +216,8 @@ public class StaffOverview extends BasePage {
                 };
 
                 item.add(streamDownloadLink);
-                streamDownloadLink.add(new Label("fileName", sakaiProxy.getResource(submission.getDocumentRef()).getFileName()));
+                SubmissionFile sf = sakaiProxy.getResource(submission.getDocumentRef());
+                streamDownloadLink.add(new Label("fileName", sf==null?"Cannot find file.":sf.getFileName()));
                 item.add(new ContextImage("submissionIcon", new Model<String>(sakaiProxy.getResourceIconUrl(submission.getDocumentRef()))));
                 item.add(new Label("fileSize", sakaiProxy.getResourceFileSize(submission.getDocumentRef())));
             }
