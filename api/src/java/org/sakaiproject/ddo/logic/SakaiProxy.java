@@ -17,6 +17,9 @@ import java.util.Set;
  */
 public interface SakaiProxy {
 
+	String DDO_STAFF_ROLE = "ddostaff";
+	String DDO_ADMIN_ROLE = "ddoadmin";
+
 	/**
 	 * Get current siteid
 	 * @return
@@ -96,10 +99,22 @@ public interface SakaiProxy {
 	Set<String> getStudentWorkerIds();
 
 	/**
+	 * Get a set of the ddo admin ids
+	 * @return
+	 */
+	Set<String> getDDOAdminIds();
+
+	/**
 	 * Returns true if the current user is a student worker
 	 * @return
 	 */
 	boolean isStudentWorker();
+
+	/**
+	 * Returns true if the current user is a DDO Admin
+	 * @return
+	 */
+	boolean isDDOAdmin();
 
 	/**
 	 * Save a file to CHS
@@ -205,4 +220,20 @@ public interface SakaiProxy {
 	void sendNotificationToInstructor(String instructorEmail, String currentUserId, Submission submission);
 
 	void sendReceipt(String currentUserId, Submission submission);
+
+	/**
+	 * Adds a user to the ddo realm.
+	 *
+	 * @param userId User's id
+	 * @param roleId The role that the user will have ddostaff or ddoadmin
+     * @return
+     */
+	boolean addUserToDDO(String userId, String roleId);
+
+	/**
+	 * Removes a user from the ddo realm.
+	 * @param userId
+	 * @return
+     */
+	boolean removeUserFromDDO(String userId);
 }

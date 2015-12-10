@@ -50,6 +50,7 @@ public class BasePage extends WebPage implements IHeaderContributor {
 
 	Link<Void> studentOverviewLink;
 	Link<Void> staffOverviewLink;
+	Link<Void> adminPageLink;
 	
 	public BasePage() {
 		
@@ -58,7 +59,7 @@ public class BasePage extends WebPage implements IHeaderContributor {
 		WebMarkupContainer menu = new WebMarkupContainer("menu") {
 			@Override
 			public boolean isVisible() {
-				return sakaiProxy.isStudentWorker();
+				return (sakaiProxy.isStudentWorker() || sakaiProxy.isDDOAdmin());
 			}
 		};
 
@@ -83,6 +84,22 @@ public class BasePage extends WebPage implements IHeaderContributor {
 		staffOverviewLink.add(new Label("staffOverviewLinkLabel", new ResourceModel("link.staffoverview")).setRenderBodyOnly(true));
 		staffOverviewLink.add(new AttributeModifier("title", new ResourceModel("link.staffoverview.tooltip")));
 		menu.add(staffOverviewLink);
+
+		//Admin Page link
+		adminPageLink = new Link<Void>("adminPageLink") {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void onClick() {
+				setResponsePage(new AdminPage());
+			}
+			@Override
+			public boolean isVisible() {
+				return sakaiProxy.isDDOAdmin();
+			}
+		};
+		adminPageLink.add(new Label("adminPageLinkLabel", new ResourceModel("link.adminpage")).setRenderBodyOnly(true));
+		adminPageLink.add(new AttributeModifier("title", new ResourceModel("link.adminpage.tooltip")));
+		menu.add(adminPageLink);
 
 		add(menu);
 

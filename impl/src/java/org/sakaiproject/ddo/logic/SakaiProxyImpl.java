@@ -5,10 +5,7 @@ import lombok.Setter;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.sakaiproject.authz.api.AuthzGroupService;
-import org.sakaiproject.authz.api.Member;
-import org.sakaiproject.authz.api.SecurityAdvisor;
-import org.sakaiproject.authz.api.SecurityService;
+import org.sakaiproject.authz.api.*;
 import org.sakaiproject.component.api.ServerConfigurationService;
 import org.sakaiproject.content.api.ContentHostingService;
 import org.sakaiproject.content.api.ContentResource;
@@ -181,7 +178,9 @@ public class SakaiProxyImpl implements SakaiProxy {
 			Set<Member> membersSet = authzGroupService.getAuthzGroup("/ddo").getMembers();
 			Set<String> studentWorkerIds = new HashSet<String>();
 			for(Member m : membersSet) {
-				studentWorkerIds.add(m.getUserId());
+				if(DDO_STAFF_ROLE.equals(m.getRole().getId())) {
+					studentWorkerIds.add(m.getUserId());
+				}
 			}
 			return studentWorkerIds;
 		} catch (Exception e) {
@@ -193,9 +192,40 @@ public class SakaiProxyImpl implements SakaiProxy {
 	/**
 	 * {@inheritDoc}
 	 */
+	public Set<String> getDDOAdminIds() {
+		try {
+			Set<Member> membersSet = authzGroupService.getAuthzGroup("/ddo").getMembers();
+			Set<String> ddoAdminIds = new HashSet<String>();
+			for(Member m : membersSet) {
+				if(DDO_ADMIN_ROLE.equals(m.getRole().getId())) {
+					ddoAdminIds.add(m.getUserId());
+				}
+			}
+			return ddoAdminIds;
+		} catch (Exception e) {
+			log.warn("Cannot get DDO admins");
+			return null;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean isStudentWorker() {
 		String currentUserId = getCurrentUserId();
 		for(String id : getStudentWorkerIds()) {
+			if (currentUserId.equals(id))
+				return true;
+		}
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean isDDOAdmin() {
+		String currentUserId = getCurrentUserId();
+		for(String id : getDDOAdminIds()) {
 			if (currentUserId.equals(id))
 				return true;
 		}
@@ -595,6 +625,48 @@ public class SakaiProxyImpl implements SakaiProxy {
         body.append("<br /><br />");
 
 		emailService.send(fromStr, toStr, subject, body.toString(), headerToStr, null, additionalHeaders);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean addUserToDDO(String userId, String roleId) {
+		if(isDDOAdmin()) {
+			try {
+				AuthzGroup ddo = authzGroupService.getAuthzGroup("/ddo");
+				ddo.addMember(userId, roleId, true, false);
+				authzGroupService.save(ddo);
+				return true;
+			} catch (GroupNotDefinedException e) {
+				log.error("DDO Realm was not created. " + e);
+				e.printStackTrace();
+			} catch (AuthzPermissionException e) {
+				log.error("Current user not authorized to update ddo realm. " + e);
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean removeUserFromDDO(String userId) {
+		if(isDDOAdmin()) {
+			try {
+				AuthzGroup ddo = authzGroupService.getAuthzGroup("/ddo");
+				ddo.removeMember(userId);
+				authzGroupService.save(ddo);
+				return true;
+			} catch (GroupNotDefinedException e) {
+				log.error("DDO Realm was not created. " + e);
+				e.printStackTrace();
+			} catch (AuthzPermissionException e) {
+				log.error("Current user not authorized to update ddo realm. " + e);
+				e.printStackTrace();
+			}
+		}
+		return false;
 	}
 
 	/**
