@@ -127,6 +127,19 @@ public class SakaiProxyImpl implements SakaiProxy {
 	/**
 	 * {@inheritDoc}
 	 */
+	public String getUserSortName(String userId) {
+		String userSortName = "";
+		try {
+			userSortName = userDirectoryService.getUser(userId).getSortName();
+		} catch (Exception e) {
+			log.debug("Could not get user " + userId + e);
+		}
+		return userSortName;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getUserFirstName(String userId) {
 		String email = null;
 		try {
@@ -631,7 +644,7 @@ public class SakaiProxyImpl implements SakaiProxy {
 	 * {@inheritDoc}
 	 */
 	public boolean addUserToDDO(String userId, String roleId) {
-		if(isDDOAdmin()) {
+		if(isDDOAdmin() && userId != null) {
 			try {
 				AuthzGroup ddo = authzGroupService.getAuthzGroup("/ddo");
 				ddo.addMember(userId, roleId, true, false);

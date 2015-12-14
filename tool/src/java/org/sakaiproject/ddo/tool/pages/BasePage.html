@@ -10,6 +10,8 @@
 	<link href="/library/js/jquery/ui/1.10.3/css/ui-lightness/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" type="text/css" />
 	<script type='text/javascript' src='/library/editor/ckeditor4/ckeditor.js'></script>
 	<script type='text/javascript' src='/library/editor/ckeditor4/adapters/jquery.js'></script>
+	<script type="text/javascript" src="/library/js/jquery/tablesorter/2.0.3/jquery.tablesorter-2.0.3.min.js"></script>
+	<link href="/library/js/jquery/tablesorter/2.0.3/blue/style.css" rel="stylesheet" type="text/css" />
 	<style type="text/css">
 		body{
 			font-family: 'Open Sans', sans-serif !important;
@@ -201,6 +203,27 @@
         .alertMessage ul li {
             list-style: none;
         }
+		.addStaff {
+			-webkit-transition: all 0.30s ease-in-out;
+			-moz-transition: all 0.30s ease-in-out;
+			-ms-transition: all 0.30s ease-in-out;
+			-o-transition: all 0.30s ease-in-out;
+			outline: none;
+			padding: 3px 0px 3px 3px;
+			margin: 5px 1px 3px 0px;
+			border: 1px solid #DDDDDD;
+			height: 2em;
+			width: 200px;
+		}
+		.addStaff:focus {
+			box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+			padding: 3px 0px 3px 3px;
+			margin: 5px 1px 3px 0px;
+			border: 1px solid rgba(81, 203, 238, 1);
+		}
+		.removeUser:hover {
+			cursor: pointer;
+		}
 	</style>
 	<script type="text/javascript">
 		$(document).ready(function() {

@@ -69,6 +69,13 @@ public interface SakaiProxy {
 	String getUserDisplayName(String userId);
 
 	/**
+	 *
+	 * @param userId
+	 * @return User's sort name
+     */
+	String getUserSortName(String userId);
+
+	/**
 	 * Get firstname of a given userid (internal id)
 	 * @return
 	 */

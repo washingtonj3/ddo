@@ -6,27 +6,64 @@
 
     <h1>Administrative Tasks</h1>
 
-    <div>
-        <h3>Edit DDO Staff Members</h3>
-        <div wicket:id="staffContainer">
-        <ul>
-            <lh>DDO Staff</lh>
-            <li wicket:id="ddoStaff">
-                <span wicket:id="staff-name" /> (<span wicket:id="staff-username" />) <a href="#"><img src="/library/image/silk/delete.png" /></a>
-            </li>
-        </ul>
-        </div>
-        <form wicket:id="addStaffForm">
-            <label wicket:id="add-staff-label">[add staff label]</label>: <input type="text" wicket:id="userName"/>
+    <div style="border:1px solid #ccc;padding:.5em;margin-left:1em;vertical-align: top;width:400px;position:relative;">
+        <div style="background-color:#fff;position:absolute;top:-1em;left:.5em;"><h3 style="color:#001f3f;margin: 0;padding: 0em .5em;font-size:1.4em!important;">Edit DDO Staff Members</h3></div>
+        <form wicket:id="addStaffForm" style="text-align: center">
+            <h3><label wicket:id="add-staff-label" /></h3>
+            <input type="text" wicket:id="userName" placeholder="Ex: jdoe2 or 123456789" class="addStaff" style="margin-right:1em;"/>
             <input type="submit" value="Add" wicket:id="ajax-add-staff"/>
         </form>
-        <ul>
-            <lh>DDO Admins</lh>
-            <li wicket:id="ddoAdmins">
-                <span wicket:id="admin-name" /> (<span wicket:id="admin-username" />) <a href="#"><img src="/library/image/silk/delete.png" /></a>
-            </li>
-        </ul>
-        <input type="text" /><a href="#">Add</a>
+        <div wicket:id="staffContainer">
+        <table id="editStaffTable" class="tablesorter" style="width:400px;">
+            <thead>
+                <tr>
+                    <th colspan="2"><h3 style="margin:.2em">Current DDO Staff</h3></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr wicket:id="ddoStaff">
+                    <td style="font-weight: 300;font-size: 14px;vertical-align: middle;">
+                        <p style="margin:0;padding:0;">
+                            <span wicket:id="staff-name" /> (<span wicket:id="staff-username" />)
+                        </p>
+                    </td>
+                    <td style="vertical-align: middle">
+                        <p style="margin:0;padding:0;">
+                            <span class="removeUser button-example-1 button-example-red">Remove</span>
+                            <input type="text" value="" wicket:id="staff-userId" style="display:none;"/>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+            <script type="text/javascript">
+                // This runs after each time this container is reloaded to keep the iframe
+                // large enough and re-initialize the tablesorter
+                $("#editStaffTable").tablesorter({sortList: [[0,0]]});
+                if (window.name != "") {
+                    var frame = parent.document.getElementById(window.name);
+                    if (frame) {
+                        var clientH = document.body.clientHeight + 50;
+                        $(frame).height(clientH);
+                    }
+                }
+                $("input[name='userName']").val('');
+                $("input[name='userId']").val('');
+                $(".removeUser").on("click",function(){
+                    $("input[name='userId']").val($(this).next('input').val());
+                    $("input[name='ajax-remove-staff']").click();
+                    // Refresh the page if last user is removed
+                    if($(".removeUser").length === 1) {
+                        document.getElementById("adminRefresh").click();
+                    }
+                });
+            </script>
+        </div>
+        <form wicket:id="removeStaffForm" style="display:none;">
+            <input type="text" wicket:id="userId" value="" />
+            <input type="submit" value="Remove" wicket:id="ajax-remove-staff" />
+        </form>
+        <a wicket:id="refreshPage" title="Refresh" style="display:none;" id="adminRefresh">Refresh Page</a>
     </div>
 
 </wicket:extend>

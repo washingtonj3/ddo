@@ -4,16 +4,13 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.FormComponent;
-import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.form.SimpleFormComponentLabel;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.form.*;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.sakaiproject.ddo.logic.SakaiProxy;
 
@@ -24,8 +21,6 @@ public class AdminPage extends BasePage {
 
     public AdminPage() {
         disableLink(adminPageLink);
-
-        List<String> ddoAdminIds = new ArrayList<String>(sakaiProxy.getDDOAdminIds());
 
         final WebMarkupContainer staffContainer = new WebMarkupContainer("staffContainer");
         staffContainer.setOutputMarkupId(true);
@@ -40,22 +35,14 @@ public class AdminPage extends BasePage {
         DataView staffDataView = new DataView<String>("ddoStaff", studentWorkerList) {
             @Override
             protected void populateItem(Item item) {
-                String userId = (String) item.getModelObject();
-                item.add(new Label("staff-name", sakaiProxy.getUserDisplayName(userId)));
+                final String userId = (String) item.getModelObject();
+                item.add(new Label("staff-name", sakaiProxy.getUserSortName(userId)));
                 item.add(new Label("staff-username", sakaiProxy.getUserDisplayId(userId)));
+                item.add(new TextField<String>("staff-userId", Model.of(userId)));
             }
         };
 
         staffContainer.add(staffDataView);
-
-        add(new ListView<String>("ddoAdmins", ddoAdminIds) {
-            @Override
-            protected void populateItem(ListItem<String> listItem) {
-                String userId = listItem.getModelObject();
-                listItem.add(new Label("admin-name", sakaiProxy.getUserDisplayName(userId)));
-                listItem.add(new Label("admin-username", sakaiProxy.getUserDisplayId(userId)));
-            }
-        });
 
         final AddBean addStaffBean = new AddBean();
 
@@ -75,13 +62,13 @@ public class AdminPage extends BasePage {
                 String userId = sakaiProxy.getUserIdForEid(addStaffBean.getUserName());
                 boolean success = sakaiProxy.addUserToDDO(userId, SakaiProxy.DDO_STAFF_ROLE);
                 if(success) {
-                    success("User added to DDO Staff.");
+                    info("User " + addStaffBean.getUserName() + " added to DDO Staff.");
+                    //refresh list
+                    target.add(staffContainer);
                 } else {
-                    error("Failed to add user to DDO Staff.");
+                    error("Failed to add user " + addStaffBean.getUserName() + " to DDO Staff.");
                 }
                 target.add(feedbackPanel);
-                //refresh list
-                target.add(staffContainer);
             }
 
             @Override
@@ -91,6 +78,44 @@ public class AdminPage extends BasePage {
         });
 
         add(addStaffForm);
+
+        final RemoveBean removeStaffBean = new RemoveBean();
+        final Form<RemoveBean> removeStaffForm = new Form<RemoveBean>("removeStaffForm", new CompoundPropertyModel<RemoveBean>(removeStaffBean));
+
+        FormComponent fc;
+
+        fc = new RequiredTextField<String>("userId");
+
+        removeStaffForm.add(fc);
+
+        removeStaffForm.add(new AjaxButton("ajax-remove-staff", removeStaffForm) {
+            @Override
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                boolean success = sakaiProxy.removeUserFromDDO(removeStaffBean.getUserId());
+                if(success) {
+                    info("User " + sakaiProxy.getUserDisplayId(removeStaffBean.getUserId()) + " removed from DDO Staff.");
+                    //refresh list
+                    target.add(staffContainer);
+                } else {
+                    error("Failed to remove user " + sakaiProxy.getUserDisplayId(removeStaffBean.getUserId()) + " from DDO Staff.");
+                }
+                target.add(feedbackPanel);
+            }
+
+            @Override
+            protected void onError(AjaxRequestTarget target, Form<?> form) {
+                target.add(feedbackPanel);
+            }
+        });
+
+        add(removeStaffForm);
+
+        Link<Void> refreshPage = new Link<Void>("refreshPage") {
+            public void onClick() {
+                setResponsePage(new AdminPage());
+            }
+        };
+        add(refreshPage);
 
     }
 }
