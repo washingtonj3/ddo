@@ -646,6 +646,8 @@ public class SakaiProxyImpl implements SakaiProxy {
 	public boolean addUserToDDO(String userId, String roleId) {
 		if(isDDOAdmin() && userId != null) {
 			try {
+				// We know the current user is a DDO Admin so enable a temporary security advisor
+				enableSecurityAdvisor();
 				AuthzGroup ddo = authzGroupService.getAuthzGroup("/ddo");
 				ddo.addMember(userId, roleId, true, false);
 				authzGroupService.save(ddo);
@@ -656,6 +658,9 @@ public class SakaiProxyImpl implements SakaiProxy {
 			} catch (AuthzPermissionException e) {
 				log.error("Current user not authorized to update ddo realm. " + e);
 				e.printStackTrace();
+			} finally {
+				// Always make sure to disable the security advisor regardless of results
+				disableSecurityAdvisor();
 			}
 		}
 		return false;
@@ -665,8 +670,10 @@ public class SakaiProxyImpl implements SakaiProxy {
 	 * {@inheritDoc}
 	 */
 	public boolean removeUserFromDDO(String userId) {
-		if(isDDOAdmin()) {
+		if(isDDOAdmin() && userId != null) {
 			try {
+				// We know the current user is a DDO Admin so enable a temporary security advisor
+				enableSecurityAdvisor();
 				AuthzGroup ddo = authzGroupService.getAuthzGroup("/ddo");
 				ddo.removeMember(userId);
 				authzGroupService.save(ddo);
@@ -677,6 +684,9 @@ public class SakaiProxyImpl implements SakaiProxy {
 			} catch (AuthzPermissionException e) {
 				log.error("Current user not authorized to update ddo realm. " + e);
 				e.printStackTrace();
+			} finally {
+				// Always make sure to disable the security advisor regardless of results
+				disableSecurityAdvisor();
 			}
 		}
 		return false;
