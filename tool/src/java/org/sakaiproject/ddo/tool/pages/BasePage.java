@@ -51,6 +51,7 @@ public class BasePage extends WebPage implements IHeaderContributor {
 	Link<Void> studentOverviewLink;
 	Link<Void> staffOverviewLink;
 	Link<Void> adminPageLink;
+	Link<Void> archivePageLink;
 	
 	public BasePage() {
 		
@@ -84,6 +85,17 @@ public class BasePage extends WebPage implements IHeaderContributor {
 		staffOverviewLink.add(new Label("staffOverviewLinkLabel", new ResourceModel("link.staffoverview")).setRenderBodyOnly(true));
 		staffOverviewLink.add(new AttributeModifier("title", new ResourceModel("link.staffoverview.tooltip")));
 		menu.add(staffOverviewLink);
+
+		//Archive Page link
+		archivePageLink = new Link<Void>("archivePageLink") {
+			private static final long serialVersionUID = 1L;
+			public void onClick() {
+				setResponsePage(new ArchivePage());
+			}
+		};
+		archivePageLink.add(new Label("archivePageLinkLabel", new ResourceModel("link.archivepage")).setRenderBodyOnly(true));
+		archivePageLink.add(new AttributeModifier("title", new ResourceModel("link.archivepage.tooltip")));
+		menu.add(archivePageLink);
 
 		//Admin Page link
 		adminPageLink = new Link<Void>("adminPageLink") {

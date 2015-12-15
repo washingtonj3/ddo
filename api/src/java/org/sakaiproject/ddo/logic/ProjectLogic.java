@@ -39,6 +39,7 @@ public interface ProjectLogic {
 	boolean addFeedback(Feedback feedback);
 	List<Submission> getAllWaitingSubmissions();
 	List<Submission> getAllReviewedSubmissions();
+	List<Submission> getAllArchivedSubmissions();
 	boolean updateSubmissionStatus(Submission s);
 	boolean updateFeedback(Feedback feedback);
 

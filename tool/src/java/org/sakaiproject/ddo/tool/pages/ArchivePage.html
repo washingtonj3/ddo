@@ -6,32 +6,7 @@
 
     <h1>Welcome to Digital Drop-Off <a wicket:id="refreshPage" title="Refresh"><img src="/library/image/ud_custom/sync32.png" alt="Refresh"></a></h1>
 
-    <div style="margin-left:2em;"><a target="_blank" href="https://ewiki.udayton.edu/isidore/Write_Place_Consultant_DDO_Instructions" class="button-example-1 button-example-blue" style="color:white !important;">Write Place Consultant Instructions</a></div>
-
-    <h3>Documents for Review (<span wicket:id="numberOfWaiting" />)</h3>
-
-    <table cellspacing="0" class="dataview tier2" style="text-align: center;">
-        <tbody>
-        <tr>
-            <th style="text-align: left">Submitted By</th>
-            <th style="text-align: left">Submission</th>
-            <th>Submission Date</th>
-            <th>Status</th>
-            <th>Feedback</th>
-        </tr>
-        <tr wicket:id="awaitingReview">
-            <td style="text-align: left"><span wicket:id="submittedBy" /> (<span wicket:id="username"/>)</td>
-            <td style="text-align: left"><img wicket:id="submissionIcon" class="fileIcon" /><a wicket:id="document"><span wicket:id="fileName" /></a> (<span wicket:id="fileSize"/>)</td>
-            <td><span wicket:id="submissiondate">Submission Date</span></td>
-            <td><span wicket:id="status">Status</span></td>
-            <td><a wicket:id="startReviewing"><span wicket:id="startReviewingLabel" /></a></td>
-        </tr>
-        </tbody>
-    </table>
-
-    <div wicket:id="navigator" class="tier2" style="font-size:1.2em;background-color:#eee;text-align: center;"></div>
-
-    <h3>Completed Reviews (<span wicket:id="numberOfReviewed" />)</h3>
+    <h3>Archived Reviews (<span wicket:id="numberOfReviewed" />)</h3>
 
     <table cellspacing="0" class="dataview tier2" style="text-align: center;">
         <tbody>
@@ -43,7 +18,7 @@
             <th style="text-align: left">Reviewed By</th>
             <th>Review Date</th>
             <th>Feedback</th>
-            <th>Archive</th>
+            <th>Restore</th>
         </tr>
         <tr wicket:id="reviewed">
             <td style="text-align: left"><span wicket:id="submittedBy" /> (<span wicket:id="username"/>)</td>
@@ -57,7 +32,7 @@
                 <a wicket:id="editFeedback"><span wicket:id="editFeedbackLabel" /></a>
             </td>
             <td>
-                <a wicket:id="archive-link">Archive</a>
+                <a wicket:id="restore-link">Restore</a>
             </td>
         </tr>
         </tbody>

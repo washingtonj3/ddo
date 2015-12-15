@@ -28,115 +28,20 @@ import org.sakaiproject.ddo.model.Feedback;
 import org.sakaiproject.ddo.model.Submission;
 import org.sakaiproject.ddo.model.SubmissionFile;
 
-/**
- * Created by dbauer1 on 12/10/14.
- */
-public class StaffOverview extends BasePage {
+public class ArchivePage extends BasePage {
 
-    SubmissionDataProvider submissionProvider;
     ReviewDataProvider reviewedProvider;
 
-    public StaffOverview() {
-        disableLink(staffOverviewLink);
+    public ArchivePage() {
+        disableLink(archivePageLink);
 
         // Add a link to refresh the tables on the page
         Link<Void> refreshPage = new Link<Void>("refreshPage") {
             public void onClick() {
-                setResponsePage(new StaffOverview());
+                setResponsePage(new ArchivePage());
             }
         };
         add(refreshPage);
-
-        //get list of items from db, wrapped in a dataprovider
-        submissionProvider = new SubmissionDataProvider();
-
-        //present the data in a table
-        final DataView<Submission> dataView = new DataView<Submission>("awaitingReview", submissionProvider) {
-
-            @Override
-            public void populateItem(final Item item) {
-
-                DateFormat df = new SimpleDateFormat("MMM d, yyyy h:mm a");
-
-                final Submission submission = (Submission) item.getModelObject();
-                String submissionStatus = submission.getStatus();
-                item.add(new Label("submittedBy", sakaiProxy.getUserDisplayName(submission.getSubmittedBy())));
-                item.add(new Label("username", sakaiProxy.getUserDisplayId(submission.getSubmittedBy())));
-                item.add(new Label("submissiondate", df.format(submission.getSubmissionDate())));
-                item.add(new Label("status", submissionStatus));
-                Link<Void> startReviewing;
-                Label startReviewingLabel;
-                if (submissionStatus != null && Submission.STATUS_WAITING.equals(submissionStatus)) {
-                    final long submissionId = submission.getSubmissionId();
-                    startReviewing = new Link<Void>("startReviewing") {
-                        @Override
-                        public void onClick() {
-                            setResponsePage(new FeedbackFormPage(submissionId));
-                        }
-                    };
-                    startReviewingLabel = new Label("startReviewingLabel", new ResourceModel("link.start_reviewing"));
-                } else {
-                    final long submissionId = submission.getSubmissionId();
-                    startReviewing = new Link<Void>("startReviewing") {
-                        @Override
-                        public void onClick() {
-                            getSession().warn(getString("warn.under_review"));
-                            setResponsePage(new FeedbackFormPage(submissionId));
-                        }
-                    };
-                    startReviewingLabel = new Label("startReviewingLabel", Submission.STATUS_UNDER);
-                }
-                startReviewing.add(startReviewingLabel);
-                item.add(startReviewing);
-                Link<Void> streamDownloadLink = new Link<Void>("document") {
-
-                    @Override
-                    public void onClick() {
-
-                        AbstractResourceStreamWriter rstream = new AbstractResourceStreamWriter() {
-
-                            @Override
-                            public void write(OutputStream output) throws IOException {
-                                output.write(sakaiProxy.getResource(submission.getDocumentRef()).getBytes());
-                            }
-                        };
-
-                        ResourceStreamRequestHandler handler = new ResourceStreamRequestHandler(rstream, sakaiProxy.getResource(submission.getDocumentRef()).getFileName());
-                        getRequestCycle().scheduleRequestHandlerAfterCurrent(handler);
-                    }
-                };
-
-                item.add(streamDownloadLink);
-                SubmissionFile sf = sakaiProxy.getResource(submission.getDocumentRef());
-                streamDownloadLink.add(new Label("fileName", sf==null?"Cannot find file":sf.getFileName()));
-                item.add(new ContextImage("submissionIcon", new Model<String>(sakaiProxy.getResourceIconUrl(submission.getDocumentRef()))));
-                item.add(new Label("fileSize", sakaiProxy.getResourceFileSize(submission.getDocumentRef())));
-            }
-        };
-        dataView.setItemReuseStrategy(new DefaultItemReuseStrategy());
-        dataView.setItemsPerPage(10);
-        add(dataView);
-        add(new Label("numberOfWaiting",submissionProvider.size()));
-
-        //add a pager to our table, only visible if we have more than 5 items
-        add(new PagingNavigator("navigator", dataView) {
-
-            @Override
-            public boolean isVisible() {
-                if(submissionProvider.size() > 10) {
-                    return true;
-                }
-                return false;
-            }
-
-            @Override
-            public void onBeforeRender() {
-                super.onBeforeRender();
-
-                //clear the feedback panel messages
-                clearFeedback(feedbackPanel);
-            }
-        });
 
         //get list of items from db, wrapped in a dataprovider
         reviewedProvider = new ReviewDataProvider();
@@ -168,8 +73,8 @@ public class StaffOverview extends BasePage {
                     feedback = new Link<Void>("feedback") {
                         @Override
                         public void onClick() {
-                                setResponsePage(new FeedbackPage(feedbackId,"staff"));
-                            }
+                            setResponsePage(new FeedbackPage(feedbackId,"staff"));
+                        }
                     };
                     editFeedback = new Link<Void>("editFeedback") {
                         @Override
@@ -220,20 +125,20 @@ public class StaffOverview extends BasePage {
                 streamDownloadLink.add(new Label("fileName", sf==null?"Cannot find file.":sf.getFileName()));
                 item.add(new ContextImage("submissionIcon", new Model<String>(sakaiProxy.getResourceIconUrl(submission.getDocumentRef()))));
                 item.add(new Label("fileSize", sakaiProxy.getResourceFileSize(submission.getDocumentRef())));
-                // Archive link
-                Link<Void> archiveLink = new Link<Void>("archive-link") {
+                // Restore link
+                Link<Void> restoreLink = new Link<Void>("restore-link") {
                     @Override
                     public void onClick() {
-                        submission.setStatus(Submission.STATUS_ARCHIVED);
+                        submission.setStatus(Submission.STATUS_REVIEWED);
                         if(projectLogic.updateSubmissionStatus(submission)){
-                            getSession().info(getString("success.archived_submission"));
-                            setResponsePage(new StaffOverview());
+                            getSession().info(getString("success.restored_submission"));
+                            setResponsePage(new ArchivePage());
                         } else {
-                            error(getString("error.archived_submission"));
+                            error(getString("error.restored_submission"));
                         }
                     }
                 };
-                item.add(archiveLink);
+                item.add(restoreLink);
             }
         };
         dataViewReviewed.setItemReuseStrategy(new DefaultItemReuseStrategy());
@@ -264,56 +169,6 @@ public class StaffOverview extends BasePage {
     }
 
     /**
-     * DataProvider to manage our submission list
-     *
-     */
-    private class SubmissionDataProvider implements IDataProvider<Submission> {
-
-        private List<Submission> list;
-
-        private List<Submission> getData() {
-            if(list == null) {
-                list = projectLogic.getAllWaitingSubmissions();
-                Collections.sort(list, new Comparator<Submission>() {
-                    @Override
-                    public int compare(Submission s1, Submission s2) {
-                        long t1 = s1.getSubmissionDate().getTime();
-                        long t2 = s2.getSubmissionDate().getTime();
-                        if (t1 < t2) return -1;
-                        else if (t1 > t2) return 1;
-                        else return 0;
-                    }
-                });
-                // Don't reverse the list since we want the submission that has been waiting the longest on top.
-            }
-            return list;
-        }
-
-
-        @Override
-        public Iterator<Submission> iterator(long first, long count){
-            int f = (int) first; //not ideal but ok for demo
-            int c = (int) count; //not ideal but ok for demo
-            return getData().subList(f, f + c).iterator();
-        }
-
-        @Override
-        public long size(){
-            return getData().size();
-        }
-
-        @Override
-        public IModel<Submission> model(Submission object){
-            return new DetachableSubmissionModel(object);
-        }
-
-        @Override
-        public void detach(){
-            list = null;
-        }
-    }
-
-    /**
      * DataProvider to manage our review list
      *
      */
@@ -323,7 +178,7 @@ public class StaffOverview extends BasePage {
 
         private List<Submission> getData() {
             if(list == null) {
-                list = projectLogic.getAllReviewedSubmissions();
+                list = projectLogic.getAllArchivedSubmissions();
                 Collections.sort(list, new Comparator<Submission>() {
                     @Override
                     public int compare(Submission s1, Submission s2) {

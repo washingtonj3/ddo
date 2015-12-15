@@ -64,6 +64,13 @@ public class ProjectLogicImpl implements ProjectLogic {
 	/**
 	 * {@inheritDoc}
 	 */
+	public List<Submission> getAllArchivedSubmissions() {
+		return dao.getAllArchivedSubmissions();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Submission> getSubmissionsForUser(String userId) {
 		return dao.getSubmissionsForUser(userId);
 	}

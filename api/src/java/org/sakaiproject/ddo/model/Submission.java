@@ -18,6 +18,7 @@ public class Submission implements Serializable {
     public static final String STATUS_WAITING = "Awaiting Review";
     public static final String STATUS_UNDER = "Under Review";
     public static final String STATUS_REVIEWED = "Reviewed";
+    public static final String STATUS_ARCHIVED = "Archived";
 
     private long submissionId;
     private String documentRef;

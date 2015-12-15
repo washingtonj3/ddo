@@ -82,6 +82,11 @@ public interface ProjectDao {
 	List<Submission> getAllReviewedSubmissions();
 
 	/**
+	 * Get all archived submissions
+	 */
+	List<Submission> getAllArchivedSubmissions();
+
+	/**
 	 * Update the status for a submission
 	 *
 	 * @param s

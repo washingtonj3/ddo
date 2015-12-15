@@ -113,6 +113,25 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 	 * {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
+	public List<Submission> getAllArchivedSubmissions() {
+		if(log.isDebugEnabled()) {
+			log.debug("getAllArchivedSubmissions()");
+		}
+
+		try {
+			return getJdbcTemplate().query(getStatement("select.allarchivedsubmissions"),
+					new SubmissionMapper()
+			);
+		} catch (DataAccessException ex) {
+			log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
+			return null;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("unchecked")
 	public List<Submission> getSubmissionsForUser(String userId) {
 		if(log.isDebugEnabled()) {
 			log.debug("getSubmissionsForUser()");
