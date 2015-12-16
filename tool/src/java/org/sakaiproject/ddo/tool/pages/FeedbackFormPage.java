@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 /**
  * Created by David P. Bauer on 12/17/14.
@@ -108,6 +109,9 @@ public class FeedbackFormPage extends BasePage {
                     f.setReviewedDocumentRef("");
                 } else if (file.getSize() == 0) {
                     error(getString("error.empty_file"));
+                    return;
+                } else if (!Arrays.asList(SubmissionFile.AcceptableMimeTypes).contains(file.getContentType())) {
+                    error(getString("error.unacceptable_filetype"));
                     return;
                 } else {
 
