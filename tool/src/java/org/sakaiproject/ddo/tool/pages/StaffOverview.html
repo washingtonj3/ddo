@@ -43,7 +43,9 @@
             <th style="text-align: left">Reviewed By</th>
             <th>Review Date</th>
             <th>Feedback</th>
-            <th>Archive</th>
+            <wicket:enclosure child="archive-all-link">
+                <th><a wicket:id="archive-all-link" class="confirmation">Archive All</a></th>
+            </wicket:enclosure>
         </tr>
         <tr wicket:id="reviewed">
             <td style="text-align: left"><span wicket:id="submittedBy" /> (<span wicket:id="username"/>)</td>
@@ -56,9 +58,11 @@
                 <a wicket:id="feedback"><span wicket:id="feedbackLabel" /></a> |
                 <a wicket:id="editFeedback"><span wicket:id="editFeedbackLabel" /></a>
             </td>
+            <wicket:enclosure child="archive-link">
             <td>
                 <a wicket:id="archive-link">Archive</a>
             </td>
+            </wicket:enclosure>
         </tr>
         </tbody>
     </table>

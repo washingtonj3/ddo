@@ -149,6 +149,20 @@ public class ProjectLogicImpl implements ProjectLogic {
 	/**
 	 * {@inheritDoc}
 	 */
+	public boolean archiveAllReviewedSubmissions() {
+		List<Submission> allReviewedSubmissions = getAllReviewedSubmissions();
+		for(Submission submission : allReviewedSubmissions) {
+			submission.setStatus(Submission.STATUS_ARCHIVED);
+			if(!updateSubmissionStatus(submission)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getNumberOfWaitingSubmissions() {
 		return dao.getNumberOfWaitingSubmissions();
 	}

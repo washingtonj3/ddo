@@ -1,8 +1,6 @@
 package org.sakaiproject.ddo.tool.pages;
 
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
@@ -30,7 +28,7 @@ import org.sakaiproject.ddo.model.SubmissionFile;
 
 public class ArchivePage extends BasePage {
 
-    ReviewDataProvider reviewedProvider;
+    ArchiveDataProvider archivedProvider;
 
     public ArchivePage() {
         disableLink(archivePageLink);
@@ -43,11 +41,13 @@ public class ArchivePage extends BasePage {
         };
         add(refreshPage);
 
+        add(new Label("restore-header", "Restore").setVisible(sakaiProxy.isDDOAdmin()));
+
         //get list of items from db, wrapped in a dataprovider
-        reviewedProvider = new ReviewDataProvider();
+        archivedProvider = new ArchiveDataProvider();
 
         //present the reviewed data in a table
-        final DataView<Submission> dataViewReviewed = new DataView<Submission>("reviewed", reviewedProvider) {
+        final DataView<Submission> dataViewArchived = new DataView<Submission>("archived", archivedProvider) {
 
             @Override
             public void populateItem(final Item item) {
@@ -139,20 +139,21 @@ public class ArchivePage extends BasePage {
                     }
                 };
                 item.add(restoreLink);
+                restoreLink.setVisible(sakaiProxy.isDDOAdmin());
             }
         };
-        dataViewReviewed.setItemReuseStrategy(new DefaultItemReuseStrategy());
-        dataViewReviewed.setItemsPerPage(7);
-        add(dataViewReviewed);
+        dataViewArchived.setItemReuseStrategy(new DefaultItemReuseStrategy());
+        dataViewArchived.setItemsPerPage(7);
+        add(dataViewArchived);
 
-        add(new Label("numberOfReviewed",reviewedProvider.size()));
+        add(new Label("numberOfReviewed",archivedProvider.size()));
 
         //add a pager to our table, only visible if we have more than 5 items
-        add(new PagingNavigator("reviewedNavigator", dataViewReviewed) {
+        add(new PagingNavigator("archivedNavigator", dataViewArchived) {
 
             @Override
             public boolean isVisible() {
-                if(reviewedProvider.size() > 7) {
+                if(archivedProvider.size() > 7) {
                     return true;
                 }
                 return false;
@@ -172,7 +173,7 @@ public class ArchivePage extends BasePage {
      * DataProvider to manage our review list
      *
      */
-    private class ReviewDataProvider implements IDataProvider<Submission> {
+    private class ArchiveDataProvider implements IDataProvider<Submission> {
 
         private List<Submission> list;
 

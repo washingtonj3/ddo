@@ -351,6 +351,9 @@
 			$("#replaceReview").click(function() {
 				$("#newAttachment").toggle();
 			});
+			$('.confirmation').on('click', function () {
+				return confirm('Are you sure you want to archive all reviewed submissions?');
+			});
 		});
 	</script>
 </head>     

@@ -138,6 +138,22 @@ public class StaffOverview extends BasePage {
             }
         });
 
+        // Archive All link
+        Link<Void> archiveAllLink = new Link<Void>("archive-all-link") {
+            @Override
+            public void onClick() {
+                if(projectLogic.archiveAllReviewedSubmissions()){
+                    getSession().info(getString("success.all_archived_submission"));
+                    setResponsePage(new StaffOverview());
+                } else {
+                    getSession().error(getString("error.all_archived_submission"));
+                    setResponsePage(new StaffOverview());
+                }
+            }
+        };
+        archiveAllLink.setVisible(sakaiProxy.isDDOAdmin());
+        add(archiveAllLink);
+
         //get list of items from db, wrapped in a dataprovider
         reviewedProvider = new ReviewDataProvider();
 
@@ -234,6 +250,7 @@ public class StaffOverview extends BasePage {
                     }
                 };
                 item.add(archiveLink);
+                archiveLink.setVisible(sakaiProxy.isDDOAdmin());
             }
         };
         dataViewReviewed.setItemReuseStrategy(new DefaultItemReuseStrategy());
