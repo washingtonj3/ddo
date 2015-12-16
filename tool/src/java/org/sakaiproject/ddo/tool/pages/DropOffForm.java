@@ -15,13 +15,11 @@ import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.util.lang.Bytes;
 import org.sakaiproject.coursemanagement.api.Section;
 import org.sakaiproject.ddo.model.Submission;
+import org.sakaiproject.ddo.model.SubmissionFile;
 import org.sakaiproject.user.api.User;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by David P. Bauer on 12/10/14.
@@ -92,10 +90,10 @@ public class DropOffForm extends BasePage {
 
                 if (file == null) {
                     error(getString("error.null_file"));
-                    return;
                 } else if (file.getSize() == 0) {
                     error(getString("error.empty_file"));
-                    return;
+                } else if (!Arrays.asList(SubmissionFile.AcceptableMimeTypes).contains(file.getContentType())) {
+                    error(getString("error.unacceptable_filetype"));
                 } else {
 
                     String mimeType = file.getContentType();
