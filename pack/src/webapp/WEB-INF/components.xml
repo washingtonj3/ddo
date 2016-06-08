@@ -36,13 +36,21 @@
     </bean>
     
     <!-- DAO. This uses the DataSource that has already been setup by Sakai  -->
+
+	<!-- Need to set up auto commit for default datasource -->
+	<bean id="org.sakaiproject.ddo.dao.AutoCommitDataSource" parent="javax.sql.DataSource">
+		<property name="autoCommit">
+			<value>true</value>
+		</property>
+	</bean>
+
 	<bean id="org.sakaiproject.ddo.dao.ProjectDao"
 		class="org.sakaiproject.ddo.dao.impl.ProjectDaoImpl"
 		init-method="init">
 		<property name="jdbcTemplate">
 			<bean class="org.springframework.jdbc.core.JdbcTemplate">
 				<constructor-arg type="javax.sql.DataSource">
-					<ref bean="javax.sql.DataSource" />
+					<ref bean="org.sakaiproject.ddo.dao.AutoCommitDataSource" />
 				</constructor-arg>
 			</bean>
 		</property>	
