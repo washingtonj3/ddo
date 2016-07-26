@@ -14,7 +14,15 @@
     </div>
 
     <div wicket:id="submissionQueueInfo" class="infoBox" style="width:300px;display: inline-block;border:1px solid #ccc;padding:.5em;margin-left:1em;vertical-align: top;">
-        <h3>Current DDO Activity <img src="/library/image/ud_custom/ddo_activity.png" alt="Current DDO Activity" style="vertical-align: middle;;"></h3>
+        <h3>Current DDO Activity
+            <span class="fa-stack fa-lg">
+                <span class="fa fa-calendar fa-stack-2x" aria-hidden="true"></span>
+                <span>
+                    <span class="fa fa-circle fa-stack-1x" aria-hidden="true" style="position: relative; left: 25%; top: 25%;"></span>
+                    <span class="fa fa-clock-o fa-stack-1x fa-inverse" aria-hidden="true" style="left: 25%; top: 25%;"></span>
+                </span>
+            </span>
+        </h3>
         <p>
             There are currently <strong><span wicket:id="numberWaitingReview" /></strong> papers waiting to be reviewed.
             <br />
@@ -44,7 +52,7 @@
         </tbody>
     </table>
 
-    <div wicket:id="navigator" class="tier2" style="font-size:1.2em;background-color:#eee;text-align: center;"></div>
+    <div wicket:id="navigator" class="tier2" style="background-color:#eee;text-align: center;"></div>
 
 </wicket:extend>
 </body>

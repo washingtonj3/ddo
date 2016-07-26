@@ -6,8 +6,8 @@
 
     <h1>Administrative Tasks</h1>
 
-    <div style="border:1px solid #ccc;padding:.5em;margin-left:1em;vertical-align: top;width:400px;position:relative;">
-        <div style="background-color:#fff;position:absolute;top:-1em;left:.5em;"><h3 style="color:#001f3f;margin: 0;padding: 0em .5em;font-size:1.4em!important;">Edit DDO Staff Members</h3></div>
+    <div style="border:1px solid #ccc;padding:.5em;margin-left:1em;margin-top: 1.5em;vertical-align: top;width:425px;position:relative;">
+        <div style="background-color:#fff;position:absolute;top:-1em;left:.5em;"><h3 style="color:#001f3f;margin: 0;padding: 0em .5em;">Edit DDO Staff Members</h3></div>
         <form wicket:id="addStaffForm" style="text-align: center">
             <h3><label wicket:id="add-staff-label" /></h3>
             <input type="text" wicket:id="userName" placeholder="Ex: jdoe2 or 123456789" class="addStaff" style="margin-right:1em;"/>
@@ -22,7 +22,7 @@
             </thead>
             <tbody>
                 <tr wicket:id="ddoStaff">
-                    <td style="font-weight: 300;font-size: 14px;vertical-align: middle;">
+                    <td style="font-weight: 300;vertical-align: middle;">
                         <p style="margin:0;padding:0;">
                             <span wicket:id="staff-name" /> (<span wicket:id="staff-username" />)
                         </p>
