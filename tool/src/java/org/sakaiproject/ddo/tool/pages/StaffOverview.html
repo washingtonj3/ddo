@@ -4,7 +4,7 @@
 <body>
 <wicket:extend>
 
-    <h1>Welcome to Digital Drop-Off <a wicket:id="refreshPage" title="Refresh"><img src="/library/image/ud_custom/sync32.png" alt="Refresh"></a></h1>
+    <h1>Welcome to Digital Drop-Off <a wicket:id="refreshPage" title="Refresh"><span class="fa fa-refresh"><span class="sr-only">Refresh the page</span></span></a></h1>
 
     <div style="margin-left:2em;"><a target="_blank" href="https://ewiki.udayton.edu/isidore/Write_Place_Consultant_DDO_Instructions" class="button-example-1 button-example-blue" style="color:white !important;">Write Place Consultant Instructions</a></div>
 
@@ -29,7 +29,7 @@
         </tbody>
     </table>
 
-    <div wicket:id="navigator" class="tier2" style="font-size:1.2em;background-color:#eee;text-align: center;"></div>
+    <div wicket:id="navigator" class="tier2" style="background-color:#eee;text-align: center;"></div>
 
     <h3>Completed Reviews (<span wicket:id="numberOfReviewed" />)</h3>
 
@@ -67,7 +67,7 @@
         </tbody>
     </table>
 
-    <div wicket:id="reviewedNavigator" class="tier2" style="font-size:1.2em;background-color:#eee;text-align: center;"></div>
+    <div wicket:id="reviewedNavigator" class="tier2" style="background-color:#eee;text-align: center;"></div>
 
 </wicket:extend>
 </body>
