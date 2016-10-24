@@ -32,21 +32,35 @@ import org.sakaiproject.ddo.model.SubmissionFile;
  */
 public class StudentOverview extends BasePage {
 
-    Link<Void> toDropOffFormLink;
-    SubmissionDataProvider provider;
+    private SubmissionDataProvider provider;
 
     public StudentOverview() {
         disableLink(studentOverviewLink);
 
         //link to drop off form
         //the i18n label for this is directly in the HTML
-        toDropOffFormLink = new Link<Void>("toDropOffFormLink") {
+        Link<Void> toDropOffFormLink = new Link<Void>("toDropOffFormLink") {
             private static final long serialVersionUID = 1L;
+
             public void onClick() {
                 setResponsePage(new DropOffForm());
             }
+
+            @Override
+            public boolean isEnabled() {
+                return !sakaiProxy.isDDOClosed();
+            }
+
+            @Override
+            public boolean isVisible() {
+                return !sakaiProxy.isDDOClosed();
+            }
         };
         add(toDropOffFormLink);
+
+        Label closedMessage = new Label("dropOffClosedMessage", sakaiProxy.getDDOClosedMessage());
+        closedMessage.setVisible(sakaiProxy.isDDOClosed());
+        add(closedMessage);
 
         //get list of items from db, wrapped in a dataprovider
         provider = new SubmissionDataProvider();

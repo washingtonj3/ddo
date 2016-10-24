@@ -1,0 +1,268 @@
+/*
+ *  Copyright (c) 2016, University of Dayton
+ *
+ *  Licensed under the Educational Community License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *              http://opensource.org/licenses/ecl2
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+body{
+    font-family: 'Open Sans', sans-serif !important;
+    color:#111111 !important;
+    line-height: 1.375em !important;
+}
+h1{
+    font-family: 'Roboto Slab', serif !important;
+    line-height: 1.05em !important;
+    font-weight: normal !important;
+}
+h3{
+    font-family: 'Roboto Slab', serif !important;
+    line-height: 1.25em !important;
+    font-weight: normal !important;
+}
+table.dataview {
+
+}
+table.dataview td {
+    padding: 4px 2em 4px 4px;
+}
+table.dataview th {
+    padding: 4px 2em 4px 4px;
+    border-bottom: 3px solid #111;
+}
+tbody tr:nth-child(odd) {
+
+}
+.navmenu {
+    list-style: none !important;
+    margin: .5em !important;
+    padding: .5em !important;
+}
+.navmenu li {
+    display: inline !important;
+    margin: 0 1em !important;
+}
+a.btn {
+    background: #3498db !important;
+    background-image: -webkit-linear-gradient(top, #3498db, #2980b9) !important;
+    background-image: -moz-linear-gradient(top, #3498db, #2980b9) !important;
+    background-image: -ms-linear-gradient(top, #3498db, #2980b9) !important;
+    background-image: -o-linear-gradient(top, #3498db, #2980b9) !important;
+    background-image: linear-gradient(to bottom, #3498db, #2980b9) !important;
+    -webkit-border-radius: 5 !important;
+    -moz-border-radius: 5 !important;
+    border-radius: 5px !important;
+    padding: 5px 10px !important;
+    text-decoration: none !important;
+}
+a.btn:hover {
+    background: #3cb0fd !important;
+    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db) !important;
+    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db) !important;
+    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db) !important;
+    background-image: -o-linear-gradient(top, #3cb0fd, #3498db) !important;
+    background-image: linear-gradient(to bottom, #3cb0fd, #3498db) !important;
+    text-decoration: none !important;
+}
+a.dropButton {
+    background: #008A00 !important;
+    background-image: -webkit-linear-gradient(top, #008A00, #00A600) !important;
+    background-image: -moz-linear-gradient(top, #008A00, #00A600) !important;
+    background-image: -ms-linear-gradient(top, #008A00, #00A600) !important;
+    background-image: -o-linear-gradient(top, #008A00, #00A600) !important;
+    background-image: linear-gradient(to bottom, #008A00, #00A600) !important;
+    -webkit-border-radius: 5 !important;
+    -moz-border-radius: 5 !important;
+    border-radius: 5px !important;
+    -webkit-box-shadow: 0px 1px 3px #666666 !important;
+    -moz-box-shadow: 0px 1px 3px #666666 !important;
+    box-shadow: 0px 1px 3px #666666 !important;
+    color: #ffffff !important;
+    padding: 10px 20px 10px 20px !important;
+    text-decoration: none !important;
+}
+
+a.dropButton:hover {
+    background: #15992A !important;
+    background-image: -webkit-linear-gradient(top, #15992A, #00C13F) !important;
+    background-image: -moz-linear-gradient(top, #15992A, #00C13F) !important;
+    background-image: -ms-linear-gradient(top, #15992A, #00C13F) !important;
+    background-image: -o-linear-gradient(top, #15992A, #00C13F) !important;
+    background-image: linear-gradient(to bottom, #15992A, #00C13F) !important;
+    text-decoration: none !important;
+}
+/* This first block of code sets the common style for all example 1 buttons. */
+.button-example-1 {
+    -webkit-border-radius: 3px !important;
+    -moz-border-radius: 3px !important;
+    -ms-border-radius: 3px !important;
+    -o-border-radius: 3px !important;
+    border-radius: 3px !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    -webkit-transition-property: background !important;
+    -moz-transition-property: background !important;
+    -o-transition-property: background !important;
+    transition-property: background !important;
+    -webkit-transition-duration: 0.3s !important;
+    -moz-transition-duration: 0.3s !important;
+    -o-transition-duration: 0.3s !important;
+    transition-duration: 0.3s !important;
+    color: #ffffff !important;
+    text-shadow: none !important;
+    border: none !important;
+    height: 32px !important;
+    line-height: 32px !important;
+    padding: 0px 25.6px !important;
+    font-weight: 300 !important;
+    margin: 0 !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    display: inline-block !important;
+}
+
+/* The next blocks of code are for user actions on the buttons. */
+.button-example-1:hover {
+    text-decoration: none !important;
+    color: #ffffff !important;
+}
+.button-example-1:active {
+    -webkit-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.03), inset 0px -1px 1px rgba(255, 255, 255, 0.05), 0px 1px 0px #777777, 0px 3px 3px rgba(0, 0, 0, 0.03) !important;
+    -moz-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3), inset 0px -1px 1px rgba(255, 255, 255, 0.05), 0px 1px 0px #777777, 0px 3px 3px rgba(0, 0, 0, 0.03) !important;
+    box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.03), inset 0px -1px 1px rgba(255, 255, 255, 0.05), 0px 1px 0px #777777, 0px 3px 3px rgba(0, 0, 0, 0.03) !important;
+}
+
+/* The next blocks of code are specific to the color. Copy the color you want. */
+.button-example-red {
+    background: #e54028 !important;
+}
+.button-example-red:hover {
+    background: #FF530D !important;
+}
+.button-example-blue {
+    background: #0971B2 !important;
+}
+.button-example-blue:hover {
+    background: #0B88D6 !important;
+}
+.button-example-green {
+    background: #00B233 !important;
+}
+.button-example-green:hover {
+    background: #00BD36 !important;
+}
+.button-example-pink {
+    background: #FF0090 !important;
+}
+.button-example-pink:hover {
+    background: #FF2F90 !important;
+}
+.button-example-dark-green {
+    background: #007F25 !important;
+}
+.button-example-dark-green:hover {
+    background: #008F29 !important;
+}
+.feedbackTable td {
+    padding:.5em 1em;
+}
+.fileIcon {
+    margin-right: .2em;
+    vertical-align: text-top;
+}
+.success ul {
+    margin: 0;
+    padding: 0;
+}
+.success ul li {
+    list-style: none;
+}
+.alertMessage ul {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.alertMessage ul li {
+    list-style: none;
+}
+.addStaff {
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 1px solid #DDDDDD;
+    height: 2em;
+    width: 200px;
+}
+.addStaff:focus {
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 1px solid rgba(81, 203, 238, 1);
+}
+.removeUser:hover {
+    cursor: pointer;
+}
+
+div.adminSection {
+    border:1px solid #ccc;
+    padding:.5em;
+    margin-left:1em;
+    margin-top: 1.5em;
+    vertical-align: top;
+    width:425px;
+    position:relative;
+    display: inline-block;
+}
+
+div.adminSectionHeaderContainer {
+    background-color:#fff;
+    position:absolute;
+    top:-1em;
+    left:.5em;
+}
+
+h3.adminSectionHeader {
+    color:#001f3f;
+    margin: 0;
+    padding: 0em .5em;
+}
+
+.adminForm {
+    text-align: center;
+}
+
+.messageTextArea {
+    width: 100%;
+}
+
+.closedFormContent {
+    text-align: left;
+}
+
+.closedFormContent label {
+    margin: .5em 1em;
+}
+
+.ddoClosedMessage {
+    background-color: #e3f7fc;
+    border: 1px solid #8ed9f6;
+    margin: 1em 0;
+    padding: 0.5em;
+    width:60%;
+    font-weight:300;
+    font-size:1.2em;
+    line-height: 1.4em;
+}

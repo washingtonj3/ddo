@@ -6,9 +6,9 @@
 
     <h1>Administrative Tasks</h1>
 
-    <div style="border:1px solid #ccc;padding:.5em;margin-left:1em;margin-top: 1.5em;vertical-align: top;width:425px;position:relative;">
-        <div style="background-color:#fff;position:absolute;top:-1em;left:.5em;"><h3 style="color:#001f3f;margin: 0;padding: 0em .5em;">Edit DDO Staff Members</h3></div>
-        <form wicket:id="addStaffForm" style="text-align: center">
+    <div class="adminSection">
+        <div class="adminSectionHeaderContainer"><h3 class="adminSectionHeader">Edit DDO Staff Members</h3></div>
+        <form wicket:id="addStaffForm" class="adminForm">
             <h3><label wicket:id="add-staff-label" /></h3>
             <input type="text" wicket:id="userName" placeholder="Ex: jdoe2 or 123456789" class="addStaff" style="margin-right:1em;"/>
             <input type="submit" value="Add" wicket:id="ajax-add-staff"/>
@@ -65,7 +65,22 @@
         </form>
         <a wicket:id="refreshPage" title="Refresh" style="display:none;" id="adminRefresh">Refresh Page</a>
     </div>
-
+    <div class="adminSection">
+        <div class="adminSectionHeaderContainer"><h3 class="adminSectionHeader"><span wicket:id="closedSectionHeader" /></h3></div>
+        <div wicket:id="closedContainer">
+            <form wicket:id="closedForm" class="adminForm">
+                <h3 class="adminFormHeader"><label wicket:id="closed-section-label" /></h3>
+                <span class="closedFormContent">
+                    <input type="checkbox" id="closed" wicket:id="closed" /> <label for="closed"><wicket:message key="ddo.closed.label" /></label>
+                    <br />
+                    <label for="message"><wicket:message key="ddo.closed.message.label"></wicket:message></label>
+                    <textarea id="message" wicket:id="message" class="messageTextArea" rows="8"/>
+                    <br />
+                    <input type="submit" value="Save" wicket:id="ajax-close-ddo" />
+                </span>
+            </form>
+        </div>
+    </div>
 </wicket:extend>
 </body>
 </html>

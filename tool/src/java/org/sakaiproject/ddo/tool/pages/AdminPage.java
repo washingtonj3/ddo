@@ -10,9 +10,14 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.sakaiproject.ddo.logic.SakaiProxy;
+import org.sakaiproject.ddo.tool.beans.AddBean;
+import org.sakaiproject.ddo.tool.beans.ClosedBean;
+import org.sakaiproject.ddo.tool.beans.RemoveBean;
+import org.sakaiproject.ddo.utils.DDOConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +65,7 @@ public class AdminPage extends BasePage {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 String userId = sakaiProxy.getUserIdForEid(addStaffBean.getUserName());
-                boolean success = sakaiProxy.addUserToDDO(userId, SakaiProxy.DDO_STAFF_ROLE);
+                boolean success = sakaiProxy.addUserToDDO(userId, DDOConstants.DDO_STAFF_ROLE);
                 if(success) {
                     info("User " + addStaffBean.getUserName() + " added to DDO Staff.");
                     //refresh list
@@ -117,6 +122,42 @@ public class AdminPage extends BasePage {
         };
         add(refreshPage);
 
+        final WebMarkupContainer closedContainer = new WebMarkupContainer("closedContainer");
+        closedContainer.setOutputMarkupId(true);
+        add(closedContainer);
+
+        final ClosedBean closedBean = new ClosedBean();
+        final Form<ClosedBean> closedForm = new Form<>("closedForm", new CompoundPropertyModel<>(closedBean));
+
+        FormComponent closedValue = new CheckBox("closed");
+        FormComponent closedMessage = new TextArea<String>("message");
+
+        closedForm.add(closedValue);
+        closedForm.add(closedMessage);
+
+        closedForm.add(new AjaxButton("ajax-close-ddo", closedForm) {
+            @Override
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                boolean closeDDO = closedBean.isClosed();
+                sakaiProxy.setDDORealmProperty(DDOConstants.PROP_CLOSED, closeDDO);
+                sakaiProxy.setDDORealmProperty(DDOConstants.PROP_CLOSED_MESSAGE, closedBean.getMessage());
+
+                info(closeDDO ? getString("ddo.closed.true") : getString("ddo.closed.false"));
+                target.add(closedContainer);
+                target.add(feedbackPanel);
+            }
+
+            @Override
+            protected void onError(AjaxRequestTarget target, Form<?> form) {
+                target.add(feedbackPanel);
+            }
+        });
+
+        closedForm.add(new Label("closed-section-label", getString("ddo.closed.header")));
+
+        closedContainer.add(closedForm);
+
+        add(new Label("closedSectionHeader", getString("ddo.closed.section.header")));
     }
 }
 

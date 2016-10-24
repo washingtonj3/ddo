@@ -1,4 +1,4 @@
-package org.sakaiproject.ddo.tool.pages;
+package org.sakaiproject.ddo.tool.beans;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -16,10 +16,6 @@ import java.util.Set;
  *
  */
 public interface SakaiProxy {
-
-	String DDO_STAFF_ROLE = "ddostaff";
-	String DDO_ADMIN_ROLE = "ddoadmin";
-
 	/**
 	 * Get current siteid
 	 * @return
@@ -243,4 +239,24 @@ public interface SakaiProxy {
 	 * @return
      */
 	boolean removeUserFromDDO(String userId);
+
+	/**
+	 * Checks the DDO realm's properties for whether or not DDO is closed
+	 * @return A boolean value that is true if closed or false if open
+	 */
+	boolean isDDOClosed();
+
+	/**
+	 * Gets the "closed" message from the DDO realm properties.
+	 * @return A string containing the closed message or null if there is none.
+	 */
+	String getDDOClosedMessage();
+
+	/**
+	 * Sets specified property in the DDO realm to a specified value.
+	 *
+	 * @param name The name of the property being set in the ddo realm
+	 * @param value The value of the property
+	 */
+	void setDDORealmProperty(String name, Object value);
 }

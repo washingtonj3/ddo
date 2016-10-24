@@ -16,10 +16,9 @@ import org.sakaiproject.coursemanagement.api.EnrollmentSet;
 import org.sakaiproject.coursemanagement.api.Section;
 import org.sakaiproject.ddo.model.Submission;
 import org.sakaiproject.ddo.model.SubmissionFile;
+import org.sakaiproject.ddo.utils.DDOConstants;
 import org.sakaiproject.email.api.EmailService;
-import org.sakaiproject.entity.api.Entity;
-import org.sakaiproject.entity.api.ResourceProperties;
-import org.sakaiproject.entity.api.ResourcePropertiesEdit;
+import org.sakaiproject.entity.api.*;
 import org.sakaiproject.event.api.EventTrackingService;
 import org.sakaiproject.event.api.NotificationService;
 import org.sakaiproject.exception.IdUsedException;
@@ -188,10 +187,10 @@ public class SakaiProxyImpl implements SakaiProxy {
 	 */
 	public Set<String> getStudentWorkerIds() {
 		try {
-			Set<Member> membersSet = authzGroupService.getAuthzGroup("/ddo").getMembers();
+			Set<Member> membersSet = authzGroupService.getAuthzGroup(DDOConstants.DDO_REALM).getMembers();
 			Set<String> studentWorkerIds = new HashSet<String>();
 			for(Member m : membersSet) {
-				if(DDO_STAFF_ROLE.equals(m.getRole().getId())) {
+				if(DDOConstants.DDO_STAFF_ROLE.equals(m.getRole().getId())) {
 					studentWorkerIds.add(m.getUserId());
 				}
 			}
@@ -207,10 +206,10 @@ public class SakaiProxyImpl implements SakaiProxy {
 	 */
 	public Set<String> getDDOAdminIds() {
 		try {
-			Set<Member> membersSet = authzGroupService.getAuthzGroup("/ddo").getMembers();
+			Set<Member> membersSet = authzGroupService.getAuthzGroup(DDOConstants.DDO_REALM).getMembers();
 			Set<String> ddoAdminIds = new HashSet<String>();
 			for(Member m : membersSet) {
-				if(DDO_ADMIN_ROLE.equals(m.getRole().getId())) {
+				if(DDOConstants.DDO_ADMIN_ROLE.equals(m.getRole().getId())) {
 					ddoAdminIds.add(m.getUserId());
 				}
 			}
@@ -648,7 +647,7 @@ public class SakaiProxyImpl implements SakaiProxy {
 			try {
 				// We know the current user is a DDO Admin so enable a temporary security advisor
 				enableSecurityAdvisor();
-				AuthzGroup ddo = authzGroupService.getAuthzGroup("/ddo");
+				AuthzGroup ddo = authzGroupService.getAuthzGroup(DDOConstants.DDO_REALM);
 				ddo.addMember(userId, roleId, true, false);
 				authzGroupService.save(ddo);
 				return true;
@@ -674,7 +673,7 @@ public class SakaiProxyImpl implements SakaiProxy {
 			try {
 				// We know the current user is a DDO Admin so enable a temporary security advisor
 				enableSecurityAdvisor();
-				AuthzGroup ddo = authzGroupService.getAuthzGroup("/ddo");
+				AuthzGroup ddo = authzGroupService.getAuthzGroup(DDOConstants.DDO_REALM);
 				ddo.removeMember(userId);
 				authzGroupService.save(ddo);
 				return true;
@@ -690,6 +689,75 @@ public class SakaiProxyImpl implements SakaiProxy {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean isDDOClosed() {
+		boolean closed = false;
+		try {
+			enableSecurityAdvisor();
+			AuthzGroup ddo = authzGroupService.getAuthzGroup(DDOConstants.DDO_REALM);
+			ResourceProperties props = ddo.getProperties();
+			closed = props.getBooleanProperty(DDOConstants.PROP_CLOSED);
+		} catch (GroupNotDefinedException e) {
+			log.error("DDO Realm was not found. " + e);
+			e.printStackTrace();
+		} catch (EntityPropertyTypeException e) {
+			log.error("Closed property in ddo realm is not a boolean value. " + e);
+			e.printStackTrace();
+		} catch (EntityPropertyNotDefinedException e) {
+			log.error("Closed property in ddo realm was not found. " + e);
+			e.printStackTrace();
+		} finally {
+			disableSecurityAdvisor();
+		}
+		return closed;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public String getDDOClosedMessage() {
+		String message = null;
+		try {
+			enableSecurityAdvisor();
+			AuthzGroup ddo = authzGroupService.getAuthzGroup(DDOConstants.DDO_REALM);
+			ResourceProperties properties = ddo.getProperties();
+			// Gets a string value of a named property. Return null if not found.
+			message = properties.getProperty(DDOConstants.PROP_CLOSED_MESSAGE);
+		} catch (GroupNotDefinedException e) {
+			log.error("DDO Realm was not found. " + e);
+			e.printStackTrace();
+		} finally {
+			disableSecurityAdvisor();
+		}
+		return message;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void setDDORealmProperty(String name, Object value) {
+		if (isDDOAdmin()) {
+			try {
+				enableSecurityAdvisor();
+				AuthzGroup ddo = authzGroupService.getAuthzGroup(DDOConstants.DDO_REALM);
+				ResourcePropertiesEdit propertiesEdit = ddo.getPropertiesEdit();
+				propertiesEdit.addProperty(name, String.valueOf(value));
+				authzGroupService.save(ddo);
+			} catch (GroupNotDefinedException e) {
+				log.error("DDO Realm was not found. " + e);
+				e.printStackTrace();
+			} catch (AuthzPermissionException e) {
+				log.error("No permissions to save DDO realm change. ");
+				e.printStackTrace();
+			}
+			finally {
+				disableSecurityAdvisor();
+			}
+		}
 	}
 
 	/**
