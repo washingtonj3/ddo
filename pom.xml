@@ -13,8 +13,7 @@
 	<parent>
 		<groupId>org.sakaiproject</groupId>
 		<artifactId>master</artifactId>
-		<version>11-SNAPSHOT</version>
-		<relativePath>../master/pom.xml</relativePath>
+		<version>11.1</version>
 	</parent>
 	
 	<properties>
@@ -42,23 +41,23 @@
 			<dependency>
 				<groupId>org.apache.wicket</groupId>
 				<artifactId>wicket</artifactId>
-				<version>6.16.0</version>
+				<version>${sakai.wicket.version}</version>
                 <type>pom</type>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.wicket</groupId>
 				<artifactId>wicket-spring</artifactId>
-				<version>6.16.0</version>
+				<version>${sakai.wicket.version}</version>
 	    	</dependency>
             <dependency>
                 <groupId>org.apache.wicket</groupId>
                 <artifactId>wicket-extensions</artifactId>
-                <version>6.16.0</version>
+                <version>${sakai.wicket.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.wicket</groupId>
                 <artifactId>wicket-datetime</artifactId>
-                <version>6.16.0</version>
+                <version>${sakai.wicket.version}</version>
             </dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -78,7 +77,7 @@
 			<dependency>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
-				<version>1.16.0</version>
+				<version>${sakai.lombok.version}</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
@@ -116,6 +115,5 @@
     <module>tool</module>
     <module>api</module>
     <module>impl</module>
-    <module>pack</module>
   </modules>
 </project>

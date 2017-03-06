@@ -552,7 +552,7 @@ public class SakaiProxyImpl implements SakaiProxy {
 	public Set<String> getCurrentInstructorsForCurrentUser() {
 		User currentUser = getCurrentUser();
 		Set<String> instructors = new HashSet<String>();
-		Set<EnrollmentSet> enrolledSets = courseManagementService.findCurrentlyEnrolledEnrollmentSetsUDayton(currentUser.getEid());
+		Set<EnrollmentSet> enrolledSets = courseManagementService.findCurrentlyEnrolledEnrollmentSets(currentUser.getEid());
 		for (EnrollmentSet es : enrolledSets) {
 			for (String i : es.getOfficialInstructors()) {
 				try {
@@ -567,7 +567,7 @@ public class SakaiProxyImpl implements SakaiProxy {
 
 	public Set<String> getCurrentSectionsForCurrentUser() {
 		User currentUser = getCurrentUser();
-		Set<Section> enrolledSections = courseManagementService.findEnrolledSectionsUDayton(currentUser.getEid());
+		Set<Section> enrolledSections = courseManagementService.findEnrolledSections(currentUser.getEid());
 		Set<String> sections = new HashSet<String>();
 		for (Section s : enrolledSections) {
 			sections.add(s.getEid());

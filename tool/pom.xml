@@ -10,7 +10,6 @@
   </parent>
 	
 	<name>ddo - Tool</name>
-	<groupId>org.sakaiproject.ddo</groupId>
 	<artifactId>ddo-tool</artifactId>
 	
 	<packaging>war</packaging>

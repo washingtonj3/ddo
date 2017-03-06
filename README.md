@@ -1,6 +1,6 @@
 # Digital Drop-Off for Sakai
 
-**STATUS:** This project is not currently compatible with out-of-the-box Sakai.
+**STATUS:** This project is currently compatible with out-of-the-box Sakai 11.1.
 
 ### Building
 
@@ -42,32 +42,6 @@ ddo.staff.email.display = Write Place Mailbox <example@some.edu>
 ddo.notification.email.display = Sakai <no-reply@sakai.some.edu>
 ```
 
-#### Course Management Changes
-
-The following equivalent methods must be added to the CourseManagementService.java API and IMPLs.
-```
-/**
- * Finds the set of current EnrollmentSets for which a user is enrolled but not dropped.
- * An EnrollmentSet is considered current if its CourseOffering's start date
- * (is null or prior to the current date/time) and its end date (is null or
- * after the current date/time). Modified version for UD course management.
- *
- * @param userEid
- * @return
- */
-public Set<EnrollmentSet> findCurrentlyEnrolledEnrollmentSetsUDayton(String userEid);
-
-/**
- * Finds all Sections that are linked to an EnrollmentSet for
- * which a user is enrolled (but not dropped) and in an active term.
- * For University of Dayton course management.
- *
- * @param userEid
- * @return
- */
-public Set<Section> findEnrolledSectionsUDayton(String userEid);
-```
-
 #### Realm Changes
 
-A Sakai /ddo realm must be created with two roles (ddoadmin & ddostaff). The maintain role is ddostaff.
+A Sakai /ddo realm must be created with two roles (ddoadmin & ddostaff). The maintain role is ddoadmin.
