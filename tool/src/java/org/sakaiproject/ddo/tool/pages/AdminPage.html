@@ -4,10 +4,10 @@
 <body>
 <wicket:extend>
 
-    <h1>Administrative Tasks</h1>
+    <h1><wicket:message key="admin.header" /></h1>
 
     <div class="adminSection">
-        <div class="adminSectionHeaderContainer"><h3 class="adminSectionHeader">Edit DDO Staff Members</h3></div>
+        <div class="adminSectionHeaderContainer"><h3 class="adminSectionHeader"><wicket:message key="admin.edit.staff.header" /></h3></div>
         <form wicket:id="addStaffForm" class="adminForm">
             <h3><label wicket:id="add-staff-label" /></h3>
             <input type="text" wicket:id="userName" placeholder="Ex: jdoe2 or 123456789" class="addStaff" style="margin-right:1em;"/>
@@ -17,19 +17,19 @@
         <table id="editStaffTable" class="tablesorter" style="width:400px;">
             <thead>
                 <tr>
-                    <th colspan="2"><h3 style="margin:.2em">Current DDO Staff</h3></th>
+                    <th colspan="2"><h3 style="margin:.2em"><wicket:message key="admin.edit.staff.current" /></h3></th>
                 </tr>
             </thead>
             <tbody>
                 <tr wicket:id="ddoStaff">
                     <td style="font-weight: 300;vertical-align: middle;">
-                        <p style="margin:0;padding:0;">
+                        <p style="margin:1em 0;padding:0;">
                             <span wicket:id="staff-name" /> (<span wicket:id="staff-username" />)
                         </p>
                     </td>
                     <td style="vertical-align: middle">
                         <p style="margin:0;padding:0;">
-                            <span class="removeUser button-example-1 button-example-red">Remove</span>
+                            <span class="removeUser button-example-1 button-example-red"><wicket:message key="admin.edit.staff.remove" /></span>
                             <input type="text" value="" wicket:id="staff-userId" style="display:none;"/>
                         </p>
                     </td>
@@ -37,16 +37,8 @@
             </tbody>
         </table>
             <script type="text/javascript">
-                // This runs after each time this container is reloaded to keep the iframe
-                // large enough and re-initialize the tablesorter
+                // This runs after each time this container is reloaded to re-initialize the tablesorter
                 $("#editStaffTable").tablesorter({sortList: [[0,0]]});
-                if (window.name != "") {
-                    var frame = parent.document.getElementById(window.name);
-                    if (frame) {
-                        var clientH = document.body.clientHeight + 50;
-                        $(frame).height(clientH);
-                    }
-                }
                 $("input[name='userName']").val('');
                 $("input[name='userId']").val('');
                 $(".removeUser").on("click",function(){
@@ -63,7 +55,7 @@
             <input type="text" wicket:id="userId" value="" />
             <input type="submit" value="Remove" wicket:id="ajax-remove-staff" />
         </form>
-        <a wicket:id="refreshPage" title="Refresh" style="display:none;" id="adminRefresh">Refresh Page</a>
+        <a wicket:id="refreshPage" title="Refresh" style="display:none;" id="adminRefresh"><wicket:message key="ddo.refresh" /></a>
     </div>
     <div class="adminSection">
         <div class="adminSectionHeaderContainer"><h3 class="adminSectionHeader"><span wicket:id="closedSectionHeader" /></h3></div>

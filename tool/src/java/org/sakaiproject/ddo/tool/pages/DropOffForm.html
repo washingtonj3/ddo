@@ -4,26 +4,27 @@
 <body>
 <wicket:extend>
     <div id="agreeMask" style="width:100%;height: 100%;background-color: #000;opacity: .4;position: absolute;left:0;z-index: 9998;"></div>
-    <h1 style="margin-bottom: 0;">Drop Off A Document</h1>
-    <h4 style="margin-bottom: 1em;">Please complete the form below in order for the Write Place consultants to best assist you.</h4>
+    <h1 style="margin-bottom: 0;"><wicket:message key="dropoff.header" /></h1>
+    <h4 style="margin-bottom: 1em;"><wicket:message key="dropoff.instructions" /></h4>
 
     <div id="agree" style="position:absolute;height: 400px;width: 600px;margin: auto;padding: 1em 2em 2em 2em;border:3px solid #ccc;left:0;top:0;bottom:50%;right:0;background-color: #fff;z-index: 9999;-webkit-box-shadow: 0 8px 6px -6px black;-moz-box-shadow: 0 8px 6px -6px black;box-shadow: 0 8px 6px -6px black;">
-            <h3>Expectations of DDO Service</h3>
-            <p>Write Place consultants aim to help you become a stronger writer; therefore, we are not an editing service. Rather, a Write Place consultant will review your paper as an active reader and help you understand if your writing is clear and engaging. Consultants will help identify patterns of errors and make suggestions on how to correct them. A Write Place consultant will spend 30 minutes on your document. Comments and suggested corrections will be provided by using the revision tool in MS Word. A response to your paper can be expected within 48 hours. Any information you can offer regarding the writing assignment or your areas of concern will be beneficial to the consultant.</p>
-            <p>Please submit each paper only once. You may upload one writing assignment at a time.</p>
-            <p>Questions? Email the Write Place at <a href="mailto:writeplace@udayton.edu">writeplace@udayton.edu</a> or contact the Write Place Coordinator at <a href="mailto:cklimo1@udayton.edu">cklimo1@udayton.edu</a>.</p>
-            <p style="margin-top: 2em;"><a id="closeLink" style="color: #fff !important;" class="button-example-1 button-example-blue" href="#">I agree</a>&nbsp;&nbsp;&nbsp;&nbsp;<a wicket:id="cancelLink2" class="button-example-1 button-example-red" style="color:#fff !important;">Cancel</a></p>
+            <h3><wicket:message key="dropoff.expectations.header" /></h3>
+            <p><wicket:message key="dropoff.expectations" /></p>
+            <p style="margin-top: 2em;">
+                <a id="closeLink" style="color: #fff !important;margin-right:20px;" class="button-example-1 button-example-blue" href="#"><wicket:message key="agree" /></a>
+                <a wicket:id="cancelLink2" class="button-example-1 button-example-red" style="color:#fff !important;"><wicket:message key="cancel" /></a>
+            </p>
     </div>
     <style type="text/css">
         td {padding-bottom: 1em;vertical-align: top;padding-left: .5em;padding-right: .5em;}
     </style>
     <form wicket:id="dropOffForm">
     <div style="border:1px solid #ccc;position:relative;padding-top:1em;width:900px;">
-        <div style="background-color:#fff;position:absolute;top:-1em;left:.5em;"><h3 style="color:#001f3f;margin: 0;padding: 0em .5em;">Course Details</h3></div>
+        <div style="background-color:#fff;position:absolute;top:-1em;left:.5em;"><h3 style="color:#001f3f;margin: 0;padding: 0em .5em;"><wicket:message key="dropoff.form.course.details" /></h3></div>
         <table style="margin-left:1em;">
             <tr>
                 <td style="text-align: right;font-weight: bold;">
-                    Your Name
+                    <wicket:message key="dropoff.form.student.name" />
                 </td>
                 <td colspan="2">
                     <span wicket:id="displayName" /> (<span wicket:id="username" />)
@@ -31,7 +32,7 @@
             </tr>
             <tr>
                 <td style="text-align: right;font-weight: bold;">
-                    Your Email
+                    <wicket:message key="dropoff.form.student.email" />
                 </td>
                 <td colspan="2">
                     <span wicket:id="email" />
@@ -39,7 +40,7 @@
             </tr>
             <tr>
                 <td style="text-align: right;font-weight: bold;">
-                    Course Title <span style="color:#c0392b">*</span>
+                    <wicket:message key="dropoff.form.course.title" /> <span style="color:#c0392b"><wicket:message key="required.star" /></span>
                 </td>
                 <td colspan="2">
                     <select wicket:id="courseTitle" id="courseTitle" />
@@ -49,7 +50,7 @@
             </tr>
             <tr>
                 <td style="text-align: right;font-weight: bold;">
-                    Instructor Name <span style="color:#c0392b">*</span>
+                    <wicket:message key="dropoff.form.instructor.name" /> <span style="color:#c0392b"><wicket:message key="required.star" /></span>
                 </td>
                 <td colspan="2">
                     <select wicket:id="instructors" id="instructors" />
@@ -60,26 +61,27 @@
             </tr>
             <tr>
                 <td style="text-align: right;font-weight: bold;">
-                    Notify instructor that you used DDO?
+                    <wicket:message key="dropoff.form.notify.instructor" />
                 </td>
                 <td colspan="2">
-                    <input type="checkbox" wicket:id="notifyInstructor" id="notifyInstructor" disabled="true" /> <img src="/library/image/silk/help.png" id="notifyHelp">
+                    <input type="checkbox" wicket:id="notifyInstructor" id="notifyInstructor" disabled="disabled" />
+                    <span class="fa fa-question-circle fa-lg" id="notifyHelp"></span><span class="sr-only"><wicket:message key="ddo.help.notify" /></span>
                     <div class="notifyTip" style="width: 0px;height: 0px;border-style: solid;border-width: 0 0 20px 20px;border-color: transparent transparent #0277fd transparent;display:none;position:absolute;margin-top:-1em;z-index: 999;">
 
                     </div>
                     <div class="notifyTip" style="background-color:#fff;border:3px solid #0276FD;display:none;padding:.5em;position:absolute;margin-left:20px;margin-top:-1em;-webkit-box-shadow: 0 6px 6px -6px black;-moz-box-shadow: 0 6px 6px -6px black;box-shadow: 0 6px 6px -6px black;z-index: 999;">
-                        <strong>Checking this box will send an email to your instructor letting<br />them know that you’ve used the DDO service.  They will not be able<br />to access or read your submission.</strong>
+                        <strong><wicket:message key="dropoff.form.notify.instructor.details" /></strong>
                     </div>
                 </td>
             </tr>
         </table>
     </div>
     <div style="border:1px solid #ccc;position:relative;margin-top:2em;padding-top:1em;width:900px;">
-        <div style="background-color:#fff;position:absolute;top:-1em;left:.5em;"><h3 style="color:#001f3f;margin: 0;padding: 0em .5em;">Assignment Details</h3></div>
+        <div style="background-color:#fff;position:absolute;top:-1em;left:.5em;"><h3 style="color:#001f3f;margin: 0;padding: 0em .5em;"><wicket:message key="dropoff.form.assignment.details" /></h3></div>
         <table style="margin-left:1em;">
             <tr>
                 <td style="text-align: right;font-weight: bold;">
-                    Assignment Title <span style="color:#c0392b">*</span>
+                    <wicket:message key="dropoff.form.assignment.title" /> <span style="color:#c0392b"><wicket:message key="required.star" /></span>
                 </td>
                 <td colspan="2">
                     <input type="text" wicket:id="assignmentTitle" id="assignmentTitle" />
@@ -87,7 +89,7 @@
             </tr>
             <tr>
                 <td style="text-align: right;font-weight: bold;">
-                    Due Date <span style="color:#c0392b">*</span>
+                    <wicket:message key="dropoff.form.assignment.due.date" /> <span style="color:#c0392b"><wicket:message key="required.star" /></span>
                 </td>
                 <td colspan="2">
                     <input type="text" wicket:id="dueDate" id="dueDate" />
@@ -95,7 +97,7 @@
             </tr>
             <tr>
                 <td style="text-align: right;font-weight: bold;">
-                    Native Language is English
+                    <wicket:message key="dropoff.form.native.language.english" />
                 </td>
                 <td colspan="2">
                     <input type="checkbox" wicket:id="primaryLanguageIsEnglish" />
@@ -103,7 +105,7 @@
             </tr>
             <tr>
                 <td style="text-align: right;font-weight: bold;">
-                    If not, what is your native language?
+                    <wicket:message key="dropoff.form.native.language" />
                 </td>
                 <td colspan="2">
                     <input type="text" wicket:id="primaryLanguage" />
@@ -111,9 +113,7 @@
             </tr>
             <tr>
                 <td style="text-align: right;font-weight: bold;">
-                    Specific Instructions or Requirements
-                    <br />
-                    (Optional)
+                    <wicket:message key="dropoff.form.specific.instructions" />
                 </td>
                 <td>
                     <textarea wicket:id="instructorRequirements" rows="6" cols="40" id="instructorRequirements" />
@@ -123,15 +123,13 @@
 
                     </div>
                     <div class="reqTip" style="background-color:#fff;border:3px solid #0276FD;display:none;padding:.5em;position:absolute;margin-left:20px;-webkit-box-shadow: 0 6px 6px -6px black;-moz-box-shadow: 0 6px 6px -6px black;box-shadow: 0 6px 6px -6px black;">
-                        <strong>Please provide any specific instructions or requirements from your instructor for this assignment that should be taken in to account.</strong>
+                        <strong><wicket:message key="dropoff.form.specific.instructions.details" /></strong>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td style="text-align: right;font-weight: bold;">
-                    Your Concerns and/or Areas of Focus
-                    <br />
-                    (Optional)
+                    <wicket:message key="dropoff.form.concerns" />
                 </td>
                 <td>
                     <textarea wicket:id="feedbackFocus" rows="6" cols="40" id="feedbackFocus" />
@@ -141,23 +139,24 @@
 
                     </div>
                     <div class="focusTip" style="background-color:#fff;border:3px solid #0276FD;display:none;padding:.5em;position:absolute;margin-left:20px;-webkit-box-shadow: 0 6px 6px -6px black;-moz-box-shadow: 0 6px 6px -6px black;box-shadow: 0 6px 6px -6px black;">
-                        <strong>Please list any concerns you have with the current draft of your document and/or list any specific areas that you want the writing consultant to focus on.</strong>
+                        <strong><wicket:message key="dropoff.form.concerns.details" /></strong>
                     </div>
                 </td>
             </tr>
         </table>
     </div>
     <div style="border:1px solid #ccc;position:relative;margin-top:2em;padding-top:1em;width:900px;">
-        <div style="background-color:#fff;position:absolute;top:-1em;left:.5em;"><h3 style="color:#001f3f;margin: 0;padding: 0em .5em;">Add Attachment</h3></div>
+        <div style="background-color:#fff;position:absolute;top:-1em;left:.5em;"><h3 style="color:#001f3f;margin: 0;padding: 0em .5em;"><wicket:message key="dropoff.form.add.attachment" /></h3></div>
             <p style="margin-left:1em;">
-                <input type="file" wicket:id="uploadField" /> (<span wicket:id="max"></span> max)
+                <input type="file" wicket:id="uploadField" /> <span wicket:id="max" />
             </p>
     </div>
         <p>
-            <input type="checkbox" wicket:id="receipt" id="receipt" /> Send me an email receipt for this submission.
+            <input type="checkbox" wicket:id="receipt" id="receipt" /> <wicket:message key="dropoff.form.receipt" />
         </p>
         <p>
-            <a wicket:id="submitLink" class="button-example-1 button-example-green" style="color:#fff !important;">Submit</a>&nbsp;&nbsp;&nbsp;&nbsp;<a wicket:id="cancelLink" class="button-example-1 button-example-red" style="color:#fff !important;">Cancel</a>
+            <a wicket:id="submitLink" class="button-example-1 button-example-green" style="color:#fff !important;margin-right:20px;"><wicket:message key="submit" /></a>
+            <a wicket:id="cancelLink" class="button-example-1 button-example-red" style="color:#fff !important;"><wicket:message key="cancel" /></a>
         </p>
     </form>
 

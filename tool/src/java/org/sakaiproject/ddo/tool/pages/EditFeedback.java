@@ -1,3 +1,19 @@
+/*
+ *  Copyright (c) 2016, University of Dayton
+ *
+ *  Licensed under the Educational Community License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *              http://opensource.org/licenses/ecl2
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
 package org.sakaiproject.ddo.tool.pages;
 
 import org.apache.wicket.markup.html.basic.Label;
@@ -22,12 +38,13 @@ import org.sakaiproject.ddo.model.SubmissionFile;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 /**
- * Created by dbauer1 on 8/24/15.
+ * @author David P. Bauer (dbauer1@udayton.edu)
  */
 public class EditFeedback extends BasePage {
 
@@ -211,14 +228,7 @@ public class EditFeedback extends BasePage {
             feedbackForm.add(new Label("noDoc", getString("error.no_document")).setVisible(true));
         }
 
-        feedbackForm.add(new Label("max", new AbstractReadOnlyModel<String>() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public String getObject() {
-                return feedbackForm.getMaxSize().toString();
-            }
-        }));
+        feedbackForm.add(new Label("max", MessageFormat.format(getString("feedback.form.max"), feedbackForm.getMaxSize())));
 
         Link<Void> cancel = new Link<Void>("cancelLink") {
             public void onClick() {

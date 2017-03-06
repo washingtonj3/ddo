@@ -1,3 +1,19 @@
+/*
+ *  Copyright (c) 2016, University of Dayton
+ *
+ *  Licensed under the Educational Community License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *              http://opensource.org/licenses/ecl2
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
 package org.sakaiproject.ddo.logic;
 
 import java.util.List;
@@ -13,8 +29,13 @@ import org.sakaiproject.ddo.model.Submission;
  */
 public interface ProjectLogic {
 
+	/**
+	 * Get a particular submission by its ID.
+	 *
+	 * @param id
+	 * @return
+	 */
 	Submission getSubmission(long id);
-	List<Submission> getAllSubmissions();
 
 	/**
 	 * Adds a submission and sends a notification by default
@@ -33,15 +54,88 @@ public interface ProjectLogic {
 	 */
 	boolean addSubmission(Submission submission, boolean sendNotification);
 
+	/**
+	 * Get all submissions for a given user by their ID.
+	 *
+	 * @param userId
+	 * @return
+	 */
 	List<Submission> getSubmissionsForUser(String userId);
+
+	/**
+	 * Gell all submissions for the current authenticated user
+	 *
+	 * @return
+	 */
+	List<Submission> getSubmissionsForCurrentUser();
+
+	/**
+	 * Get a feedback record by its ID.
+	 *
+	 * @param id
+	 * @return
+	 */
 	Feedback getFeedback(long id);
+
+	/**
+	 * Get all feedback records for a submission by the submission's ID.
+	 *
+	 * @param submissionId
+	 * @return
+	 */
 	List<Feedback> getFeedbackForSubmission(long submissionId);
+
+	/**
+	 * Add a feedback record.
+	 *
+	 * @param feedback
+	 * @return
+	 */
 	boolean addFeedback(Feedback feedback);
+
+	/**
+	 * Get all submissions with the status Submission.STATUS_WAITING
+	 *
+	 * @return
+	 */
 	List<Submission> getAllWaitingSubmissions();
+
+	/**
+	 * Get all submissions with the status Submission.STATUS_REVIEWED
+	 *
+	 * @return
+	 */
 	List<Submission> getAllReviewedSubmissions();
+
+	/**
+	 * Get all submissions with the status Submission.STATUS_ARCHIVED
+	 *
+	 * @return
+	 */
 	List<Submission> getAllArchivedSubmissions();
+
+	/**
+	 * Update a particular submission's status
+	 *
+	 * @param s
+	 * @return
+	 */
 	boolean updateSubmissionStatus(Submission s);
+
+	/**
+	 * Update an existing feedback record
+	 *
+	 * @param feedback
+	 * @return
+	 */
 	boolean updateFeedback(Feedback feedback);
+
+	/**
+	 * Set all submissions with the status Submission.STATUS_REVIEWED
+	 * to the status Submission.STATUS_ARCHIVED.
+	 *
+	 * @return
+	 */
 	boolean archiveAllReviewedSubmissions();
 
 	/**

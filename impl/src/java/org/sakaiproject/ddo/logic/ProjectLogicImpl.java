@@ -35,16 +35,7 @@ public class ProjectLogicImpl implements ProjectLogic {
 	 */
 	public Submission getSubmission(long id) {
 
-		Submission s = dao.getSubmission(id);
-
-		return s;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public List<Submission> getAllSubmissions() {
-		return dao.getAllSubmissions();
+		return dao.getSubmission(id);
 	}
 
 	/**
@@ -78,6 +69,13 @@ public class ProjectLogicImpl implements ProjectLogic {
 	/**
 	 * {@inheritDoc}
 	 */
+	public List<Submission> getSubmissionsForCurrentUser() {
+		return getSubmissionsForUser(sakaiProxy.getCurrentUserId());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean addSubmission(Submission submission) {
 		return addSubmission(submission, true);
 	}
@@ -106,9 +104,7 @@ public class ProjectLogicImpl implements ProjectLogic {
 	 */
 	public Feedback getFeedback(long id) {
 
-		Feedback f = dao.getFeedback(id);
-
-		return f;
+		return dao.getFeedback(id);
 	}
 
 	/**
@@ -124,6 +120,7 @@ public class ProjectLogicImpl implements ProjectLogic {
 	public boolean addFeedback(Feedback feedback) {
 		return addFeedback(feedback, true);
 	}
+
 	/**
 	 * {@inheritDoc}
 	 */

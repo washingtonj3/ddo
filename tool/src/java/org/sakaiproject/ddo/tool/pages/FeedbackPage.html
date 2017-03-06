@@ -4,24 +4,24 @@
 <body>
 <wicket:extend>
 
-    <h1>Feedback</h1>
-    <h4>You can view the original document that you submitted as well as comments and/or an annotated document from the reviewer below.</h4>
+    <h1><wicket:message key="feedback.feedback.header" /></h1>
+    <h4><wicket:message key="feedback.instructions" /></h4>
 
-    <h3>Original Document</h3>
+    <h3><wicket:message key="feedback.original.document" /></h3>
 
     <p class="tier2"><img wicket:id="sSubmissionIcon" class="fileIcon" /><a wicket:id="submission"><span wicket:id="sFileName" /></a> (<span wicket:id="sFileSize"/>)</p>
 
 	<div style="width:50%;border-bottom:1px solid #ccc;"></div>
 
-    <h3>Comments</h3>
+    <h3><wicket:message key="feedback.comments.header" /></h3>
 
     <p class="tier2"><span wicket:id="comments"></span></p>
 
-    <h3>Reviewed Document</h3>
+    <h3><wicket:message key="feedback.reviewed.document" /></h3>
 
     <p class="tier2"><span wicket:id="noDoc" /><img wicket:id="submissionIcon" class="fileIcon" /><a wicket:id="feedbackDoc"><span wicket:id="fFileName" /></a> <span wicket:id="fileSize"/></p>
 
-    <p style="margin-top: 2em;"><a wicket:id="backLink" class="button-example-1 button-example-blue" style="color:#fff!important;">Return to Main</a></p>
+    <p style="margin-top: 2em;"><a wicket:id="backLink" class="button-example-1 button-example-blue" style="color:#fff!important;"><wicket:message key="feedback.return.button" /></a></p>
 
 </wicket:extend>
 </body>

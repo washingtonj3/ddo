@@ -14,33 +14,13 @@
  *  limitations under the License.
  */
 
-package org.sakaiproject.ddo.model;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.sakaiproject.ddo.utils;
 
 /**
- * Wrapper class to hold a byte[], the mimetype, and fileName.
- *
  * @author David P. Bauer (dbauer1@udayton.edu)
- *
  */
+public enum SubmissionListType {
 
-@Data
-@NoArgsConstructor
-public class SubmissionFile {
-
-    // Only accept files that are Microsoft Office and do not have macros enabled.
-    public static final String[] AcceptableMimeTypes = new String[]{
-            "application/msword",
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    };
-
-    private byte[] bytes;
-    private String mimeType;
-    private String fileName;
+    FOR_CURRENT_USER, ALL_AWAITING, ALL_ARCHIVED, ALL_REVIEWED;
 
 }

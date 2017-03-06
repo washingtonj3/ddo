@@ -158,20 +158,17 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 
 		try {
 			getJdbcTemplate().update(getStatement("insert.submission"),
-					new Object[]{submission.getDocumentRef(),
-							submission.getSubmittedBy(),
-							submission.getPrimaryLanguageIsEnglish(),
-							submission.getPrimaryLanguage(),
-							submission.getStatus(),
-							submission.getAssignmentTitle(),
-							submission.getInstructorRequirements(),
-							submission.getDueDate(),
-							submission.getCourseTitle(),
-							submission.getInstructor(),
-							submission.getFeedbackFocus()
-					}
-
-			);
+					submission.getDocumentRef(),
+					submission.getSubmittedBy(),
+					submission.getPrimaryLanguageIsEnglish(),
+					submission.getPrimaryLanguage(),
+					submission.getStatus(),
+					submission.getAssignmentTitle(),
+					submission.getInstructorRequirements(),
+					submission.getDueDate(),
+					submission.getCourseTitle(),
+					submission.getInstructor(),
+					submission.getFeedbackFocus());
 			return true;
 		} catch (DataAccessException ex) {
 			log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
@@ -189,8 +186,7 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 
 		try {
 			getJdbcTemplate().update(getStatement("update.submissionStatus"),
-					new Object[]{s.getStatus(),s.getSubmissionId()}
-			);
+					s.getStatus(),s.getSubmissionId());
 			return true;
 		} catch (DataAccessException ex) {
 			log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
@@ -252,13 +248,10 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 				return false;
 			}
 			getJdbcTemplate().update(getStatement("insert.feedback"),
-					new Object[]{feedback.getSubmissionId(),
-							feedback.getReviewedBy(),
-							feedback.getComments(),
-							feedback.getReviewedDocumentRef()
-					}
-
-			);
+					feedback.getSubmissionId(),
+					feedback.getReviewedBy(),
+					feedback.getComments(),
+					feedback.getReviewedDocumentRef());
 			return true;
 		} catch (DataAccessException ex) {
 			log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
@@ -266,6 +259,9 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean updateFeedback(Feedback feedback) {
 		if(log.isDebugEnabled()) {
 			log.debug("updateFeedback( " + feedback.toString() + ")");
@@ -273,13 +269,11 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 
 		try {
 			getJdbcTemplate().update(getStatement("update.feedback"),
-					new Object[]{feedback.getReviewedBy(),
-							new Timestamp(feedback.getReviewDate().getTime()),
-							feedback.getReviewedDocumentRef(),
-							feedback.getComments(),
-							feedback.getFeedbackId()
-					}
-			);
+					feedback.getReviewedBy(),
+					new Timestamp(feedback.getReviewDate().getTime()),
+					feedback.getReviewedDocumentRef(),
+					feedback.getComments(),
+					feedback.getFeedbackId());
 			return true;
 		} catch (DataAccessException ex) {
 			log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());

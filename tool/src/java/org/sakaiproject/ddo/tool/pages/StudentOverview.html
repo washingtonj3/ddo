@@ -4,17 +4,15 @@
 <body>
 <wicket:extend>
 
-    <h1 style="margin-bottom: 0;">Welcome to Digital Drop-Off (DDO)</h1>
-    <h3 style="margin-top: 0;">A Service of the LTC Write Place</h3>
+    <h1 style="margin-bottom: 0;"><wicket:message key="welcome.title" /></h1>
+    <h3 style="margin-top: 0;"><wicket:message key="welcome.subtitle" /></h3>
 
     <div style="display: inline-block;width: 500px;">
-        <p>The mission of the Write Place is one of service: writing consultants appreciate the uniqueness of learners and work with all students in their efforts to become better writers.</p>
-        <p>If you are unable to stop in for a writing support session on campus, you may submit your paper via Isidore. Please submit each paper only once. A Write Place consultant will spend 30 minutes on your document, offering comments about content, organization, and mechanics.</p>
-        <p>We ask that you use this service only one time for each assignment. If you require additional support, please stop in to the Write Place located in the Knowledge Hub, Roesch Library first floor. If you are not a residential student and require additional writing support, please contact the Write Place Coordinator at <a href="mailto:cklimo1@udayton.edu">cklimo1@udayton.edu</a>.</p>
+        <p><wicket:message key="student.overview.instructions" /></p>
     </div>
 
-    <div wicket:id="submissionQueueInfo" class="infoBox" style="width:300px;display: inline-block;border:1px solid #ccc;padding:.5em;margin-left:1em;vertical-align: top;">
-        <h3>Current DDO Activity
+    <div wicket:id="submissionQueueInfo" class="infoBox" style="width:315px;display: inline-block;border:1px solid #ccc;padding:.5em;margin-left:1em;vertical-align: top;">
+        <h3><wicket:message key="activity.current.activity" />
             <span class="fa-stack fa-lg">
                 <span class="fa fa-calendar fa-stack-2x" aria-hidden="true"></span>
                 <span>
@@ -24,31 +22,31 @@
             </span>
         </h3>
         <p>
-            There are currently <strong><span wicket:id="numberWaitingReview" /></strong> papers waiting to be reviewed.
+            <span wicket:id="numberWaitingReview" />
             <br />
             <br />
-            You can expect a response for a new submission within <strong><span wicket:id="expectedWaitTime" /></strong> (end of the day <strong><span wicket:id="expectedReturnDay" /></strong>)
+            <span wicket:id="expectedWaitTime" />
         </p>
     </div>
 
     <p wicket:id="dropOffClosedMessage" class="ddoClosedMessage"></p>
 
-    <p style="padding-left: 150px;"><a wicket:id="toDropOffFormLink" class="button-example-1 button-example-dark-green" style="color: #fff !important;font-weight:bold;">Drop Off a Document</a></p>
+    <p style="padding-left: 150px;"><a wicket:id="toDropOffFormLink" class="button-example-1 button-example-dark-green" style="color: #fff !important;font-weight:bold;"><wicket:message key="student.overview.dropoff.button" /></a></p>
 
-    <h3 style="clear:both">Your Submissions (<span wicket:id="numberOfSubmissions" />)</h3>
+    <h3 style="clear:both"><span wicket:id="studentSubmissionsHeader" /></h3>
 
     <table cellspacing="0" class="dataview tier2" style="text-align: center;">
         <tbody>
         <tr>
-            <th style="text-align: left;">Submission</th>
-            <th>Submission Date</th>
-            <th>Status</th>
-            <th>Feedback</th>
+            <th style="text-align: left;"><wicket:message key="table.header.submission" /></th>
+            <th style="text-align: center"><wicket:message key="table.header.submission.date" /></th>
+            <th style="text-align: center"><wicket:message key="table.header.status" /></th>
+            <th><wicket:message key="table.header.feedback" /></th>
         </tr>
         <tr wicket:id="simple">
             <td style="text-align: left"><img wicket:id="submissionIcon" class="fileIcon" /><a wicket:id="document"><span wicket:id="fileName" /></a> (<span wicket:id="fileSize"/>)</td>
-            <td><span wicket:id="submissiondate">Submission Date</span></td>
-            <td><span wicket:id="status">Status</span></td>
+            <td><span wicket:id="submissiondate" /></td>
+            <td><span wicket:id="status" /></td>
             <td><a wicket:id="feedback"><span wicket:id="feedbackLabel" /></a></td>
         </tr>
         </tbody>

@@ -1,3 +1,19 @@
+/*
+ *  Copyright (c) 2016, University of Dayton
+ *
+ *  Licensed under the Educational Community License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *              http://opensource.org/licenses/ecl2
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
 package org.sakaiproject.ddo.tool.pages;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,9 +23,7 @@ import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.feedback.FeedbackMessage;
-import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.markup.head.OnLoadHeaderItem;
-import org.apache.wicket.markup.head.StringHeaderItem;
+import org.apache.wicket.markup.head.*;
 import org.apache.wicket.markup.html.IHeaderContributor;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
@@ -19,8 +33,12 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.request.resource.JavaScriptResourceReference;
+import org.apache.wicket.request.resource.PackageResourceReference;
+import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import org.sakaiproject.component.cover.ServerConfigurationService;
 import org.sakaiproject.ddo.logic.ProjectLogic;
 import org.sakaiproject.ddo.logic.SakaiProxy;
 
@@ -155,17 +173,44 @@ public class BasePage extends WebPage implements IHeaderContributor {
 	 * 
 	 */
 	public void renderHead(IHeaderResponse response) {
-		//get the Sakai skin header fragment from the request attribute
-		HttpServletRequest request = (HttpServletRequest)getRequest().getContainerRequest();
-		
-		response.render(StringHeaderItem.forString((String)request.getAttribute("sakai.html.head")));
+		super.renderHead(response);
+
+		final String version = ServerConfigurationService.getString("portal.cdn.version", "");
+
+		// get the Sakai skin header fragment from the request attribute
+		final HttpServletRequest request = (HttpServletRequest) getRequest().getContainerRequest();
+
+		response.render(new PriorityHeaderItem(JavaScriptHeaderItem
+				.forReference(getApplication().getJavaScriptLibrarySettings().getJQueryReference())));
+
+		response.render(StringHeaderItem.forString((String) request.getAttribute("sakai.html.head")));
 		response.render(OnLoadHeaderItem.forScript("setMainFrameHeight( window.name )"));
-		
-		
-		//Tool additions (at end so we can override if required)
-		response.render(StringHeaderItem.forString("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />"));
-		//response.renderCSSReference("css/my_tool_styles.css");
-		//response.renderJavascriptReference("js/my_tool_javascript.js");
+
+		// Tool additions (at end so we can override if required)
+		response.render(StringHeaderItem
+				.forString("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />"));
+
+		// jQueryUI
+		response.render(JavaScriptHeaderItem
+				.forUrl(String.format("/library/webjars/jquery-ui/1.11.3/jquery-ui.min.js?version=%s", version)));
+
+		// Include Sakai Date Picker
+		response.render(JavaScriptHeaderItem
+				.forUrl(String.format("/library/js/lang-datepicker/lang-datepicker.js?version=%s", version)));
+
+		// tablesorter
+		response.render(CssHeaderItem
+				.forUrl(String.format("/library/js/jquery/tablesorter/2.1.17/css/theme.bootstrap.css?version=%s", version)));
+		response.render(JavaScriptHeaderItem
+				.forUrl(String.format("/library/js/jquery/tablesorter/2.1.17/jquery.tablesorter.min.js?version=%s", version)));
+		response.render(JavaScriptHeaderItem
+				.forUrl(String.format("/library/js/jquery/tablesorter/2.1.17/jquery.tablesorter.widgets.min.js?version=%s", version)));
+
+		// DDO specific styles and behaviour
+		response.render(CssHeaderItem
+				.forUrl(String.format("/ddo-tool/styles/ddo-shared.css?version=%s", version)));
+		response.render(JavaScriptHeaderItem
+				.forUrl(String.format("/ddo-tool/scripts/ddo.js?version=%s", version)));
 	}
 	
 	

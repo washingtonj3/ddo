@@ -4,26 +4,30 @@
 <body>
 <wicket:extend>
 
-    <h1>Welcome to Digital Drop-Off <a wicket:id="refreshPage" title="Refresh"><span class="fa fa-refresh"><span class="sr-only">Refresh the page</span></span></a></h1>
+    <h1><wicket:message key="welcome.title" /> <a wicket:id="refreshPage" title="Refresh"><span class="fa fa-refresh"><span class="sr-only"><wicket:message key="ddo.refresh" /></span></span></a></h1>
 
-    <div style="margin-left:2em;"><a target="_blank" href="https://ewiki.udayton.edu/isidore/Write_Place_Consultant_DDO_Instructions" class="button-example-1 button-example-blue" style="color:white !important;">Write Place Consultant Instructions</a></div>
+    <div style="margin-left:2em;">
+        <a target="_blank" href="https://ewiki.udayton.edu/isidore/Write_Place_Consultant_DDO_Instructions" class="button-example-1 button-example-blue" style="color:white !important;">
+            <wicket:message key="staff.overview.instructions.button" />
+        </a>
+    </div>
 
-    <h3>Documents for Review (<span wicket:id="numberOfWaiting" />)</h3>
+    <h3><span wicket:id="waitingHeader" /></h3>
 
     <table cellspacing="0" class="dataview tier2" style="text-align: center;">
         <tbody>
         <tr>
-            <th style="text-align: left">Submitted By</th>
-            <th style="text-align: left">Submission</th>
-            <th>Submission Date</th>
-            <th>Status</th>
-            <th>Feedback</th>
+            <th style="text-align: left"><wicket:message key="table.header.submitted.by" /></th>
+            <th style="text-align: left"><wicket:message key="table.header.submission" /></th>
+            <th><wicket:message key="table.header.submission.date" /></th>
+            <th><wicket:message key="table.header.status" /></th>
+            <th><wicket:message key="table.header.feedback" /></th>
         </tr>
         <tr wicket:id="awaitingReview">
             <td style="text-align: left"><span wicket:id="submittedBy" /> (<span wicket:id="username"/>)</td>
             <td style="text-align: left"><img wicket:id="submissionIcon" class="fileIcon" /><a wicket:id="document"><span wicket:id="fileName" /></a> (<span wicket:id="fileSize"/>)</td>
-            <td><span wicket:id="submissiondate">Submission Date</span></td>
-            <td><span wicket:id="status">Status</span></td>
+            <td><span wicket:id="submissiondate" /></td>
+            <td><span wicket:id="status" /></td>
             <td><a wicket:id="startReviewing"><span wicket:id="startReviewingLabel" /></a></td>
         </tr>
         </tbody>
@@ -31,36 +35,36 @@
 
     <div wicket:id="navigator" class="tier2" style="background-color:#eee;text-align: center;"></div>
 
-    <h3>Completed Reviews (<span wicket:id="numberOfReviewed" />)</h3>
+    <h3><span wicket:id="completedHeader" /></h3>
 
     <table cellspacing="0" class="dataview tier2" style="text-align: center;">
         <tbody>
         <tr>
-            <th style="text-align: left">Submitted By</th>
-            <th style="text-align: left">Submission</th>
-            <th>Submission Date</th>
-            <th>Status</th>
-            <th style="text-align: left">Reviewed By</th>
-            <th>Review Date</th>
-            <th>Feedback</th>
+            <th style="text-align: left"><wicket:message key="table.header.submitted.by" /></th>
+            <th style="text-align: left"><wicket:message key="table.header.submission" /></th>
+            <th><wicket:message key="table.header.submission.date" /></th>
+            <th><wicket:message key="table.header.status" /></th>
+            <th style="text-align: left"><wicket:message key="table.header.reviewed.by" /></th>
+            <th><wicket:message key="table.header.review.date" /></th>
+            <th><wicket:message key="table.header.feedback" /></th>
             <wicket:enclosure child="archive-all-link">
-                <th><a wicket:id="archive-all-link" class="confirmation">Archive All</a></th>
+                <th><a wicket:id="archive-all-link" class="confirmation"><wicket:message key="table.header.archive.all" /></a></th>
             </wicket:enclosure>
         </tr>
         <tr wicket:id="reviewed">
             <td style="text-align: left"><span wicket:id="submittedBy" /> (<span wicket:id="username"/>)</td>
             <td style="text-align: left"><img wicket:id="submissionIcon" class="fileIcon" /><a wicket:id="document"><span wicket:id="fileName" /></a> (<span wicket:id="fileSize"/>)</td>
-            <td><span wicket:id="submissiondate">Submission Date</span></td>
-            <td><span wicket:id="status">Status</span></td>
-            <td style="text-align: left"><span wicket:id="reviewedBy">Reviewed By</span></td>
-            <td><span wicket:id="reviewDate">Review Date</span></td>
+            <td><span wicket:id="submissiondate" /></td>
+            <td><span wicket:id="status" /></td>
+            <td style="text-align: left"><span wicket:id="reviewedBy" /></td>
+            <td><span wicket:id="reviewDate" /></td>
             <td>
                 <a wicket:id="feedback"><span wicket:id="feedbackLabel" /></a> |
                 <a wicket:id="editFeedback"><span wicket:id="editFeedbackLabel" /></a>
             </td>
             <wicket:enclosure child="archive-link">
             <td>
-                <a wicket:id="archive-link">Archive</a>
+                <a wicket:id="archive-link"><wicket:message key="archive" /></a>
             </td>
             </wicket:enclosure>
         </tr>

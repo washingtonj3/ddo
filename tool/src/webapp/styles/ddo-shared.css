@@ -15,17 +15,14 @@
  */
 
 body{
-    font-family: 'Open Sans', sans-serif !important;
     color:#111111 !important;
     line-height: 1.375em !important;
 }
 h1{
-    font-family: 'Roboto Slab', serif !important;
     line-height: 1.05em !important;
     font-weight: normal !important;
 }
 h3{
-    font-family: 'Roboto Slab', serif !important;
     line-height: 1.25em !important;
     font-weight: normal !important;
 }
@@ -265,4 +262,12 @@ h3.adminSectionHeader {
     font-weight:300;
     font-size:1.2em;
     line-height: 1.4em;
+}
+
+#notifyHelp {
+    color: #0971B2;
+}
+
+#notifyHelp:hover {
+    cursor: pointer;
 }

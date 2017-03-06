@@ -101,5 +101,11 @@ public interface ProjectDao {
 	 */
 	int getNumberOfWaitingSubmissions();
 
+	/**
+	 * Update a given feedback record.
+	 *
+	 * @param feedback
+	 * @return
+	 */
 	boolean updateFeedback(Feedback feedback);
 }

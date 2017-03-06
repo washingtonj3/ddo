@@ -1,11 +1,25 @@
+/*
+ *  Copyright (c) 2016, University of Dayton
+ *
+ *  Licensed under the Educational Community License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *              http://opensource.org/licenses/ecl2
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
 package org.sakaiproject.ddo.logic;
 
-import org.sakaiproject.coursemanagement.api.Section;
 import org.sakaiproject.ddo.model.Submission;
 import org.sakaiproject.ddo.model.SubmissionFile;
 import org.sakaiproject.user.api.User;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -214,14 +228,46 @@ public interface SakaiProxy {
 	 */
 	void sendFeedbackNotification(Submission s);
 
+	/**
+	 * Retrieve a set of instructors' IDs for the current
+	 * authenticated user.
+	 *
+	 * @return
+	 */
 	Set<String> getCurrentInstructorsForCurrentUser();
 
+	/**
+	 * Retrieve the current sections that the the current
+	 * authenticated user is registered for.
+	 *
+	 * @return
+	 */
 	Set<String> getCurrentSectionsForCurrentUser();
 
+	/**
+	 * Get the human-readable course offering title for a given Section Eid.
+	 *
+	 * @param sectionEid
+	 * @return
+	 */
 	String getCourseOfferingTitleForSection(String sectionEid);
 
+	/**
+	 * Send an email notification to an instructor to inform them that one of their
+	 * students used the DDO service.
+	 *
+	 * @param instructorEmail
+	 * @param currentUserId
+	 * @param submission
+	 */
 	void sendNotificationToInstructor(String instructorEmail, String currentUserId, Submission submission);
 
+	/**
+	 * Send an email receipt to the user that used the DDO service.
+	 *
+	 * @param currentUserId
+	 * @param submission
+	 */
 	void sendReceipt(String currentUserId, Submission submission);
 
 	/**
