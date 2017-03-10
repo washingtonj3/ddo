@@ -568,11 +568,15 @@ public class SakaiProxyImpl implements SakaiProxy {
 	public Set<String> getCurrentSectionsForCurrentUser() {
 		User currentUser = getCurrentUser();
 		Set<Section> enrolledSections = courseManagementService.findEnrolledSections(currentUser.getEid());
-		Set<String> sections = new HashSet<String>();
+		Set<String> activeSections = new HashSet<>();
+		final Calendar currentDate = Calendar.getInstance();
 		for (Section s : enrolledSections) {
-			sections.add(s.getEid());
+			// Add section if "active"
+			if (s.getStartDate() != null && currentDate.getTime().after(s.getStartDate()) && s.getEndDate() != null && currentDate.getTime().before(s.getEndDate())) {
+				activeSections.add(s.getEid());
+			}
 		}
-		return sections;
+		return activeSections;
 	}
 
 	public String getCourseOfferingTitleForSection(String sectionEid) {
