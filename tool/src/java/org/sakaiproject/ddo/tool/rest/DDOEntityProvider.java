@@ -13,6 +13,8 @@ import org.sakaiproject.entitybroker.entityprovider.capabilities.*;
 import org.sakaiproject.entitybroker.entityprovider.extension.Formats;
 import org.sakaiproject.entitybroker.util.AbstractEntityProvider;
 
+import java.util.Map;
+
 /**
  * Created by David P. Bauer [dbauer1@udayton.edu] on 3/17/17.
  *
@@ -46,12 +48,12 @@ public class DDOEntityProvider extends AbstractEntityProvider implements AutoReg
     }
 
     @EntityCustomAction(action = "numberOfSubmissions", viewKey = EntityView.VIEW_LIST)
-    public String getNumberOfSubmissions(EntityView view) {
-        final String startDateString = view.getPathSegment(2);
-        final String endDateString = view.getPathSegment(3);
+    public String getNumberOfSubmissions(EntityView view, Map<String, Object> params) {
+        final String startDateString = (String) params.get(DDOConstants.PARAM_START_DATE);
+        final String endDateString = (String) params.get(DDOConstants.PARAM_END_DATE);
 
         if (StringUtils.isBlank(startDateString) || StringUtils.isBlank(endDateString)) {
-            // TODO: Check for valid date format.
+            // TODO: Check for valid date format and convert to date.
             throw new IllegalArgumentException(
                     String.format(
                             "Start and End Date must be set in order to get the number of submissions for range, via the URL /%s/numberOfSubmissions/{startDate}/{endDate}",
