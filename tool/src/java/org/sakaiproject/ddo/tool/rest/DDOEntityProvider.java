@@ -2,10 +2,12 @@ package org.sakaiproject.ddo.tool.rest;
 
 import lombok.Setter;
 import org.apache.commons.lang.StringUtils;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.sakaiproject.authz.api.AuthzGroup;
 import org.sakaiproject.authz.api.AuthzGroupService;
 import org.sakaiproject.authz.api.GroupNotDefinedException;
 import org.sakaiproject.authz.api.SecurityService;
+import org.sakaiproject.ddo.logic.ProjectLogic;
 import org.sakaiproject.ddo.utils.DDOConstants;
 import org.sakaiproject.entitybroker.EntityView;
 import org.sakaiproject.entitybroker.entityprovider.annotations.EntityCustomAction;
@@ -23,12 +25,6 @@ public class DDOEntityProvider extends AbstractEntityProvider implements AutoReg
         Outputable, Describeable, ActionsExecutable {
 
     public final static String ENTITY_PREFIX = "ddo-statistics";
-
-    @Setter
-    private AuthzGroupService authzGroupService;
-
-    @Setter
-    private SecurityService securityService;
 
     @Override
     public String getEntityPrefix() {
@@ -85,4 +81,13 @@ public class DDOEntityProvider extends AbstractEntityProvider implements AutoReg
             throw new RuntimeException("Unable to check if user is DDO Admin. Verify realm is defined correctly.");
         }
     }
+
+    @SpringBean(name="org.sakaiproject.authz.api.AuthzGroupService")
+    private AuthzGroupService authzGroupService;
+
+    @SpringBean(name="org.sakaiproject.authz.api.SecurityService")
+    private SecurityService securityService;
+
+    @SpringBean(name="org.sakaiproject.ddo.logic.ProjectLogic")
+    private ProjectLogic projectLogic;
 }
