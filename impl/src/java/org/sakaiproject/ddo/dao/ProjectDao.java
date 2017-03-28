@@ -121,4 +121,13 @@ public interface ProjectDao {
 	 */
 	int getNumberofSubmissionsDao(Date startDate, Date endDate, String statusString);
 
+	/**
+	 * Gets the number of unique Submitters between two dates
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the number of unique Submitters between the two dates or a 0 on error
+	 */
+	int getNumberOfUniqueUsersDao(Date startDate, Date endDate);
 }
