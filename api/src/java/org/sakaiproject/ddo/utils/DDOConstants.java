@@ -30,4 +30,5 @@ public class DDOConstants {
 
     public static final String PARAM_START_DATE = "startDate";
     public static final String PARAM_END_DATE = "endDate";
+    public static final String PARAM_STATUS = "status";
 }

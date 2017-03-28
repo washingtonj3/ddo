@@ -3,6 +3,12 @@
 
 <beans>
 
-	<!-- We need this file to satisfy Spring, but we don't need anything in it since we use Wicket's dependency injection -->
+	<bean parent="org.sakaiproject.entitybroker.entityprovider.AbstractEntityProvider"
+		  class="org.sakaiproject.ddo.tool.rest.DDOEntityProvider">
+		<property name="authzGroupService" ref="org.sakaiproject.authz.api.AuthzGroupService" />
+		<property name="projectLogic" ref="org.sakaiproject.ddo.logic.ProjectLogic" />
+		<property name="sakaiProxy" ref="org.sakaiproject.ddo.logic.SakaiProxy" />
+		<property name="securityService" ref="org.sakaiproject.authz.api.SecurityService" />
+	</bean>
        
 </beans>
