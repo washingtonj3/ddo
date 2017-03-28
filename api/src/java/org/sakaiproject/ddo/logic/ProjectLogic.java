@@ -16,6 +16,7 @@
 
 package org.sakaiproject.ddo.logic;
 
+import java.util.Date;
 import java.util.List;
 
 import org.sakaiproject.ddo.model.Feedback;
@@ -144,4 +145,19 @@ public interface ProjectLogic {
 	 * @return returns the number of submissions waiting to be reviewed or 0 on a caught exception
 	 */
 	int getNumberOfWaitingSubmissions();
+
+	/**
+	 * Gets the number of submissions between two dates with different statuses
+	 *
+	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate
+	 * @param endDate
+	 * @param statusString
+	 *
+	 * @return returns the number of submissions matching the parameters or a 0 on error
+	 */
+
+	int getNumberofSubmissionsLogic(Date startDate, Date endDate, String statusString);
+
 }

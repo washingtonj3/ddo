@@ -1,5 +1,6 @@
 package org.sakaiproject.ddo.logic;
 
+import java.util.Date;
 import java.util.List;
 
 import lombok.Setter;
@@ -163,6 +164,21 @@ public class ProjectLogicImpl implements ProjectLogic {
 	public int getNumberOfWaitingSubmissions() {
 		return dao.getNumberOfWaitingSubmissions();
 	}
+
+	/**
+	 * Gets the number of submissions between two dates with different statuses
+	 *
+	 * @param startDate
+	 * @param endDate
+	 * @param statusString
+	 *
+	 * @return returns the number of submissions matching the parameters or a 0 on error
+	 */
+	public int getNumberofSubmissionsLogic(Date startDate, Date endDate, String statusString){
+		return dao.getNumberofSubmissionsDao(startDate, endDate, statusString);
+	}
+
+
 
 	@Setter
 	private ProjectDao dao;

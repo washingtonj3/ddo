@@ -2,12 +2,14 @@ package org.sakaiproject.ddo.dao.impl;
 
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.reloading.InvariantReloadingStrategy;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import org.sakaiproject.component.cover.ServerConfigurationService;
@@ -362,6 +364,32 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 		} catch (NoSuchElementException e) {
 			log.error("Statement: '" + key + "' could not be found in: " + statements.getFileName());
 			return null;
+		}
+	}
+
+	/**
+	 * Gets the number of submissions between two dates with different statuses
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank before the function it is the current date
+	 * @param statusString Status type of the submission to search for if blank or null gets all submission in the date range
+	 *
+	 * @return returns the number of submissions matching the parameters or a 0 on error
+	 */
+	public int getNumberofSubmissionsDao(Date startDate, Date endDate, String statusString) {
+		try {
+			if(StringUtils.isBlank(statusString))//catches if the string is null or blank
+			{
+				return getJdbcTemplate().queryForObject(getStatement("stats.numberOfSubmissionsNoStatus"), Integer.class,
+						startDate, endDate);
+			}
+			else{
+				return getJdbcTemplate().queryForObject(getStatement("stats.numberOfSubmissions"), Integer.class,
+						startDate, endDate, statusString);
+			}
+
+		}catch (DataAccessException ex) {
+				return 0;
 		}
 	}
 }
