@@ -178,7 +178,17 @@ public class ProjectLogicImpl implements ProjectLogic {
 		return dao.getNumberofSubmissionsDao(startDate, endDate, statusString);
 	}
 
+	/**
+	 * Gets the average number of submissions in the date range
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank before the function it is the current date
 
+	 * @return returns the average number of submissions in the parameter range or a 0 on error or null
+	 */
+	public double getAvgNumberofSubmissionsLogic(Date startDate, Date endDate){
+		return dao.getAvgNumberofSubmissionsDao(startDate, endDate);
+	}
 
 	@Setter
 	private ProjectDao dao;

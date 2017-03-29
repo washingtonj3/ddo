@@ -392,4 +392,31 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 				return 0;
 		}
 	}
+
+	/**
+	 * Gets the average number of submissions in the date range
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank before the function it is the current date
+	 *
+	 * The query results in null when there are no submissions in the date range
+	 * Rounds the result to two decimal places
+	 *
+	 * @return returns the average number of submissions in the parameter range or a 0 on error or null
+	 */
+	public double getAvgNumberofSubmissionsDao(Date startDate, Date endDate) {
+		try {
+			Double result = getJdbcTemplate().queryForObject(getStatement("stats.avgNumberOfSubmissionsNoStatus"), Double.class,
+					startDate, endDate);
+			if(result == null){
+				return 0;
+			}
+			else{
+				result = (double) Math.round(result * 100) / 100;
+				return result;
+			}
+		}catch (DataAccessException ex) {
+			return 0;
+		}
+	}
 }

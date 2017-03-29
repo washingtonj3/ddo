@@ -160,4 +160,17 @@ public interface ProjectLogic {
 
 	int getNumberofSubmissionsLogic(Date startDate, Date endDate, String statusString);
 
+	/**
+	 * Gets the average number of submissions in the date range
+	 *
+	 * 	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank before the function it is the current date
+
+	 * @return returns the average number of submissions in the parameter range or a 0 on error or null
+	 */
+
+	double getAvgNumberofSubmissionsLogic(Date startDate, Date endDate);
+
 }

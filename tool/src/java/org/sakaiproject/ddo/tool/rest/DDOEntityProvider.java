@@ -137,6 +137,25 @@ public class DDOEntityProvider extends AbstractEntityProvider implements AutoReg
         return numberOfSubmissionsString;
     }
 
+    @EntityCustomAction(action = "avgNumberOfSubmissions", viewKey = EntityView.VIEW_LIST)
+    public String getAvgNumberOfSubmissions(EntityView view, Map<String, Object> params) {
+        final String userId = sakaiProxy.getCurrentUserId();
+        String avgNumberOfSubmissionsString = "";
+        checkUserStatus(userId);
+        Date startDateConverted = getValidStartDateFromParams(params);
+        Date endDateConverted = getValidEndDateFromParams(params);
+        dateChronologicalChecker(startDateConverted, endDateConverted);
+
+        final double avgNumberOfSubmissions = this.projectLogic.getAvgNumberofSubmissionsLogic(startDateConverted, endDateConverted);
+        if(avgNumberOfSubmissions == 0){ // If statement to change a 0.0 to a 0 for a better looking output.
+            avgNumberOfSubmissionsString = "0";
+        }
+        else{
+            avgNumberOfSubmissionsString = String.valueOf(avgNumberOfSubmissions);
+        }
+        return avgNumberOfSubmissionsString;
+    }
+
     @Setter
     private AuthzGroupService authzGroupService;
 
