@@ -140,4 +140,14 @@ public interface ProjectDao {
 	 * @return returns the number of repeat users between the two dates or a 0 on error
 	 */
 	int getNumberOfRepeatUsersDao(Date startDate, Date endDate);
+
+	/**
+	 * Gets the number of Consultants who reviewed between two dates
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the number of Consultants between the two parameters or a 0 on error
+	 */
+	int getNumberOfConsultantsDao(Date startDate, Date endDate);
 }

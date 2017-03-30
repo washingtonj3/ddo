@@ -426,4 +426,20 @@ public int getNumberOfRepeatUsersDao(Date startDate, Date endDate) {
 			return 0;
 		}
 }
+
+	/**
+	 * Gets the number of Consultants who reviewed between two dates
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank or null before the function it is set as the current date
+	 *
+	 * @return returns the number of Consultants between the two parameters or a 0 on error
+	 */
+	public int getNumberOfConsultantsDao(Date startDate, Date endDate) {
+		try {
+			return getJdbcTemplate().queryForObject(getStatement("stats.numberOfConsultants"), Integer.class, startDate, endDate);
+		} catch (DataAccessException ex) {
+			return 0;
+		}
+	}
 }

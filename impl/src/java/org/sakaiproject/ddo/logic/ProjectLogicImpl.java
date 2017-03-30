@@ -202,6 +202,19 @@ public class ProjectLogicImpl implements ProjectLogic {
 		return dao.getNumberOfRepeatUsersDao(startDate, endDate);
 	}
 
+	/**
+	 * Gets the number of Consultants who reviewed between two dates
+	 *
+	 * * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the number of Consultants between the two parameters or a 0 on error
+	 */
+	public int getNumberOfConsultantsLogic(Date startDate, Date endDate){
+		return dao.getNumberOfConsultantsDao(startDate, endDate);
+	}
+	
+
 	@Setter
 	private ProjectDao dao;
 	
