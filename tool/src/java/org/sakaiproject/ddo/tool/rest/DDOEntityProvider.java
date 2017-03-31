@@ -137,6 +137,20 @@ public class DDOEntityProvider extends AbstractEntityProvider implements AutoReg
         return numberOfSubmissionsString;
     }
 
+    @EntityCustomAction(action = "numberOfUniqueUsers", viewKey = EntityView.VIEW_LIST)
+    public String getNumberOfUniqueUsers(EntityView view, Map<String, Object> params) {
+        final String userId = sakaiProxy.getCurrentUserId();
+
+        checkUserStatus(userId);
+        Date startDateConverted = getValidStartDateFromParams(params);
+        Date endDateConverted = getValidEndDateFromParams(params);
+        dateChronologicalChecker(startDateConverted, endDateConverted);
+
+        final int numberOfUniqueUsers = this.projectLogic.getNumberOfUniqueUsersLogic(startDateConverted, endDateConverted);
+        final String numberOfUniqueUsersString = String.valueOf(numberOfUniqueUsers);
+        return numberOfUniqueUsersString;
+    }
+
     @Setter
     private AuthzGroupService authzGroupService;
 
