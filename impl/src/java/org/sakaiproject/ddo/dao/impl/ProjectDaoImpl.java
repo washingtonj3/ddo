@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.sakaiproject.component.cover.ServerConfigurationService;
 
 import org.sakaiproject.ddo.model.Feedback;
+import org.sakaiproject.ddo.model.NumStatistics;
 import org.sakaiproject.ddo.model.Submission;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -440,6 +441,26 @@ public int getNumberOfRepeatUsersDao(Date startDate, Date endDate) {
 			return getJdbcTemplate().queryForObject(getStatement("stats.numberOfConsultants"), Integer.class, startDate, endDate);
 		} catch (DataAccessException ex) {
 			return 0;
+		}
+	}
+
+	/**
+	 * Gets the number of reviews per consultant
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the reviewerId and number of reviewed papers for each reviewer who reviewed within the timeframe in list form
+	 */
+	public List<NumStatistics> numberOfReviewsPerConsultantDao(Date startDate, Date endDate) {
+		try {
+			return getJdbcTemplate().query(getStatement("stats.numberOfReviewsPerConsultant"),
+					new Object[]{startDate, endDate},
+					new NumStatisticsMapper()
+			);
+		} catch (DataAccessException ex) {
+			log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
+			return null;
 		}
 	}
 }

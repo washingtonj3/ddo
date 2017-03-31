@@ -8,7 +8,10 @@ import org.sakaiproject.authz.api.GroupNotDefinedException;
 import org.sakaiproject.authz.api.SecurityService;
 import org.sakaiproject.ddo.logic.ProjectLogic;
 import org.sakaiproject.ddo.logic.SakaiProxy;
+import org.sakaiproject.ddo.model.NumStatistics;
+import org.sakaiproject.ddo.model.NumberStat;
 import org.sakaiproject.ddo.utils.DDOConstants;
+import org.sakaiproject.ddo.utils.StatisticType;
 import org.sakaiproject.entitybroker.EntityView;
 import org.sakaiproject.entitybroker.entityprovider.annotations.EntityCustomAction;
 import org.sakaiproject.entitybroker.entityprovider.capabilities.*;
@@ -16,12 +19,12 @@ import org.sakaiproject.entitybroker.entityprovider.extension.Formats;
 import org.sakaiproject.entitybroker.util.AbstractEntityProvider;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.Map;
+import java.util.List;
 
 /**
  * Created by David P. Bauer [dbauer1@udayton.edu] on 3/17/17.
@@ -176,6 +179,24 @@ public class DDOEntityProvider extends AbstractEntityProvider implements AutoReg
         final int numberOfConsultants = this.projectLogic.getNumberOfConsultantsLogic(startDateConverted, endDateConverted);
         final String numberOfConsultantsString = String.valueOf(numberOfConsultants);
         return numberOfConsultantsString;
+    }
+
+    @EntityCustomAction(action = "numberOfReviewsPerConsultant", viewKey = EntityView.VIEW_LIST)
+    public NumberStat getNumberOfReviewsPerConsultant(EntityView view, Map<String, Object> params) {
+        final String userId = sakaiProxy.getCurrentUserId();
+        NumberStat statEntity = new NumberStat();
+
+        checkUserStatus(userId);
+        Date startDateConverted = getValidStartDateFromParams(params);
+        Date endDateConverted = getValidEndDateFromParams(params);
+        dateChronologicalChecker(startDateConverted, endDateConverted);
+
+        final List<NumStatistics> numberOfReviewsPerConsultant = this.projectLogic.numberOfReviewsPerConsultantLogic(startDateConverted, endDateConverted);
+        statEntity.setStatsType(StatisticType.REVIEWERS);
+        statEntity.setStartDate(startDateConverted);
+        statEntity.setEndDate(endDateConverted);
+        statEntity.setNumStatisticsList(numberOfReviewsPerConsultant);
+        return statEntity;
     }
 
     @Setter

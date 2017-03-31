@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.sakaiproject.ddo.model.Feedback;
+import org.sakaiproject.ddo.model.NumStatistics;
 import org.sakaiproject.ddo.model.Submission;
 
 /**
@@ -195,4 +196,17 @@ public interface ProjectLogic {
 	 * @return returns the number of Consultants between the two parameters or a 0 on error
 	 */
 	int getNumberOfConsultantsLogic(Date startDate, Date endDate);
+
+	/**
+	 * Gets the number of reviews per consultant
+	 *
+	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the reviewerId and number of reviewed papers for each reviewer who reviewed within the timeframe in list form
+	 */
+
+	List<NumStatistics> numberOfReviewsPerConsultantLogic(Date startDate, Date endDate);
 }
