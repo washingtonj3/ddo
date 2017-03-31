@@ -178,8 +178,17 @@ public class ProjectLogicImpl implements ProjectLogic {
 		return dao.getNumberofSubmissionsDao(startDate, endDate, statusString);
 	}
 
-
-
+	/**
+	 * Gets the number of unique submitters between two dates with different statuses
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the number of unique submitters matching the parameters or a 0 on error
+	 */
+	public int getNumberOfUniqueUsersLogic(Date startDate, Date endDate){
+		return dao.getNumberOfUniqueUsersDao(startDate, endDate);
+	}
 	@Setter
 	private ProjectDao dao;
 	

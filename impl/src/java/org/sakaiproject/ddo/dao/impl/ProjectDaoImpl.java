@@ -388,8 +388,25 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 						startDate, endDate, statusString);
 			}
 
-		}catch (DataAccessException ex) {
+		} catch (DataAccessException ex) {
 				return 0;
+		}
+	}
+
+	/**
+	 * Gets the number of unique users between the two dates
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank before the function it is the current date
+	 *
+	 * @return returns the number of unique users matching the parameters or a 0 on error
+	 */
+	public int getNumberOfUniqueUsersDao(Date startDate, Date endDate) {
+		try {
+			return getJdbcTemplate().queryForObject(getStatement("stats.numberOfUniqueUsers"), Integer.class,
+						startDate, endDate);
+		} catch (DataAccessException ex) {
+			return 0;
 		}
 	}
 }
