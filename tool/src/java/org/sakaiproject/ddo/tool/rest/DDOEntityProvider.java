@@ -198,6 +198,24 @@ public class DDOEntityProvider extends AbstractEntityProvider implements AutoReg
         statEntity.setNumStatisticsList(numberOfReviewsPerConsultant);
         return statEntity;
     }
+    
+    @EntityCustomAction(action = "TopThreeInstructors", viewKey = EntityView.VIEW_LIST)
+    public NumberStat getTopThreeInstructors(EntityView view, Map<String, Object> params) {
+        final String userId = sakaiProxy.getCurrentUserId();
+        NumberStat statEntity = new NumberStat();
+
+        checkUserStatus(userId);
+        Date startDateConverted = getValidStartDateFromParams(params);
+        Date endDateConverted = getValidEndDateFromParams(params);
+        dateChronologicalChecker(startDateConverted, endDateConverted);
+
+        final List<NumStatistics> topThreeInstructorsStatsList = this.projectLogic.topThreeInstructorsStatsLogic(startDateConverted, endDateConverted);
+        statEntity.setStatsType(StatisticType.TOPINSTRUCTORS);
+        statEntity.setStartDate(startDateConverted);
+        statEntity.setEndDate(endDateConverted);
+        statEntity.setNumStatisticsList(topThreeInstructorsStatsList);
+        return statEntity;
+    }
 
     @Setter
     private AuthzGroupService authzGroupService;

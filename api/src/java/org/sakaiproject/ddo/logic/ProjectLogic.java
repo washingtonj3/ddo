@@ -209,4 +209,17 @@ public interface ProjectLogic {
 	 */
 
 	List<NumStatistics> numberOfReviewsPerConsultantLogic(Date startDate, Date endDate);
+
+	/**
+	 * Gets a list containing the Insturctor Name and how many papers their students submitted
+	 *
+	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the reviewerId and number of reviewed papers for each reviewer who reviewed within the timeframe in list form
+	 */
+
+	List<NumStatistics> topThreeInstructorsStatsLogic(Date startDate, Date endDate);
 }

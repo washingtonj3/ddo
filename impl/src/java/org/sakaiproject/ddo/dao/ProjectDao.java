@@ -161,4 +161,14 @@ public interface ProjectDao {
 	 * @return returns the reviewerId and number of reviewed papers for each reviewer who reviewed within the timeframe in list form
 	 */
 	List<NumStatistics> numberOfReviewsPerConsultantDao(Date startDate, Date endDate);
+
+	/**
+	 * Gets a list containing the Insturctor Name and how many papers their students submitted
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the three instructors with the most user submissions within the timeframe in list form
+	 */
+	List<NumStatistics> topThreeInstructorsStatsDao(Date startDate, Date endDate);
 }
