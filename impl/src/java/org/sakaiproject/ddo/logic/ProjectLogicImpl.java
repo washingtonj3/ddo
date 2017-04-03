@@ -189,6 +189,19 @@ public class ProjectLogicImpl implements ProjectLogic {
 	public int getNumberOfUniqueUsersLogic(Date startDate, Date endDate){
 		return dao.getNumberOfUniqueUsersDao(startDate, endDate);
 	}
+
+	/**
+	 * Gets the number of repeat users between the two dates
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the number of repeat users between the two dates or a 0 on error
+	 */
+	public int getNumberOfRepeatUsersLogic(Date startDate, Date endDate){
+		return dao.getNumberOfRepeatUsersDao(startDate, endDate);
+	}
+
 	@Setter
 	private ProjectDao dao;
 	
