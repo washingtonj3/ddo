@@ -483,4 +483,24 @@ public int getNumberOfRepeatUsersDao(Date startDate, Date endDate) {
 			return null;
 		}
 	}
+
+	/**
+	 * Gets a list containing the Section Name and how many papers students in this section submitted
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the three instructors with the most user submissions within the timeframe in list form
+	 */
+	public List<NumStatistics> topThreeSectionsStatsDao(Date startDate, Date endDate) {
+		try {
+			return getJdbcTemplate().query(getStatement("stats.topThreeSectionStats"),
+					new Object[]{startDate, endDate},
+					new NumStatisticsMapper()
+			);
+		} catch (DataAccessException ex) {
+			log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
+			return null;
+		}
+	}
 }

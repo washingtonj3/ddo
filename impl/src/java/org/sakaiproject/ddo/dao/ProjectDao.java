@@ -171,4 +171,15 @@ public interface ProjectDao {
 	 * @return returns the three instructors with the most user submissions within the timeframe in list form
 	 */
 	List<NumStatistics> topThreeInstructorsStatsDao(Date startDate, Date endDate);
+
+	/**
+	 * Gets a list containing the Section Name and how many papers students in this section submitted
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the three sections with the most user submissions within the timeframe in list form
+	 */
+	List<NumStatistics> topThreeSectionsStatsDao(Date startDate, Date endDate);
+
 }

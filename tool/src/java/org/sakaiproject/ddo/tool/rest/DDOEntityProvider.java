@@ -217,6 +217,24 @@ public class DDOEntityProvider extends AbstractEntityProvider implements AutoReg
         return statEntity;
     }
 
+    @EntityCustomAction(action = "TopThreeSections", viewKey = EntityView.VIEW_LIST)
+    public NumberStat getTopThreeSections(EntityView view, Map<String, Object> params) {
+        final String userId = sakaiProxy.getCurrentUserId();
+        NumberStat statEntity = new NumberStat();
+
+        checkUserStatus(userId);
+        Date startDateConverted = getValidStartDateFromParams(params);
+        Date endDateConverted = getValidEndDateFromParams(params);
+        dateChronologicalChecker(startDateConverted, endDateConverted);
+
+        final List<NumStatistics> topThreeSectionsStatsList = this.projectLogic.topThreeSectionsStatsLogic(startDateConverted, endDateConverted);
+        statEntity.setStatsType(StatisticType.TOPSECTIONS);
+        statEntity.setStartDate(startDateConverted);
+        statEntity.setEndDate(endDateConverted);
+        statEntity.setNumStatisticsList(topThreeSectionsStatsList);
+        return statEntity;
+    }
+
     @Setter
     private AuthzGroupService authzGroupService;
 
