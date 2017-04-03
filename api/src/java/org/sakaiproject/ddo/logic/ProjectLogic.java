@@ -163,7 +163,7 @@ public interface ProjectLogic {
 	/**
 	 * Gets the number of unique submitters between two dates with different statuses
 	 *
-	 * The date parameters are checked for error prior to this functio
+	 * The date parameters are checked for error prior to this function
 	 *
 	 * @param startDate
 	 * @param endDate
@@ -171,4 +171,16 @@ public interface ProjectLogic {
 	 * @return returns the number of unique submitters matching the parameters or a 0 on error
 	 */
 	int getNumberOfUniqueUsersLogic(Date startDate, Date endDate);
+
+	/**
+	 * Gets the number of repeat users between the two dates
+	 *
+	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the number of repeat users between the two dates or a 0 on error
+	 */
+	int getNumberOfRepeatUsersLogic(Date startDate, Date endDate);
 }
