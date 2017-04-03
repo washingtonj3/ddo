@@ -222,4 +222,18 @@ public interface ProjectLogic {
 	 */
 
 	List<NumStatistics> topThreeInstructorsStatsLogic(Date startDate, Date endDate);
+
+	/**
+	 * Gets a list containing the Section Name and how many papers students in this section submitted
+	 *
+	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the three sections with the most user submissions within the timeframe in list form
+	 */
+
+	List<NumStatistics> topThreeSectionsStatsLogic(Date startDate, Date endDate);
+
 }

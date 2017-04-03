@@ -239,6 +239,18 @@ public class ProjectLogicImpl implements ProjectLogic {
 		return dao.topThreeInstructorsStatsDao(startDate, endDate);
 	}
 
+	/**
+	 * Gets a list containing the Section Name and how many papers students in this section submitted
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the three sections with the most user submissions within the timeframe in list form
+	 */
+	public List<NumStatistics> topThreeSectionsStatsLogic(Date startDate, Date endDate) {
+		return dao.topThreeSectionsStatsDao(startDate, endDate);
+	}
+
 	@Setter
 	private ProjectDao dao;
 	
