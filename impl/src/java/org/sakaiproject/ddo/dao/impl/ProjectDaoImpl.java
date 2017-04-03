@@ -463,4 +463,24 @@ public int getNumberOfRepeatUsersDao(Date startDate, Date endDate) {
 			return null;
 		}
 	}
+
+	/**
+	 * Gets a list containing the Insturctor Name and how many papers their students submitted
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the three instructors with the most user submissions within the timeframe in list form
+	 */
+	public List<NumStatistics> topThreeInstructorsStatsDao(Date startDate, Date endDate) {
+		try {
+			return getJdbcTemplate().query(getStatement("stats.topThreeInstructorStats"),
+					new Object[]{startDate, endDate},
+					new NumStatisticsMapper()
+			);
+		} catch (DataAccessException ex) {
+			log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
+			return null;
+		}
+	}
 }
