@@ -227,6 +227,18 @@ public class ProjectLogicImpl implements ProjectLogic {
 		return dao.numberOfReviewsPerConsultantDao(startDate, endDate);
 	}
 
+	/**
+	 * Gets a list containing the Insturctor Name and how many papers their students submitted
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the three instructors with the most user submissions within the timeframe in list form
+	 */
+	public List<NumStatistics> topThreeInstructorsStatsLogic(Date startDate, Date endDate) {
+		return dao.topThreeInstructorsStatsDao(startDate, endDate);
+	}
+
 	@Setter
 	private ProjectDao dao;
 	

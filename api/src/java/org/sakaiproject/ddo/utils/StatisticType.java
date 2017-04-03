@@ -6,7 +6,7 @@ package org.sakaiproject.ddo.utils;
 public enum StatisticType {
 
     REVIEWERS ("Number of Reviews Completed by Consultant"),
-    TOPINSTRUCTORS (""),
+    TOPINSTRUCTORS ("Top Three Instructors by Number of Student Submissions"),
     TOPSECTIONS ("");
 
     public String getStatisticName() {
