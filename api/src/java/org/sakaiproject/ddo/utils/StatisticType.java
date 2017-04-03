@@ -7,7 +7,7 @@ public enum StatisticType {
 
     REVIEWERS ("Number of Reviews Completed by Consultant"),
     TOPINSTRUCTORS ("Top Three Instructors by Number of Student Submissions"),
-    TOPSECTIONS ("");
+    TOPSECTIONS ("Top Three Sections by Number of Student Submissions");
 
     public String getStatisticName() {
         return statisticName;
