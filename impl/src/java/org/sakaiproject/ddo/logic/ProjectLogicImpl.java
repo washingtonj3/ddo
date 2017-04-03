@@ -10,8 +10,8 @@ import net.sf.ehcache.Cache;
 import org.apache.log4j.Logger;
 
 import org.sakaiproject.ddo.dao.ProjectDao;
-import org.sakaiproject.ddo.logic.SakaiProxy;
 import org.sakaiproject.ddo.model.Feedback;
+import org.sakaiproject.ddo.model.NumStatistics;
 import org.sakaiproject.ddo.model.Submission;
 
 /**
@@ -213,7 +213,19 @@ public class ProjectLogicImpl implements ProjectLogic {
 	public int getNumberOfConsultantsLogic(Date startDate, Date endDate){
 		return dao.getNumberOfConsultantsDao(startDate, endDate);
 	}
-	
+
+
+	/**
+	 * Gets the number of reviews per consultant
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the reviewerId and number of reviewed papers for each reviewer who reviewed within the timeframe in list form
+	 */
+	public List<NumStatistics> numberOfReviewsPerConsultantLogic(Date startDate, Date endDate) {
+		return dao.numberOfReviewsPerConsultantDao(startDate, endDate);
+	}
 
 	@Setter
 	private ProjectDao dao;
