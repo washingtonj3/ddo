@@ -503,4 +503,20 @@ public int getNumberOfRepeatUsersDao(Date startDate, Date endDate) {
 			return null;
 		}
 	}
+
+	/**
+	 * Gets the average time between submission and review in milleseconds
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns a int containing the average time between submission and review in milleseconds
+	 */
+	public int getAvgTurnaroundTimeDao(Date startDate, Date endDate) {
+		try {
+			return getJdbcTemplate().queryForObject(getStatement("stats.averageTurnAroundTime"), Integer.class, startDate, endDate);}
+		catch (DataAccessException ex) {
+			return 0;
+		}
+	}
 }
