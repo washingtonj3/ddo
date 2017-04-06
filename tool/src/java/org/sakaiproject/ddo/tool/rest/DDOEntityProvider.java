@@ -125,6 +125,33 @@ public class DDOEntityProvider extends AbstractEntityProvider implements AutoReg
         }
     }
 
+    private String millisecondsToTime(double rawMilliseconds){//Converts Milliseconds to the HH:MM:SS as a string
+        String dateString = "";
+        double seconds =  Math.floor(rawMilliseconds / 1000);
+        double minutes =  Math.floor(seconds / 60);
+        double hours =  Math.floor(minutes / 60);
+        seconds = seconds - (minutes * 60);
+        minutes = minutes - (hours * 60);
+
+        if(hours == 0){
+        }else{
+            dateString = String.valueOf((int)hours) + ":";
+        }
+        if(minutes < 10){
+            dateString = dateString + "0" + String.valueOf((int)minutes) + ":";
+        }
+        else{
+            dateString = dateString + String.valueOf((int)minutes) + ":";
+        }
+        if(seconds < 10){
+            dateString = dateString + "0" + String.valueOf((int)seconds);
+        }
+        else{
+            dateString = dateString + String.valueOf((int)seconds);
+        }
+        return dateString;
+    }
+
     @EntityCustomAction(action = "numberOfSubmissions", viewKey = EntityView.VIEW_LIST)
     public String getNumberOfSubmissions(EntityView view, Map<String, Object> params) {
         final String statusString = (String) params.get(DDOConstants.PARAM_STATUS);
@@ -233,6 +260,19 @@ public class DDOEntityProvider extends AbstractEntityProvider implements AutoReg
         statEntity.setEndDate(endDateConverted);
         statEntity.setNumStatisticsList(topThreeSectionsStatsList);
         return statEntity;
+    }
+
+    @EntityCustomAction(action = "avgTurnaroundTime", viewKey = EntityView.VIEW_LIST)
+    public String getAvgTurnaroundTime(EntityView view, Map<String, Object> params) {
+        final String userId = sakaiProxy.getCurrentUserId();
+
+        checkUserStatus(userId);
+        Date startDateConverted = getValidStartDateFromParams(params);
+        Date endDateConverted = getValidEndDateFromParams(params);
+        dateChronologicalChecker(startDateConverted, endDateConverted);
+
+        final double avgTurnaroundTime = this.projectLogic.getAvgTurnaroundTimeLogic(startDateConverted, endDateConverted);
+        return millisecondsToTime(avgTurnaroundTime);
     }
 
     @Setter

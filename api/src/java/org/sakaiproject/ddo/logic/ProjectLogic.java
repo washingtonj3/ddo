@@ -236,4 +236,17 @@ public interface ProjectLogic {
 
 	List<NumStatistics> topThreeSectionsStatsLogic(Date startDate, Date endDate);
 
+	/**
+	 * Gets the average time between submission and review in milleseconds
+	 *
+	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns a int containing the average time between submission and review in milleseconds
+	 * 		   accepted by them main function as a double for use in calculations.
+	 */
+
+	int getAvgTurnaroundTimeLogic(Date startDate, Date endDate);
 }

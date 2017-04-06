@@ -182,4 +182,14 @@ public interface ProjectDao {
 	 */
 	List<NumStatistics> topThreeSectionsStatsDao(Date startDate, Date endDate);
 
+	/**
+	 * Gets the average time between submission and review in milleseconds
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns a int containing the average time between submission and review in milleseconds
+	 */
+	int getAvgTurnaroundTimeDao(Date startDate, Date endDate);
+
 }
