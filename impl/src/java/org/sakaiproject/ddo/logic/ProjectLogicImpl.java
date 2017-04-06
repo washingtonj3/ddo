@@ -251,6 +251,19 @@ public class ProjectLogicImpl implements ProjectLogic {
 		return dao.topThreeSectionsStatsDao(startDate, endDate);
 	}
 
+
+	/**
+	 * Gets the average time between submission and review in milleseconds
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns a int containing the average time between submission and review in milleseconds
+	 */
+	public int getAvgTurnaroundTimeLogic(Date startDate, Date endDate){
+		return dao.getAvgTurnaroundTimeDao(startDate, endDate);
+	}
+
 	@Setter
 	private ProjectDao dao;
 	
