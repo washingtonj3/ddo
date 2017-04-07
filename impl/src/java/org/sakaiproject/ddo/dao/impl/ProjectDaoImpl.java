@@ -514,16 +514,8 @@ public int getNumberOfRepeatUsersDao(Date startDate, Date endDate) {
 	 */
 	public int getAvgTurnaroundTimeDao(Date startDate, Date endDate) {
 		try {
-			//String holder = getJdbcTemplate().queryForObject(getStatement("stats.averageTurnAroundTime"), String.class, startDate, endDate);
 			Integer turnAroundTime = getJdbcTemplate().queryForObject(getStatement("stats.averageTurnAroundTime"), Integer.class, startDate, endDate);
-			if(turnAroundTime == null)
-				{
-					return 0;
-				}
-				else
-				{
-					return turnAroundTime;
-				}
+			return turnAroundTime == null ? 0 : turnAroundTime;
 			}
 		catch (DataAccessException ex) {
 			return 0;
