@@ -70,6 +70,7 @@ public class BasePage extends WebPage implements IHeaderContributor {
 	Link<Void> staffOverviewLink;
 	Link<Void> adminPageLink;
 	Link<Void> archivePageLink;
+	Link<Void> statisticsPageLink;
 	
 	public BasePage() {
 		
@@ -130,6 +131,22 @@ public class BasePage extends WebPage implements IHeaderContributor {
 		adminPageLink.add(new Label("adminPageLinkLabel", new ResourceModel("link.adminpage")).setRenderBodyOnly(true));
 		adminPageLink.add(new AttributeModifier("title", new ResourceModel("link.adminpage.tooltip")));
 		menu.add(adminPageLink);
+
+		//Statistics Page Link
+		statisticsPageLink = new Link<Void>("statsPageLink") {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void onClick() {
+				setResponsePage(new StatisticsPage());
+			}
+			@Override
+			public boolean isVisible() {
+				return sakaiProxy.isDDOAdmin();
+			}
+		};
+		statisticsPageLink.add(new Label("statisticsPageLinkLabel", new ResourceModel("link.statspage")).setRenderBodyOnly(true));
+		statisticsPageLink.add(new AttributeModifier("title", new ResourceModel("link.statspage.tooltip")));
+		menu.add(statisticsPageLink);
 
 		add(menu);
 
