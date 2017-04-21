@@ -237,16 +237,30 @@ public interface ProjectLogic {
 	List<NumStatistics> topThreeSectionsStatsLogic(Date startDate, Date endDate);
 
 	/**
-	 * Gets the average time between submission and review in milleseconds
+	 * Gets the average time between submission and review in milliseconds
 	 *
 	 * The date parameters are checked for error prior to this function.
 	 *
 	 * @param startDate
 	 * @param endDate
 	 *
-	 * @return returns a int containing the average time between submission and review in milleseconds
+	 * @return returns a int containing the average time between submission and review in milliseconds
 	 * 		   accepted by them main function as a double for use in calculations.
 	 */
 
 	int getAvgTurnaroundTimeLogic(Date startDate, Date endDate);
+
+	/**
+	 * Gets the average number of submissions in the date range
+	 *
+	 * 	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank before the function it is the current date
+	 * @return returns the average number of submissions in the parameter range or a 0 on error or null
+	 */
+
+	double getAvgNumberofSubmissionsLogic(Date startDate, Date endDate);
+
+    String millisecondsToTime(double rawMilliseconds);
 }
