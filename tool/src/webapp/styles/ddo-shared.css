@@ -271,3 +271,53 @@ h3.adminSectionHeader {
 #notifyHelp:hover {
     cursor: pointer;
 }
+
+.panel-body {
+    min-height: 110px;
+    max-height: 110px;
+}
+
+#StatPanel {
+    line-height: 75px;
+    text-align:center;
+    font-size: 300%;
+}
+
+#StatTablePanel {
+    display: table;
+    padding: 2px;
+    border-collapse:collapse
+}
+
+#Test {
+    display: table-row;
+}
+
+#statisticTableId {
+    display: table-cell;
+    padding: 1px; width: 300px;
+    border-bottom: 1pt solid lightgrey;
+}
+
+#statisticTableCount{
+    display: table-cell;
+    padding: 1px; width: 150px;
+    border-bottom: 1pt solid lightgrey;
+}
+
+#statTablePanels {
+    display: table-row;
+    padding: 1px;
+}
+
+#Id {
+    display: table-cell;
+    padding: 1px; width: 300px;
+    border-bottom: 1pt solid lightgrey;
+}
+
+#statisticCount {
+    display: table-cell;
+    padding: 1px; width: 150px;
+    border-bottom: 1pt solid lightgrey;
+}

@@ -253,15 +253,53 @@ public class ProjectLogicImpl implements ProjectLogic {
 
 
 	/**
-	 * Gets the average time between submission and review in milleseconds
+	 * Gets the average time between submission and review in milliseconds
 	 *
 	 * @param startDate
 	 * @param endDate
 	 *
-	 * @return returns a int containing the average time between submission and review in milleseconds
+	 * @return returns a int containing the average time between submission and review in milliseconds
 	 */
 	public int getAvgTurnaroundTimeLogic(Date startDate, Date endDate){
 		return dao.getAvgTurnaroundTimeDao(startDate, endDate);
+	}
+
+	/**
+	 * Gets the average number of submissions in the date range
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank before the function it is the current date
+	 *
+	 * @return returns the average number of submissions in the parameter range or a 0 on error or null
+	 */
+	public double getAvgNumberofSubmissionsLogic(Date startDate, Date endDate){
+		return dao.getAvgNumberofSubmissionsDao(startDate, endDate);
+	}
+
+	public String millisecondsToTime(double rawMilliseconds){//Converts Milliseconds to the HH:MM:SS as a string
+		String dateString = "";
+		double seconds =  Math.floor(rawMilliseconds / 1000);
+		double minutes =  Math.floor(seconds / 60);
+		double hours =  Math.floor(minutes / 60);
+		seconds = seconds - (minutes * 60);
+		minutes = minutes - (hours * 60);
+
+		if(hours > 0){
+			dateString = String.valueOf((int)hours) + ":";
+		}
+		if(minutes < 10){
+			dateString = dateString + "0" + String.valueOf((int)minutes) + ":";
+		}
+		else{
+			dateString = dateString + String.valueOf((int)minutes) + ":";
+		}
+		if(seconds < 10){
+			dateString = dateString + "0" + String.valueOf((int)seconds);
+		}
+		else{
+			dateString = dateString + String.valueOf((int)seconds);
+		}
+		return dateString;
 	}
 
 	@Setter
