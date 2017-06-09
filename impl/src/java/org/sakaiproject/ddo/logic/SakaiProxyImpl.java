@@ -656,11 +656,20 @@ public class SakaiProxyImpl implements SakaiProxy {
 				authzGroupService.save(ddo);
 				return true;
 			} catch (GroupNotDefinedException e) {
-				log.error("DDO Realm was not created. " + e);
-				e.printStackTrace();
+				AuthzGroup ddo = createDDORealm();
+				if (ddo != null) {
+					try {
+						ddo.addMember(userId, roleId, true, false);
+						authzGroupService.save(ddo);
+						return true;
+					} catch (GroupNotDefinedException | AuthzPermissionException e2) {
+						log.error("User not authorized to update DDO realm");
+						e2.printStackTrace();
+					}
+				}
 			} catch (AuthzPermissionException e) {
 				log.error("Current user not authorized to update ddo realm. " + e);
-				e.printStackTrace();
+				log.debug(e);
 			} finally {
 				// Always make sure to disable the security advisor regardless of results
 				disableSecurityAdvisor();
@@ -682,11 +691,10 @@ public class SakaiProxyImpl implements SakaiProxy {
 				authzGroupService.save(ddo);
 				return true;
 			} catch (GroupNotDefinedException e) {
-				log.error("DDO Realm was not created. " + e);
-				e.printStackTrace();
+				createDDORealm();
 			} catch (AuthzPermissionException e) {
 				log.error("Current user not authorized to update ddo realm. " + e);
-				e.printStackTrace();
+				log.debug(e);
 			} finally {
 				// Always make sure to disable the security advisor regardless of results
 				disableSecurityAdvisor();
@@ -706,14 +714,13 @@ public class SakaiProxyImpl implements SakaiProxy {
 			ResourceProperties props = ddo.getProperties();
 			closed = props.getBooleanProperty(DDOConstants.PROP_CLOSED);
 		} catch (GroupNotDefinedException e) {
-			log.error("DDO Realm was not found. " + e);
-			e.printStackTrace();
+			createDDORealm();
 		} catch (EntityPropertyTypeException e) {
 			log.error("Closed property in ddo realm is not a boolean value. " + e);
-			e.printStackTrace();
+			log.debug(e);
 		} catch (EntityPropertyNotDefinedException e) {
 			log.error("Closed property in ddo realm was not found. " + e);
-			e.printStackTrace();
+			log.debug(e);
 		} finally {
 			disableSecurityAdvisor();
 		}
@@ -732,8 +739,7 @@ public class SakaiProxyImpl implements SakaiProxy {
 			// Gets a string value of a named property. Return null if not found.
 			message = properties.getProperty(DDOConstants.PROP_CLOSED_MESSAGE);
 		} catch (GroupNotDefinedException e) {
-			log.error("DDO Realm was not found. " + e);
-			e.printStackTrace();
+			createDDORealm();
 		} finally {
 			disableSecurityAdvisor();
 		}
@@ -752,8 +758,18 @@ public class SakaiProxyImpl implements SakaiProxy {
 				propertiesEdit.addProperty(name, String.valueOf(value));
 				authzGroupService.save(ddo);
 			} catch (GroupNotDefinedException e) {
-				log.error("DDO Realm was not found. " + e);
-				e.printStackTrace();
+				AuthzGroup ddo = createDDORealm();
+				if(ddo != null) {
+					ResourcePropertiesEdit propertiesEdit = ddo.getPropertiesEdit();
+					propertiesEdit.addProperty(name, String.valueOf(value));
+					try {
+						authzGroupService.save(ddo);
+					} catch ( GroupNotDefinedException | AuthzPermissionException e2) {
+						// GNDE Not possible here
+						log.error("No permissions to save DDO realm change. ");
+						log.debug(e2);
+					}
+				}
 			} catch (AuthzPermissionException e) {
 				log.error("No permissions to save DDO realm change. ");
 				e.printStackTrace();
@@ -762,6 +778,25 @@ public class SakaiProxyImpl implements SakaiProxy {
 				disableSecurityAdvisor();
 			}
 		}
+	}
+
+	private AuthzGroup createDDORealm() {
+		log.debug("DDO Realm not found. Creating...");
+		AuthzGroup ddo = null;
+		try {
+			enableSecurityAdvisor();
+			ddo = authzGroupService.addAuthzGroup(DDOConstants.DDO_REALM);
+			ddo.addRole(DDOConstants.DDO_ADMIN_ROLE);
+			ddo.addRole(DDOConstants.DDO_STAFF_ROLE);
+			authzGroupService.save(ddo);
+		} catch (Exception e) {
+			log.error("Error attempting to create DDO Realm");
+			log.debug(e);
+		} finally {
+			disableSecurityAdvisor();
+		}
+
+		return ddo;
 	}
 
 	/**
