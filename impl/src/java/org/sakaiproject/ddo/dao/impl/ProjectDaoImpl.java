@@ -290,7 +290,7 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 		}
 
 		try {
-			return getJdbcTemplate().queryForInt(getStatement("count.waitingsubmissions"));
+			return getJdbcTemplate().queryForObject(getStatement("count.waitingsubmissions"), Integer.class);
 		} catch (DataAccessException ex) {
 			log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
 			return 0;
