@@ -6,6 +6,7 @@ import java.util.List;
 import org.sakaiproject.ddo.model.Feedback;
 import org.sakaiproject.ddo.model.NumStatistics;
 import org.sakaiproject.ddo.model.Submission;
+import org.sakaiproject.ddo.model.Export;
 
 /**
  * DAO interface for our project based on work by Steve Swinsburg (steve.swinsburg@anu.edu.au)
@@ -201,5 +202,15 @@ public interface ProjectDao {
 	 * @return returns the average number of submissions in the parameter range or a 0 on error or null
 	 */
 	double getAvgNumberofSubmissionsDao(Date startDate, Date endDate);
+
+	/**
+	 * Gets all the submissions, and relevant submission and review data from the database
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank before the function it is the current date
+	 *
+	 * @return returns the list of submissions
+	 */
+	List<Export> statsGetAllSubmissionsDao(Date startDate, Date endDate);
 
 }

@@ -17,6 +17,7 @@ import org.sakaiproject.component.cover.ServerConfigurationService;
 import org.sakaiproject.ddo.model.Feedback;
 import org.sakaiproject.ddo.model.NumStatistics;
 import org.sakaiproject.ddo.model.Submission;
+import org.sakaiproject.ddo.model.Export;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
@@ -546,6 +547,30 @@ public int getNumberOfRepeatUsersDao(Date startDate, Date endDate) {
 			}
 		}catch (DataAccessException ex) {
 			return 0;
+		}
+	}
+
+	/**
+	 * Gets all the submissions, and relevant submission and review data from the database
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank before the function it is the current date
+	 *
+	 * @return returns the list of submissions
+	 */
+	public List<Export> statsGetAllSubmissionsDao(Date startDate, Date endDate) {
+		if(log.isDebugEnabled()) {
+			log.debug("getAllSubmissions()");
+		}
+
+		try {
+			return getJdbcTemplate().query(getStatement("stats.select.allsubmissions"),
+					new Object[]{startDate, endDate},
+					new ExportMapper()
+			);
+		} catch (DataAccessException ex) {
+			log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
+			return null;
 		}
 	}
 }

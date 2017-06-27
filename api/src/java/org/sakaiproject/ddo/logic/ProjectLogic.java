@@ -22,6 +22,7 @@ import java.util.List;
 import org.sakaiproject.ddo.model.Feedback;
 import org.sakaiproject.ddo.model.NumStatistics;
 import org.sakaiproject.ddo.model.Submission;
+import org.sakaiproject.ddo.model.Export;
 
 /**
  * Digital Drop Off Project Logic
@@ -262,5 +263,22 @@ public interface ProjectLogic {
 
 	double getAvgNumberofSubmissionsLogic(Date startDate, Date endDate);
 
+	/**
+	 * Converts milleseconds to a date String
+	 *
+	 * @param rawMilliseconds    Starting date for the date range search: Never null or after endDate
+	 *
+	 * @return returns the datestring
+	 */
     String millisecondsToTime(double rawMilliseconds);
+
+	/**
+	 * Gets all the submissions, and relevant submission and review data from the database
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank before the function it is the current date
+	 *
+	 * @return returns the list of submissions
+	 */
+	List<Export> statsGetAllSubmissionsLogic (Date startDate, Date endDate);
 }

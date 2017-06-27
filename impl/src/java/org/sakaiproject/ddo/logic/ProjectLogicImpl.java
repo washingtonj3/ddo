@@ -13,7 +13,7 @@ import org.sakaiproject.ddo.dao.ProjectDao;
 import org.sakaiproject.ddo.model.Feedback;
 import org.sakaiproject.ddo.model.NumStatistics;
 import org.sakaiproject.ddo.model.Submission;
-
+import org.sakaiproject.ddo.model.Export;
 /**
  * Implementation of {@link ProjectLogic}
  * 
@@ -276,6 +276,15 @@ public class ProjectLogicImpl implements ProjectLogic {
 		return dao.getAvgNumberofSubmissionsDao(startDate, endDate);
 	}
 
+
+	/**
+	 * Converts milleseconds to a date String
+	 *
+	 * @param rawMilliseconds    Starting date for the date range search: Never null or after endDate
+	 *
+	 * @return returns the datestring
+	 */
+
 	public String millisecondsToTime(double rawMilliseconds){//Converts Milliseconds to the HH:MM:SS as a string
 		String dateString = "";
 		double seconds =  Math.floor(rawMilliseconds / 1000);
@@ -300,6 +309,18 @@ public class ProjectLogicImpl implements ProjectLogic {
 			dateString = dateString + String.valueOf((int)seconds);
 		}
 		return dateString;
+	}
+
+	/**
+	 * Gets all the submissions, and relevant submission and review data from the database
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank before the function it is the current date
+	 *
+	 * @return returns the list of submissions
+	 */
+	public List<Export> statsGetAllSubmissionsLogic (Date startDate, Date endDate){
+		return dao.statsGetAllSubmissionsDao(startDate, endDate);
 	}
 
 	@Setter

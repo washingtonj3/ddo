@@ -4,31 +4,68 @@
 <body>
 <wicket:extend>
 
-    <h1><span wicket:id="statisicsHeader" /> <a wicket:id="refreshPage" title="Refresh"><span class="fa fa-refresh"><span class="sr-only"><wicket:message key="ddo.refresh" /></span></span></a></h1>
+    <h1><span wicket:id="statisticsHeader" /> <a wicket:id="refreshPage" title="Refresh"><span class="fa fa-refresh"><span class="sr-only"><wicket:message key="ddo.refresh" /></span></span></a></h1>
+
     <form wicket:id="StatisticsDateForm">
         <input type="text" wicket:id="startDatePicker" id="startDatePicker" />
         <input type="text" wicket:id="endDatePicker" id="endDatePicker" />
         <select wicket:id="statusSet" id="statusSet"/>
         <a wicket:id="submitLink" class="button-example-1 button-example-green" style="color:#fff !important;margin-right:20px;"><wicket:message key="submit" /></a>
+        <a role="button" class="fa fa-download fa-3x" data-toggle="modal" href="#advancedOptions" data-target="#customExportModal"
+           style="float: right;">
+        </a>
     </form>
 
-    <h3><span wicket:id="statisicsUsageHeader" /></h3>
+    <form wicket:id="exportForm">
+        <div id="customExportModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="customExportModalTitle">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" wicket:id="DownloadGuide" id="customExportModalTitle"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" wicket:id="startDatePickerExport" id="startDatePickerExport" />
+                        <input type="text" wicket:id="endDatePickerExport" id="endDatePickerExport" />
+                    </div>
+                    <div class="modal-footer">
+                        <button wicket:id="submitLink2"  type="button" data-dismiss="modal">
+                            <wicket:message key="exportPanel.Button"/>
+                        </button>
+                        <button class="exportCancel" type="button" data-dismiss="modal">
+                            <wicket:message key="exportPanel.cancelButton"/>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <h3><span wicket:id="statisticsUsageHeader" /></h3>
         <div class="row">
             <div class="col-md-4">
                 <div class="panel panel-default" wicket:id="number-of-submissions">
-                    <div class="panel-heading"><span wicket:id="number-of-submissions-label" /></div>
+                    <div class="panel-heading"><span wicket:id="number-of-submissions-label" />
+                        <div class="fa  fa-info-circle  fa-lg" style=" float: right; color:#0276FD;" wicket:message="title:statistics.title.totalSubmissions" >
+                        </div>
+                    </div>
                     <div class="panel-body"><div wicket:id="statistic-panel" /></div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="panel panel-default" wicket:id="unique-users">
-                    <div class="panel-heading"><span wicket:id="unique-users-label" /></div>
+                    <div class="panel-heading"><span wicket:id="unique-users-label" />
+                        <div class="fa  fa-info-circle  fa-lg" style=" float: right; color:#0276FD;" wicket:message="title:statistics.title.totalUniqueUsers">
+                        </div>
+                    </div>
                     <div class="panel-body"><div wicket:id="unique-users-panel" /></div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="panel panel-default" wicket:id="top-three-instructors">
-                    <div class="panel-heading"><span wicket:id="top-three-instructors-label" /></div>
+                    <div class="panel-heading"><span wicket:id="top-three-instructors-label" />
+                        <div class="fa  fa-info-circle  fa-lg" style=" float: right; color:#0276FD;" wicket:message="title:statistics.title.topThreeInstructors">
+                        </div>
+                    </div>
                     <div class="panel-body"><div wicket:id="top-three-instructors-panel" /></div>
                 </div>
             </div>
@@ -36,40 +73,52 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="panel panel-default" wicket:id="average-submissions">
-                    <div class="panel-heading"><span wicket:id="average-submissions-label" /></div>
+                    <div class="panel-heading"><span wicket:id="average-submissions-label" />
+                        <div class="fa  fa-info-circle  fa-lg" style=" float: right; color:#0276FD;"  wicket:message="title:statistics.title.averageNumberOfSubmissions"></div>
+                    </div>
                     <div class="panel-body"><div wicket:id="average-submissions-panel" /></div>
                 </div>
                 </div>
             <div class="col-md-4">
                 <div class="panel panel-default" wicket:id="repeat-users">
-                    <div class="panel-heading"><span wicket:id="repeat-users-label" /></div>
+                    <div class="panel-heading"><span wicket:id="repeat-users-label" />
+                        <div class="fa  fa-info-circle  fa-lg" style=" float: right; color:#0276FD;" wicket:message="title:statistics.title.totalRepeatUsers"></div>
+                    </div>
                     <div class="panel-body"><div wicket:id="repeat-users-panel" /></div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="panel panel-default" wicket:id="top-three-sections">
-                    <div class="panel-heading"><span wicket:id="top-three-sections-label" /></div>
+                    <div class="panel-heading"><span wicket:id="top-three-sections-label" />
+                        <div class="fa  fa-info-circle  fa-lg" style=" float: right; color:#0276FD;" wicket:message="title:statistics.title.topThreeSections"></div>
+                    </div>
                     <div class="panel-body"><div wicket:id="top-three-sections-panel" /></div>
                 </div>
             </div>
         </div>
-    <h3><span wicket:id="statisicsConsultantHeader" /></h3>
+    <h3><span wicket:id="statisticsConsultantHeader" /></h3>
     <div class="row">
         <div class="col-md-4">
             <div class="panel panel-default"  wicket:id="number-of-consultants">
-                <div class="panel-heading"><span wicket:id="number-of-consultants-label" /></div>
+                <div class="panel-heading"><span wicket:id="number-of-consultants-label" />
+                    <div class="fa  fa-info-circle  fa-lg" style=" float: right; color:#0276FD;" wicket:message="title:statistics.title.totalNumberOfConsultants"></div>
+                </div>
                 <div class="panel-body"><div wicket:id="number-of-consultants-panel" /></div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="panel panel-default" wicket:id="average-turnaround-time">
-                <div class="panel-heading"><span wicket:id="average-turnaround-time-label" /></div>
+                <div class="panel-heading"><span wicket:id="average-turnaround-time-label" />
+                    <div class="fa  fa-info-circle  fa-lg" style=" float: right; color:#0276FD;" wicket:message="title:statistics.title.averageTurnaroundTime" ></div>
+                </div>
                 <div class="panel-body"><div wicket:id="average-turnaround-time-panel" /></div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="panel panel-default" wicket:id="number-of-reviews-per-consultant">
-                <div class="panel-heading"><span wicket:id="number-of-reviews-per-consultant-label" /></div>
+                <div class="panel-heading"><span wicket:id="number-of-reviews-per-consultant-label" />
+                    <div class="fa  fa-info-circle  fa-lg" style=" float: right; color:#0276FD;" wicket:message="title:statistics.title.numberOfReviewsPerConsultant"></div>
+                </div>
                 <div class="panel-body"><div wicket:id="number-of-reviews-per-consultant-panel" /></div>
             </div>
         </div>
