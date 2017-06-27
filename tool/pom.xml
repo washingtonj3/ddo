@@ -41,6 +41,10 @@
 			<artifactId>wicket-spring</artifactId>
     	</dependency>
 		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
@@ -60,10 +64,10 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 		</dependency>
-		
+
 		<!-- Sakai dependencies -->
-       	<dependency>
-           	<groupId>org.sakaiproject.kernel</groupId>
+		<dependency>
+			<groupId>org.sakaiproject.kernel</groupId>
 			<artifactId>sakai-kernel-api</artifactId>
 		</dependency>
 		<dependency>
@@ -78,8 +82,21 @@
 			<groupId>org.sakaiproject.edu-services.course-management</groupId>
 			<artifactId>coursemanagement-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.sakaiproject.entitybroker</groupId>
+			<artifactId>entitybroker-utils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.sakaiproject.entitybroker</groupId>
+			<artifactId>entitybroker-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<scope>provided</scope> <!-- to satisfy EB and eclipse -->
+		</dependency>
 
-    </dependencies>
+	</dependencies>
 	
 
 	<build>

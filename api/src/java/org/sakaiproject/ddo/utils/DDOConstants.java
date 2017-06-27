@@ -27,4 +27,8 @@ public class DDOConstants {
 
     public static final String PROP_CLOSED = "closed";
     public static final String PROP_CLOSED_MESSAGE = "closed_message";
+
+    public static final String PARAM_START_DATE = "startDate";
+    public static final String PARAM_END_DATE = "endDate";
+    public static final String PARAM_STATUS = "status";
 }

@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" >
+
+<body>
+<wicket:extend>
+
+    <h1><span wicket:id="statisicsHeader" /> <a wicket:id="refreshPage" title="Refresh"><span class="fa fa-refresh"><span class="sr-only"><wicket:message key="ddo.refresh" /></span></span></a></h1>
+    <form wicket:id="StatisticsDateForm">
+        <input type="text" wicket:id="startDatePicker" id="startDatePicker" />
+        <input type="text" wicket:id="endDatePicker" id="endDatePicker" />
+        <select wicket:id="statusSet" id="statusSet"/>
+        <a wicket:id="submitLink" class="button-example-1 button-example-green" style="color:#fff !important;margin-right:20px;"><wicket:message key="submit" /></a>
+    </form>
+
+    <h3><span wicket:id="statisicsUsageHeader" /></h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default" wicket:id="number-of-submissions">
+                    <div class="panel-heading"><span wicket:id="number-of-submissions-label" /></div>
+                    <div class="panel-body"><div wicket:id="statistic-panel" /></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default" wicket:id="unique-users">
+                    <div class="panel-heading"><span wicket:id="unique-users-label" /></div>
+                    <div class="panel-body"><div wicket:id="unique-users-panel" /></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default" wicket:id="top-three-instructors">
+                    <div class="panel-heading"><span wicket:id="top-three-instructors-label" /></div>
+                    <div class="panel-body"><div wicket:id="top-three-instructors-panel" /></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default" wicket:id="average-submissions">
+                    <div class="panel-heading"><span wicket:id="average-submissions-label" /></div>
+                    <div class="panel-body"><div wicket:id="average-submissions-panel" /></div>
+                </div>
+                </div>
+            <div class="col-md-4">
+                <div class="panel panel-default" wicket:id="repeat-users">
+                    <div class="panel-heading"><span wicket:id="repeat-users-label" /></div>
+                    <div class="panel-body"><div wicket:id="repeat-users-panel" /></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default" wicket:id="top-three-sections">
+                    <div class="panel-heading"><span wicket:id="top-three-sections-label" /></div>
+                    <div class="panel-body"><div wicket:id="top-three-sections-panel" /></div>
+                </div>
+            </div>
+        </div>
+    <h3><span wicket:id="statisicsConsultantHeader" /></h3>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default"  wicket:id="number-of-consultants">
+                <div class="panel-heading"><span wicket:id="number-of-consultants-label" /></div>
+                <div class="panel-body"><div wicket:id="number-of-consultants-panel" /></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default" wicket:id="average-turnaround-time">
+                <div class="panel-heading"><span wicket:id="average-turnaround-time-label" /></div>
+                <div class="panel-body"><div wicket:id="average-turnaround-time-panel" /></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default" wicket:id="number-of-reviews-per-consultant">
+                <div class="panel-heading"><span wicket:id="number-of-reviews-per-consultant-label" /></div>
+                <div class="panel-body"><div wicket:id="number-of-reviews-per-consultant-panel" /></div>
+            </div>
+        </div>
+    </div>
+</wicket:extend>
+</body>
+</html>

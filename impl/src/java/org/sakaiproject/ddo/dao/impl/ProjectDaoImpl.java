@@ -2,17 +2,20 @@ package org.sakaiproject.ddo.dao.impl;
 
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.reloading.InvariantReloadingStrategy;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import org.sakaiproject.component.cover.ServerConfigurationService;
 
 import org.sakaiproject.ddo.model.Feedback;
+import org.sakaiproject.ddo.model.NumStatistics;
 import org.sakaiproject.ddo.model.Submission;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -362,6 +365,187 @@ public class ProjectDaoImpl extends JdbcDaoSupport implements ProjectDao {
 		} catch (NoSuchElementException e) {
 			log.error("Statement: '" + key + "' could not be found in: " + statements.getFileName());
 			return null;
+		}
+	}
+
+	/**
+	 * Gets the number of submissions between two dates with different statuses
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank before the function it is the current date
+	 * @param statusString Status type of the submission to search for if blank or null gets all submission in the date range
+	 *
+	 * @return returns the number of submissions matching the parameters or a 0 on error
+	 */
+	public int getNumberofSubmissionsDao(Date startDate, Date endDate, String statusString) {
+		try {
+			if(StringUtils.isBlank(statusString))//catches if the string is null or blank
+			{
+				return getJdbcTemplate().queryForObject(getStatement("stats.numberOfSubmissionsNoStatus"), Integer.class,
+						startDate, endDate);
+			}
+			else{
+				return getJdbcTemplate().queryForObject(getStatement("stats.numberOfSubmissions"), Integer.class,
+						startDate, endDate, statusString);
+			}
+
+		} catch (DataAccessException ex) {
+				return 0;
+		}
+	}
+
+	/**
+	 * Gets the number of unique users between the two dates
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank before the function it is the current date
+	 *
+	 * @return returns the number of unique users matching the parameters or a 0 on error
+	 */
+	public int getNumberOfUniqueUsersDao(Date startDate, Date endDate) {
+		try {
+			return getJdbcTemplate().queryForObject(getStatement("stats.numberOfUniqueUsers"), Integer.class,
+						startDate, endDate);
+		} catch (DataAccessException ex) {
+			return 0;
+		}
+	}
+
+/**
+ * Gets the number of repeat users between the two dates
+ *
+ * @param startDate    Starting date for the date range search: Never null or after endDate
+ * @param endDate      End date for the date range if it was blank before the function it is the current date
+ *
+ * @return returns the number of repeat users between the two dates or a 0 on error
+ */
+public int getNumberOfRepeatUsersDao(Date startDate, Date endDate) {
+		try {
+			return getJdbcTemplate().queryForObject(getStatement("stats.numberOfRepeatUsers"), Integer.class,
+						startDate, endDate);
+		} catch (DataAccessException ex) {
+			return 0;
+		}
+}
+
+	/**
+	 * Gets the number of Consultants who reviewed between two dates
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank or null before the function it is set as the current date
+	 *
+	 * @return returns the number of Consultants between the two parameters or a 0 on error
+	 */
+	public int getNumberOfConsultantsDao(Date startDate, Date endDate) {
+		try {
+			return getJdbcTemplate().queryForObject(getStatement("stats.numberOfConsultants"), Integer.class, startDate, endDate);
+		} catch (DataAccessException ex) {
+			return 0;
+		}
+	}
+
+	/**
+	 * Gets the number of reviews per consultant
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the reviewerId and number of reviewed papers for each reviewer who reviewed within the timeframe in list form
+	 */
+	public List<NumStatistics> numberOfReviewsPerConsultantDao(Date startDate, Date endDate) {
+		try {
+			return getJdbcTemplate().query(getStatement("stats.numberOfReviewsPerConsultant"),
+					new Object[]{startDate, endDate},
+					new NumStatisticsMapper()
+			);
+		} catch (DataAccessException ex) {
+			log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
+			return null;
+		}
+	}
+
+	/**
+	 * Gets a list containing the Insturctor Name and how many papers their students submitted
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the three instructors with the most user submissions within the timeframe in list form
+	 */
+	public List<NumStatistics> topThreeInstructorsStatsDao(Date startDate, Date endDate) {
+		try {
+			return getJdbcTemplate().query(getStatement("stats.topThreeInstructorStats"),
+					new Object[]{startDate, endDate},
+					new NumStatisticsMapper()
+			);
+		} catch (DataAccessException ex) {
+			log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
+			return null;
+		}
+	}
+
+	/**
+	 * Gets a list containing the Section Name and how many papers students in this section submitted
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the three instructors with the most user submissions within the timeframe in list form
+	 */
+	public List<NumStatistics> topThreeSectionsStatsDao(Date startDate, Date endDate) {
+		try {
+			return getJdbcTemplate().query(getStatement("stats.topThreeSectionStats"),
+					new Object[]{startDate, endDate},
+					new NumStatisticsMapper()
+			);
+		} catch (DataAccessException ex) {
+			log.error("Error executing query: " + ex.getClass() + ":" + ex.getMessage());
+			return null;
+		}
+	}
+
+	/**
+	 * Gets the average time between submission and review in milliseconds
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns a int containing the average time between submission and review in milliseconds
+	 */
+	public int getAvgTurnaroundTimeDao(Date startDate, Date endDate) {
+		try {
+			Integer turnAroundTime = getJdbcTemplate().queryForObject(getStatement("stats.averageTurnAroundTime"), Integer.class, startDate, endDate);
+			return turnAroundTime == null ? 0 : turnAroundTime;
+			}
+		catch (DataAccessException ex) {
+			return 0;
+		}
+	}
+
+	/**
+	 * Gets the average number of submissions in the date range
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank before the function it is the current date
+	 *
+	 * The query results in null when there are no submissions in the date range
+	 * Rounds the result to two decimal places
+	 *
+	 * @return returns the average number of submissions in the parameter range or a 0 on error or null
+	 */
+	public double getAvgNumberofSubmissionsDao(Date startDate, Date endDate) {
+		try {
+			Double result = getJdbcTemplate().queryForObject(getStatement("stats.avgNumberOfSubmissionsNoStatus"), Double.class,
+					startDate, endDate);
+			if(result == null){
+				return 0;
+			}
+			else{
+				result = (double) Math.round(result * 100) / 100;
+				return result;
+			}
+		}catch (DataAccessException ex) {
+			return 0;
 		}
 	}
 }

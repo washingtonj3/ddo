@@ -16,9 +16,11 @@
 
 package org.sakaiproject.ddo.logic;
 
+import java.util.Date;
 import java.util.List;
 
 import org.sakaiproject.ddo.model.Feedback;
+import org.sakaiproject.ddo.model.NumStatistics;
 import org.sakaiproject.ddo.model.Submission;
 
 /**
@@ -144,4 +146,121 @@ public interface ProjectLogic {
 	 * @return returns the number of submissions waiting to be reviewed or 0 on a caught exception
 	 */
 	int getNumberOfWaitingSubmissions();
+
+	/**
+	 * Gets the number of submissions between two dates with different statuses
+	 *
+	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate
+	 * @param endDate
+	 * @param statusString
+	 *
+	 * @return returns the number of submissions matching the parameters or a 0 on error
+	 */
+
+	int getNumberofSubmissionsLogic(Date startDate, Date endDate, String statusString);
+
+	/**
+	 * Gets the number of unique submitters between two dates with different statuses
+	 *
+	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the number of unique submitters matching the parameters or a 0 on error
+	 */
+	int getNumberOfUniqueUsersLogic(Date startDate, Date endDate);
+
+	/**
+	 * Gets the number of repeat users between the two dates
+	 *
+	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the number of repeat users between the two dates or a 0 on error
+	 */
+	int getNumberOfRepeatUsersLogic(Date startDate, Date endDate);
+
+	/**
+	 * Gets the number of Consultants who reviewed between two dates
+	 *
+	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the number of Consultants between the two parameters or a 0 on error
+	 */
+	int getNumberOfConsultantsLogic(Date startDate, Date endDate);
+
+	/**
+	 * Gets the number of reviews per consultant
+	 *
+	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the reviewerId and number of reviewed papers for each reviewer who reviewed within the timeframe in list form
+	 */
+
+	List<NumStatistics> numberOfReviewsPerConsultantLogic(Date startDate, Date endDate);
+
+	/**
+	 * Gets a list containing the Insturctor Name and how many papers their students submitted
+	 *
+	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the reviewerId and number of reviewed papers for each reviewer who reviewed within the timeframe in list form
+	 */
+
+	List<NumStatistics> topThreeInstructorsStatsLogic(Date startDate, Date endDate);
+
+	/**
+	 * Gets a list containing the Section Name and how many papers students in this section submitted
+	 *
+	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns the three sections with the most user submissions within the timeframe in list form
+	 */
+
+	List<NumStatistics> topThreeSectionsStatsLogic(Date startDate, Date endDate);
+
+	/**
+	 * Gets the average time between submission and review in milliseconds
+	 *
+	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate
+	 * @param endDate
+	 *
+	 * @return returns a int containing the average time between submission and review in milliseconds
+	 * 		   accepted by them main function as a double for use in calculations.
+	 */
+
+	int getAvgTurnaroundTimeLogic(Date startDate, Date endDate);
+
+	/**
+	 * Gets the average number of submissions in the date range
+	 *
+	 * 	 * The date parameters are checked for error prior to this function.
+	 *
+	 * @param startDate    Starting date for the date range search: Never null or after endDate
+	 * @param endDate      End date for the date range if it was blank before the function it is the current date
+	 * @return returns the average number of submissions in the parameter range or a 0 on error or null
+	 */
+
+	double getAvgNumberofSubmissionsLogic(Date startDate, Date endDate);
+
+    String millisecondsToTime(double rawMilliseconds);
 }
