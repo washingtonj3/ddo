@@ -5,14 +5,17 @@
 <wicket:extend>
 
     <h1><span wicket:id="statisticsHeader" /> <a wicket:id="refreshPage" title="Refresh"><span class="fa fa-refresh"><span class="sr-only"><wicket:message key="ddo.refresh" /></span></span></a></h1>
-
+    <div></div>
     <form wicket:id="StatisticsDateForm">
+        <span class = statisticFromBoxLabel>From: </span>
         <input type="text" wicket:id="startDatePicker" id="startDatePicker" />
+        <span class = statisticBoxLabel>To: </span>
         <input type="text" wicket:id="endDatePicker" id="endDatePicker" />
+        <span class = statisticBoxLabel>Status:</span>
         <select wicket:id="statusSet" id="statusSet"/>
         <a wicket:id="submitLink" class="button-example-1 button-example-green" style="color:#fff !important;margin-right:20px;"><wicket:message key="submit" /></a>
-        <a role="button" class="fa fa-download fa-3x" data-toggle="modal" href="#advancedOptions" data-target="#customExportModal"
-           style="float: right;">
+        <a role="button" class="fa fa-download fa-2x" data-toggle="modal" href="#advancedOptions" data-target="#customExportModal"
+           style="float: right; color: #555" wicket:message="title:statistics.exportbutton">
         </a>
     </form>
 
@@ -21,10 +24,13 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" wicket:id="DownloadGuide" id="customExportModalTitle"></h4>
+                        <h4 class="modal-title" wicket:id="downloadGuide" id="customExportModalTitle"></h4>
+                        <p class="modal-title" wicket:id="downloadInfo" id="customExportModalInfo"></p>
                     </div>
                     <div class="modal-body">
+                        <span class = statisticFromBoxLabel>From: </span>
                         <input type="text" wicket:id="startDatePickerExport" id="startDatePickerExport" />
+                        <span class = statisticBoxLabel>To: </span>
                         <input type="text" wicket:id="endDatePickerExport" id="endDatePickerExport" />
                     </div>
                     <div class="modal-footer">
@@ -40,7 +46,7 @@
         </div>
     </form>
 
-    <h3><span wicket:id="statisticsUsageHeader" /></h3>
+    <h3><span class ="statisticsHeader" wicket:id="statisticsUsageHeader" /></h3>
         <div class="row">
             <div class="col-md-4">
                 <div class="panel panel-default" wicket:id="number-of-submissions">
@@ -96,7 +102,7 @@
                 </div>
             </div>
         </div>
-    <h3><span wicket:id="statisticsConsultantHeader" /></h3>
+    <h3><span class ="statisticsHeader" wicket:id="statisticsConsultantHeader" /></h3>
     <div class="row">
         <div class="col-md-4">
             <div class="panel panel-default"  wicket:id="number-of-consultants">

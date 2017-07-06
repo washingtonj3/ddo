@@ -42,9 +42,11 @@ public class StatisticsPage extends BasePage {
     protected SakaiProxy sakaiProxy;
     private Date startDate;
     private Date endDate;
+    private Date modifiedStartDate;
     private Date modifiedEndDate;
     private Date startDateExport;
     private Date endDateExport;
+    private Date modifiedStartDateExport;
     private Date modifiedEndDateExport;
     private String status;
     private DateTextField startDatePicker;
@@ -75,6 +77,8 @@ public class StatisticsPage extends BasePage {
     Long feedbackIdHolder;
     private int rowCounter = 0;
     private String holder = "";
+    Calendar startDateModder = Calendar.getInstance();
+    Calendar startDateExportModder = Calendar.getInstance();
     Calendar endDateModder = Calendar.getInstance();//Used to add the hours that are stripped off by the date pickers so the querys check up to the end of the day instead of the start of the day
     Calendar endDateExportModder = Calendar.getInstance();
     Calendar test = Calendar.getInstance();
@@ -139,9 +143,15 @@ public class StatisticsPage extends BasePage {
         startDate = now.getTime();
         startDateExport = now.getTime();
         status = "";
+        startDateModder.setTime(startDate);
+        this.startDateModder.set(Calendar.HOUR_OF_DAY, 0);
+        this.startDateModder.set(Calendar.MINUTE, 0);
+        this.startDateModder.set(Calendar.SECOND, 1);
+        modifiedStartDate = startDateModder.getTime();
         endDateModder.setTime(endDate);
         this.endDateModder.set(Calendar.HOUR_OF_DAY, 23);
         this.endDateModder.set(Calendar.MINUTE, 59);
+        this.endDateModder.set(Calendar.SECOND, 59);
         modifiedEndDate = endDateModder.getTime();
     }
 
@@ -152,9 +162,15 @@ public class StatisticsPage extends BasePage {
         this.status = status;
         this.startDateExport = startDateExport;
         this.endDateExport = endDateExport;
+        startDateModder.setTime(startDate);
+        this.startDateModder.set(Calendar.HOUR_OF_DAY, 0);
+        this.startDateModder.set(Calendar.MINUTE, 0);
+        this.startDateModder.set(Calendar.SECOND, 1);
+        modifiedStartDate = startDateModder.getTime();
         endDateModder.setTime(endDate);
         this.endDateModder.set(Calendar.HOUR_OF_DAY, 23);
         this.endDateModder.set(Calendar.MINUTE, 59);
+        this.endDateModder.set(Calendar.SECOND, 59);
         modifiedEndDate = endDateModder.getTime();
     }
     public StatisticsPage(Date startDate, Date endDate, String status, Date startDateExport, Date endDateExport , int on) {
@@ -163,9 +179,15 @@ public class StatisticsPage extends BasePage {
         this.status = status;
         this.startDateExport = startDateExport;
         this.endDateExport = endDateExport;
+        startDateModder.setTime(startDate);
+        this.startDateModder.set(Calendar.HOUR_OF_DAY, 0);
+        this.startDateModder.set(Calendar.MINUTE, 0);
+        this.startDateModder.set(Calendar.SECOND, 1);
+        modifiedStartDate = startDateModder.getTime();
         endDateModder.setTime(endDate);
         this.endDateModder.set(Calendar.HOUR_OF_DAY, 23);
         this.endDateModder.set(Calendar.MINUTE, 59);
+        this.endDateModder.set(Calendar.SECOND, 59);
         modifiedEndDate = endDateModder.getTime();
     }
     @Override
@@ -255,8 +277,8 @@ public class StatisticsPage extends BasePage {
         add(new Label("endDatePickerExport", endDatePickerExport));
         exportForm.add(endDatePickerExport);
 
-        String homelabel = "Downloads to " + System.getProperty("user.home");
-        exportForm.add(new Label("DownloadGuide", homelabel));
+        exportForm.add(new Label("downloadGuide", getString("exportPanel.Header")));
+        exportForm.add(new Label("downloadInfo", getString("exportpanel.info")));
 
         SubmitLink submit = new SubmitLink("submitLink");
         StatisticsDateForm.add(submit);
@@ -276,47 +298,47 @@ public class StatisticsPage extends BasePage {
 
         WebMarkupContainer exampleWebMarkupContainer = new WebMarkupContainer("number-of-submissions");
         exampleWebMarkupContainer.add(new Label("number-of-submissions-label", StatisticType.NUMBEROFSUBMISSION.getStatisticName()));
-        exampleWebMarkupContainer.add(new LazyLoadStatPanel("statistic-panel", StatisticType.NUMBEROFSUBMISSION, startDate, modifiedEndDate, status));
+        exampleWebMarkupContainer.add(new LazyLoadStatPanel("statistic-panel", StatisticType.NUMBEROFSUBMISSION, modifiedStartDate, modifiedEndDate, status));
         add(exampleWebMarkupContainer);
 
         WebMarkupContainer uniqueUsersContainer = new WebMarkupContainer("unique-users");
         uniqueUsersContainer.add(new Label("unique-users-label", StatisticType.NUMBEROFUNIQUEUSERS.getStatisticName()));
-        uniqueUsersContainer.add(new LazyLoadStatPanel("unique-users-panel", StatisticType.NUMBEROFUNIQUEUSERS, startDate, modifiedEndDate, status));
+        uniqueUsersContainer.add(new LazyLoadStatPanel("unique-users-panel", StatisticType.NUMBEROFUNIQUEUSERS, modifiedStartDate, modifiedEndDate, status));
         add(uniqueUsersContainer);
 
         WebMarkupContainer repeatUsersContainer = new WebMarkupContainer("repeat-users");
         repeatUsersContainer.add(new Label("repeat-users-label", StatisticType.NUMBEROFREPEATUSERS.getStatisticName()));
-        repeatUsersContainer.add(new LazyLoadStatPanel("repeat-users-panel", StatisticType.NUMBEROFREPEATUSERS, startDate, modifiedEndDate, status));
+        repeatUsersContainer.add(new LazyLoadStatPanel("repeat-users-panel", StatisticType.NUMBEROFREPEATUSERS, modifiedStartDate, modifiedEndDate, status));
         add(repeatUsersContainer);
 
         WebMarkupContainer avgSubmissionsContainer = new WebMarkupContainer("average-submissions");
         avgSubmissionsContainer.add(new Label("average-submissions-label", StatisticType.AVGNUMBEROFSUBMISSIONS.getStatisticName()));
-        avgSubmissionsContainer.add(new LazyLoadStatPanel("average-submissions-panel", StatisticType.AVGNUMBEROFSUBMISSIONS, startDate, modifiedEndDate, status));
+        avgSubmissionsContainer.add(new LazyLoadStatPanel("average-submissions-panel", StatisticType.AVGNUMBEROFSUBMISSIONS, modifiedStartDate, modifiedEndDate, status));
         add(avgSubmissionsContainer);
 
         WebMarkupContainer numberOfConsultantsContainer = new WebMarkupContainer("number-of-consultants");
         numberOfConsultantsContainer.add(new Label("number-of-consultants-label", StatisticType.NUMBEROFCONSULTANTS.getStatisticName()));
-        numberOfConsultantsContainer.add(new LazyLoadStatPanel("number-of-consultants-panel", StatisticType.NUMBEROFCONSULTANTS, startDate, modifiedEndDate, status));
+        numberOfConsultantsContainer.add(new LazyLoadStatPanel("number-of-consultants-panel", StatisticType.NUMBEROFCONSULTANTS, modifiedStartDate, modifiedEndDate, status));
         add(numberOfConsultantsContainer);
 
         WebMarkupContainer numberOfReviewsPerConsultantContainer = new WebMarkupContainer("number-of-reviews-per-consultant");
         numberOfReviewsPerConsultantContainer.add(new Label("number-of-reviews-per-consultant-label", StatisticType.NUMBEROFREVIEWSPERCONSULTANT.getStatisticName()));
-        numberOfReviewsPerConsultantContainer.add(new LazyLoadStatPanel("number-of-reviews-per-consultant-panel", StatisticType.NUMBEROFREVIEWSPERCONSULTANT, startDate, modifiedEndDate, status));
+        numberOfReviewsPerConsultantContainer.add(new LazyLoadStatPanel("number-of-reviews-per-consultant-panel", StatisticType.NUMBEROFREVIEWSPERCONSULTANT, modifiedStartDate, modifiedEndDate, status));
         add(numberOfReviewsPerConsultantContainer);
 
         WebMarkupContainer avgTurnAroundTimeContainer = new WebMarkupContainer("average-turnaround-time");
         avgTurnAroundTimeContainer.add(new Label("average-turnaround-time-label", StatisticType.AVGTURNAROUNDTIME.getStatisticName()));
-        avgTurnAroundTimeContainer.add(new LazyLoadStatPanel("average-turnaround-time-panel", StatisticType.AVGTURNAROUNDTIME, startDate, modifiedEndDate, status));
+        avgTurnAroundTimeContainer.add(new LazyLoadStatPanel("average-turnaround-time-panel", StatisticType.AVGTURNAROUNDTIME, modifiedStartDate, modifiedEndDate, status));
         add(avgTurnAroundTimeContainer);
 
         WebMarkupContainer topThreeInstructorsContainer = new WebMarkupContainer("top-three-instructors");
         topThreeInstructorsContainer.add(new Label("top-three-instructors-label", StatisticType.TOPTHREEINSTURCTORS.getStatisticName()));
-        topThreeInstructorsContainer.add(new LazyLoadStatPanel("top-three-instructors-panel", StatisticType.TOPTHREEINSTURCTORS, startDate, modifiedEndDate, status));
+        topThreeInstructorsContainer.add(new LazyLoadStatPanel("top-three-instructors-panel", StatisticType.TOPTHREEINSTURCTORS, modifiedStartDate, modifiedEndDate, status));
         add(topThreeInstructorsContainer);
 
         WebMarkupContainer topThreeSectionsContainer = new WebMarkupContainer("top-three-sections");
         topThreeSectionsContainer.add(new Label("top-three-sections-label", StatisticType.TOPTHREESECTIONS.getStatisticName()));
-        topThreeSectionsContainer.add(new LazyLoadStatPanel("top-three-sections-panel", StatisticType.TOPTHREESECTIONS, startDate, modifiedEndDate, status));
+        topThreeSectionsContainer.add(new LazyLoadStatPanel("top-three-sections-panel", StatisticType.TOPTHREESECTIONS, modifiedStartDate, modifiedEndDate, status));
         add(topThreeSectionsContainer);
 
     }
@@ -324,9 +346,15 @@ public class StatisticsPage extends BasePage {
     private File buildExcelFile(Date exportStartDate, Date exportEndDate) {
 
         File tempFile;
+        this.startDateExportModder.setTime(exportStartDate);
+        this.startDateExportModder.set(Calendar.HOUR_OF_DAY, 0);
+        this.startDateExportModder.set(Calendar.MINUTE, 0);
+        this.startDateExportModder.set(Calendar.SECOND, 1);
+        this.modifiedStartDateExport = startDateExportModder.getTime();
         this.endDateExportModder.setTime(exportEndDate);
         this.endDateExportModder.set(Calendar.HOUR_OF_DAY, 23);
         this.endDateExportModder.set(Calendar.MINUTE, 59);
+        this.endDateExportModder.set(Calendar.SECOND, 59);
         this.modifiedEndDateExport = endDateExportModder.getTime();
         try {
             String prefix = buildFileNamePrefix();
@@ -388,7 +416,7 @@ public class StatisticsPage extends BasePage {
             }
 
             final int[] rowCount = {1};
-            final List<Export> statisticsSheet = projectLogic.statsGetAllSubmissionsLogic (exportStartDate, modifiedEndDateExport);
+            final List<Export> statisticsSheet = projectLogic.statsGetAllSubmissionsLogic (modifiedStartDateExport, modifiedEndDateExport);
             final int[] cellCount = {0};
             rowCounter = 0;
             statisticsSheet.forEach(SUBMISSIONID -> {
@@ -608,7 +636,7 @@ public class StatisticsPage extends BasePage {
     }
     private String buildFileNamePrefix() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yy");
-        String ddoExportName = (dateFormat.format(this.startDateExport).toString()) + "---" + (dateFormat.format(this.modifiedEndDateExport).toString()) + "||";;
+        String ddoExportName = (dateFormat.format(this.modifiedStartDateExport).toString()) + "---" + (dateFormat.format(this.modifiedEndDateExport).toString()) + "||";;
         return ddoExportName;
     }
 

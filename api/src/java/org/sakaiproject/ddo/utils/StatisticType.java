@@ -8,7 +8,7 @@ public enum StatisticType {
     REVIEWERS ("Number of Reviews Completed by Consultant"),
     TOPINSTRUCTORS ("Top Three Instructors by Number of Student Submissions"),
     TOPSECTIONS ("Top Three Sections by Number of Student Submissions"),
-    NUMBEROFSUBMISSION ("Total Number of Submissions for Current Status"),
+    NUMBEROFSUBMISSION ("Total Number of Submissions for Selected Status"),
     NUMBEROFUNIQUEUSERS("Total Number of Unique Users"),
     NUMBEROFREPEATUSERS("Total Number of Repeat Users"),
     AVGNUMBEROFSUBMISSIONS("Average Number of Submissions"),

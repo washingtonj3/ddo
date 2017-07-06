@@ -379,3 +379,15 @@ h3.adminSectionHeader {
 #panel-heading{
     font-weight: bold;
 }
+
+.statisticsHeader{
+    font-weight: bold;
+}
+
+.statisticBoxLabel{
+    padding-right: 5px;
+    padding-left: 25px;
+}
+.statisticFromBoxLabel{
+    padding-right: 5px;
+}
