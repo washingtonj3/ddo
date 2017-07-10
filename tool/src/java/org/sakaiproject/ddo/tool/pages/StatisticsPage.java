@@ -76,6 +76,7 @@ public class StatisticsPage extends BasePage {
     boolean exportExcelFormat = true;
     Long feedbackIdHolder;
     private int rowCounter = 0;
+    private int index = 0;
     private String holder = "";
     Calendar startDateModder = Calendar.getInstance();
     Calendar startDateExportModder = Calendar.getInstance();
@@ -140,6 +141,7 @@ public class StatisticsPage extends BasePage {
             default: ;
                 break;
         }
+
         startDate = now.getTime();
         startDateExport = now.getTime();
         status = "";
@@ -173,6 +175,7 @@ public class StatisticsPage extends BasePage {
         this.endDateModder.set(Calendar.SECOND, 59);
         modifiedEndDate = endDateModder.getTime();
     }
+
     public StatisticsPage(Date startDate, Date endDate, String status, Date startDateExport, Date endDateExport , int on) {
         this.startDate = startDate;
         this.endDate = endDate;
@@ -361,7 +364,7 @@ public class StatisticsPage extends BasePage {
             String suffix = buildFileNameSuffix();
             tempFile = File.createTempFile(prefix, suffix);
 
-            String home = System.getProperty("user.home");
+
 
             final HSSFWorkbook wb = new HSSFWorkbook();
 
@@ -505,6 +508,9 @@ public class StatisticsPage extends BasePage {
                 }
                 if (this.includeInstructor) {
                     this.holder = sakaiProxy.getUserDisplayName(statisticsSheet.get(this.rowCounter).getInstructor());
+                    if((statisticsSheet.get(this.rowCounter).getInstructor()).contains("(")){
+                        this.holder = statisticsSheet.get(this.rowCounter).getInstructor();
+                    }
                     HSSFCell cell = row.createCell(cellCount[0]);
                     cell.setCellValue(this.holder);
                     cell.setCellType(cell.CELL_TYPE_STRING);
@@ -518,7 +524,7 @@ public class StatisticsPage extends BasePage {
                     cellCount[0]++;
                 }
                 if (this.includeInstructor) {
-                    this.holder = statisticsSheet.get(this.rowCounter).getInstructor();
+                    this.holder = sakaiProxy.getUserEid(statisticsSheet.get(this.rowCounter).getInstructor());
                     HSSFCell cell = row.createCell(cellCount[0]);
                     cell.setCellValue(this.holder);
                     cell.setCellType(cell.CELL_TYPE_STRING);
