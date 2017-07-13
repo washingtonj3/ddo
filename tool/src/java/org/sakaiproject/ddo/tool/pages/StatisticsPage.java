@@ -422,6 +422,17 @@ public class StatisticsPage extends BasePage {
             final List<Export> statisticsSheet = projectLogic.statsGetAllSubmissionsLogic (modifiedStartDateExport, modifiedEndDateExport);
             final int[] cellCount = {0};
             rowCounter = 0;
+
+
+            Collections.sort(statisticsSheet, new Comparator<Export>() {
+                @Override
+                public int compare(Export statisticsSheet, Export t1) {
+                    Long statisticsSheetLong = statisticsSheet.getSubmissionId();
+                    Long t1Long = t1.getSubmissionId();
+                    return statisticsSheetLong.compareTo(t1Long);
+                }
+            });
+
             statisticsSheet.forEach(SUBMISSIONID -> {
 
                 HSSFRow row = mainSheet.createRow(rowCount[0]);

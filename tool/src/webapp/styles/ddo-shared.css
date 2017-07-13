@@ -384,6 +384,10 @@ h3.adminSectionHeader {
     font-weight: bold;
 }
 
+.statPanelBoldHeader{
+    font-weight: bold;
+}
+
 .statisticBoxLabel{
     padding-right: 5px;
     padding-left: 25px;
@@ -391,3 +395,5 @@ h3.adminSectionHeader {
 .statisticFromBoxLabel{
     padding-right: 5px;
 }
+
+

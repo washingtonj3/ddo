@@ -97,7 +97,11 @@ public class StatTablePanel extends Panel {
                 add(new ListView<NumStatistics>("statTablePanels", topThreeInstructorsStatsList) {
                     @Override
                     protected void populateItem(ListItem<NumStatistics> item) {
-                        item.add(new Label("Id", topThreeInstructorsStatsList.get(instructorListCounter).getId()));
+                        if((topThreeInstructorsStatsList.get(instructorListCounter).getId()).contains("(")){
+                            item.add(new Label("Id", topThreeInstructorsStatsList.get(instructorListCounter).getId()));
+                        } else {
+                            item.add(new Label("Id", sakaiProxy.getUserDisplayName(topThreeInstructorsStatsList.get(instructorListCounter).getId())));
+                        }
                         item.add(new Label("statisticCount", new PropertyModel(item.getModel(), "statisticCount")));
                         instructorListCounter++;
                     }
